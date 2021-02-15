@@ -1,0 +1,2 @@
+/usr/bin/ar qc libquantra.a  CMakeFiles/quantra.dir/quantra.cpp.o
+/usr/bin/ranlib libquantra.a

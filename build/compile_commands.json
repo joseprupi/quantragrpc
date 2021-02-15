@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/root/quantra/build",
+  "command": "/usr/bin/c++    -g   -o CMakeFiles/quantra.dir/quantra.cpp.o -c /root/quantra/quantra.cpp",
+  "file": "/root/quantra/quantra.cpp"
+}
+]

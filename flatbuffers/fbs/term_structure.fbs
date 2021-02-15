@@ -1,0 +1,15 @@
+include "enums.fbs";
+include "curve_points.fbs";
+
+namespace quantra;
+
+table TermStructure {
+    id:string;
+    day_counter:enums.DayCounter;
+    interpolator:enums.Interpolator;
+    bootstrap_trait:enums.BootstrapTrait;
+    points:[Point];
+    as_of_date:string;
+}
+
+root_type TermStructure;

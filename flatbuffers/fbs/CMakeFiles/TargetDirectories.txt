@@ -1,0 +1,2 @@
+/root/quantra/flatbuffers/fbs/CMakeFiles/rebuild_cache.dir
+/root/quantra/flatbuffers/fbs/CMakeFiles/edit_cache.dir

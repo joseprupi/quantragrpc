@@ -1,0 +1,18 @@
+include "enums.fbs";
+
+namespace quantra;
+
+table FixedRateBond {
+    settlement_days:int;
+    face_amount:double;
+    rate:double;
+    day_counter:enums.DayCounter;
+    
+
+    tenor_time_unit:enums.TimeUnit;
+    tenor_number: int;
+    fixing_days: int;
+    calendar:enums.Calendar;
+    business_day_convention:enums.BusinessDayConvention;
+    
+}
