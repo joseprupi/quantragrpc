@@ -3,9 +3,6 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-QuantLib::Date DateToQL(std::string date)
-{
-    return QuantLib::DateParser::parseFormatted(date, "%Y/%m/%d");
-}
+QuantLib::Date DateToQL(std::string date);
 
 #endif //COMMON_H

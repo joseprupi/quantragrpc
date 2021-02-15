@@ -31,7 +31,6 @@ class TermStructureParser
 
 private:
 public:
-    TermStructureParser();
     std::shared_ptr<RateHelper> parse(const quantra::TermStructure *ts);
 };
 

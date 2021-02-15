@@ -12,4 +12,6 @@ std::shared_ptr<RateHelper> TermStructureParser::parse(const quantra::TermStruct
     // {
     //     std::shared_ptr<RateHelper> rate_helper = tsparser->parse(it);
     // }
+
+    return nullptr;
 }
