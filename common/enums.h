@@ -344,18 +344,18 @@ QuantLib::DateGeneration::Rule DateGenerationToQL(quantra::enums::DateGeneration
     }
 }
 
-QuantLib::Compounding compoundingToQL(quantra::enums::Compounding compounding)
+QuantLib::Compounding CompoundingToQL(quantra::enums::Compounding compounding)
 {
 
     switch (compounding)
     {
-    case quantra::enums::SimpleCompounding:
-        return QuantLib::Simple;
-    case quantra::enums::Compounded:
+    case quantra::enums::Compounding_Compounded:
         return QuantLib::Compounded;
-    case quantra::enums::Continuous:
+    case quantra::enums::Compounding_Continuous:
         return QuantLib::Continuous;
-    case quantra::enums::SimpleThenCompounded:
+    case quantra::enums::Compounding_Simple:
+        return QuantLib::Simple;
+    case quantra::enums::Compounding_SimpleThenCompounded:
         return QuantLib::SimpleThenCompounded;
     }
 }

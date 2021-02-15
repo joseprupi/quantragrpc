@@ -1,0 +1,12 @@
+include "enums.fbs";
+include "common.fbs";
+include "bonds.fbs";
+include "term_structure.fbs";
+
+namespace quantra;
+
+table PriceFixedRateBond{
+    pricing:Pricing;
+    fixed_rate_bond:FixedRateBond;
+    curves:[TermStructure];
+}

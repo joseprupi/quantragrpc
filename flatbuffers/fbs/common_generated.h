@@ -16,6 +16,9 @@ struct ScheduleBuilder;
 struct Yield;
 struct YieldBuilder;
 
+struct Pricing;
+struct PricingBuilder;
+
 struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef ScheduleBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -212,6 +215,57 @@ inline flatbuffers::Offset<Yield> CreateYield(
   builder_.add_compounding(compounding);
   builder_.add_day_counter(day_counter);
   return builder_.Finish();
+}
+
+struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PricingBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_AS_OF_DATE = 4
+  };
+  const flatbuffers::String *as_of_date() const {
+    return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_AS_OF_DATE) &&
+           verifier.VerifyString(as_of_date()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PricingBuilder {
+  typedef Pricing Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_as_of_date(flatbuffers::Offset<flatbuffers::String> as_of_date) {
+    fbb_.AddOffset(Pricing::VT_AS_OF_DATE, as_of_date);
+  }
+  explicit PricingBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<Pricing> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<Pricing>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<Pricing> CreatePricing(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::String> as_of_date = 0) {
+  PricingBuilder builder_(_fbb);
+  builder_.add_as_of_date(as_of_date);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<Pricing> CreatePricingDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    const char *as_of_date = nullptr) {
+  auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
+  return quantra::CreatePricing(
+      _fbb,
+      as_of_date__);
 }
 
 }  // namespace quantra

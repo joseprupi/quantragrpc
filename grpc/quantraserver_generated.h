@@ -6,17 +6,17 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+#include "bonds_generated.h"
+#include "common_generated.h"
 #include "curve_points_generated.h"
 #include "enums_generated.h"
+#include "requests_generated.h"
 #include "term_structure_generated.h"
 
 namespace quantra {
 
 struct BondPricingReply;
 struct BondPricingReplyBuilder;
-
-struct BondPricingRequest;
-struct BondPricingRequestBuilder;
 
 struct BondPricingReply FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef BondPricingReplyBuilder Builder;
@@ -67,48 +67,6 @@ inline flatbuffers::Offset<BondPricingReply> CreateBondPricingReplyDirect(
   return quantra::CreateBondPricingReply(
       _fbb,
       message__);
-}
-
-struct BondPricingRequest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef BondPricingRequestBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TERM_STRUCTURE = 4
-  };
-  const quantra::TermStructure *term_structure() const {
-    return GetPointer<const quantra::TermStructure *>(VT_TERM_STRUCTURE);
-  }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_TERM_STRUCTURE) &&
-           verifier.VerifyTable(term_structure()) &&
-           verifier.EndTable();
-  }
-};
-
-struct BondPricingRequestBuilder {
-  typedef BondPricingRequest Table;
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_term_structure(flatbuffers::Offset<quantra::TermStructure> term_structure) {
-    fbb_.AddOffset(BondPricingRequest::VT_TERM_STRUCTURE, term_structure);
-  }
-  explicit BondPricingRequestBuilder(flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  flatbuffers::Offset<BondPricingRequest> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<BondPricingRequest>(end);
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<BondPricingRequest> CreateBondPricingRequest(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<quantra::TermStructure> term_structure = 0) {
-  BondPricingRequestBuilder builder_(_fbb);
-  builder_.add_term_structure(term_structure);
-  return builder_.Finish();
 }
 
 }  // namespace quantra

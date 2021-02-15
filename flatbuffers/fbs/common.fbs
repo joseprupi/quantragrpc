@@ -18,3 +18,7 @@ table Yield{
     compounding:enums.Compounding;
     frequency:enums.Frequency;
 }
+
+table Pricing{
+    as_of_date: string;
+}

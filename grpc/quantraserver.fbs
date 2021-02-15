@@ -1,4 +1,4 @@
-include "/fbs/term_structure.fbs";
+include "/fbs/requests.fbs";
 
 namespace quantra;
 
@@ -6,10 +6,6 @@ table BondPricingReply {
     message:string;
 }
 
-table BondPricingRequest {
-    term_structure:TermStructure;
-}
-
 rpc_service QuantraServer {
-  BondPricing(BondPricingRequest):BondPricingReply;
+  BondPricing(PriceFixedRateBond):BondPricingReply;
 }

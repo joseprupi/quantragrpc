@@ -18,6 +18,7 @@
 #include <ql/math/interpolations/loginterpolation.hpp>
 
 #include "curve_points_generated.h"
+#include "term_structure_generated.h"
 #include "term_structure_point_parser.h"
 #include "enums.h"
 #include "common.h"
@@ -31,7 +32,7 @@ class TermStructureParser
 private:
 public:
     TermStructureParser();
-    std::shared_ptr<RateHelper> parse(uint8_t *buffer_pointer);
+    std::shared_ptr<RateHelper> parse(const quantra::TermStructure *ts);
 };
 
 #endif //QUANTRASERVER_TERMSTRUCTUREPARSER_H

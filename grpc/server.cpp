@@ -13,15 +13,19 @@ class BondPricingServiceImpl final : public quantra::QuantraServer::Service
 {
   virtual grpc::Status BondPricing(
       ::grpc::ServerContext *context,
-      const flatbuffers::grpc::Message<quantra::BondPricingRequest> *request_msg,
+      const flatbuffers::grpc::Message<quantra::PriceFixedRateBond> *request_msg,
       flatbuffers::grpc::Message<quantra::BondPricingReply> *response_msg) override
   {
     flatbuffers::grpc::MessageBuilder mb_;
 
-    const quantra::BondPricingRequest *request = request_msg->GetRoot();
+    const quantra::PriceFixedRateBond *request = request_msg->GetRoot();
+
+    auto pricing = request->pricing();
+    auto fixed_rate_bond = request->fixed_rate_bond();
+    auto curve = request->curves()->Get(0);
 
     TermStructureParser tsparser = TermStructureParser();
-    tsparser.parse(request_msg);
+    tsparser.parse(curve);
     //const quantra::BondPricingRequest *request = request_msg->GetRoot();
 
     // const std::string &name = request->name()->str();

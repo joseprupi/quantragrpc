@@ -633,6 +633,42 @@ inline const char *EnumNameDateGenerationRule(DateGenerationRule e) {
   return EnumNamesDateGenerationRule()[index];
 }
 
+enum Compounding : int8_t {
+  Compounding_Compounded = 0,
+  Compounding_Continuous = 1,
+  Compounding_Simple = 2,
+  Compounding_SimpleThenCompounded = 3,
+  Compounding_MIN = Compounding_Compounded,
+  Compounding_MAX = Compounding_SimpleThenCompounded
+};
+
+inline const Compounding (&EnumValuesCompounding())[4] {
+  static const Compounding values[] = {
+    Compounding_Compounded,
+    Compounding_Continuous,
+    Compounding_Simple,
+    Compounding_SimpleThenCompounded
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesCompounding() {
+  static const char * const names[5] = {
+    "Compounded",
+    "Continuous",
+    "Simple",
+    "SimpleThenCompounded",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameCompounding(Compounding e) {
+  if (flatbuffers::IsOutRange(e, Compounding_Compounded, Compounding_SimpleThenCompounded)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesCompounding()[index];
+}
+
 }  // namespace enums
 }  // namespace quantra
 
