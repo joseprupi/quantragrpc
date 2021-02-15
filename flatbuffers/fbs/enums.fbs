@@ -151,3 +151,21 @@ enum Ibor : byte {
     Euribor9M,
     EuriborSW
 }
+
+enum DateGenerationRule : byte {
+    Backward,
+    CDS,
+    Forward,
+    OldCDS,
+    ThirdWednesday,
+    Twentieth,
+    TwentiethIMM,
+    Zero
+}
+
+enum Compounding : byte {
+    Compounded,
+    Continuous,
+    Simple,
+    SimpleThenCompounded
+}

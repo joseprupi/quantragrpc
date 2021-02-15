@@ -1,0 +1,20 @@
+include "enums.fbs";
+
+namespace quantra;
+
+table Schedule{
+    calendar:enums.Calendar;
+    effective_date:string;
+    termination_date:string;
+    frequency:enums.Frequency;
+    convention:enums.BusinessDayConvention;
+    termination_date_convention:enums.BusinessDayConvention;
+    date_generation_rule:enums.DateGenerationRule;
+    end_of_mont:bool;
+}
+
+table Yield{
+    day_counter:enums.DayCounter;
+    compounding:enums.Compounding;
+    frequency:enums.Frequency;
+}

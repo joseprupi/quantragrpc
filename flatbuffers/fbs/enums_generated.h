@@ -585,6 +585,54 @@ inline const char *EnumNameIbor(Ibor e) {
   return EnumNamesIbor()[index];
 }
 
+enum DateGenerationRule : int8_t {
+  DateGenerationRule_Backward = 0,
+  DateGenerationRule_CDS = 1,
+  DateGenerationRule_Forward = 2,
+  DateGenerationRule_OldCDS = 3,
+  DateGenerationRule_ThirdWednesday = 4,
+  DateGenerationRule_Twentieth = 5,
+  DateGenerationRule_TwentiethIMM = 6,
+  DateGenerationRule_Zero = 7,
+  DateGenerationRule_MIN = DateGenerationRule_Backward,
+  DateGenerationRule_MAX = DateGenerationRule_Zero
+};
+
+inline const DateGenerationRule (&EnumValuesDateGenerationRule())[8] {
+  static const DateGenerationRule values[] = {
+    DateGenerationRule_Backward,
+    DateGenerationRule_CDS,
+    DateGenerationRule_Forward,
+    DateGenerationRule_OldCDS,
+    DateGenerationRule_ThirdWednesday,
+    DateGenerationRule_Twentieth,
+    DateGenerationRule_TwentiethIMM,
+    DateGenerationRule_Zero
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesDateGenerationRule() {
+  static const char * const names[9] = {
+    "Backward",
+    "CDS",
+    "Forward",
+    "OldCDS",
+    "ThirdWednesday",
+    "Twentieth",
+    "TwentiethIMM",
+    "Zero",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameDateGenerationRule(DateGenerationRule e) {
+  if (flatbuffers::IsOutRange(e, DateGenerationRule_Backward, DateGenerationRule_Zero)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesDateGenerationRule()[index];
+}
+
 }  // namespace enums
 }  // namespace quantra
 

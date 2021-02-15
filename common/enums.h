@@ -320,4 +320,44 @@ std::shared_ptr<QuantLib::IborIndex> IborToQL(quantra::enums::Ibor ibor)
     return index;
 }
 
+QuantLib::DateGeneration::Rule DateGenerationToQL(quantra::enums::DateGenerationRule dateGeneration)
+{
+
+    switch (dateGeneration)
+    {
+    case quantra::enums::DateGenerationRule_Backward:
+        return QuantLib::DateGeneration::Backward;
+    case quantra::enums::DateGenerationRule_Forward:
+        return QuantLib::DateGeneration::Forward;
+    case quantra::enums::DateGenerationRule_Zero:
+        return QuantLib::DateGeneration::Zero;
+    case quantra::enums::DateGenerationRule_ThirdWednesday:
+        return QuantLib::DateGeneration::ThirdWednesday;
+    case quantra::enums::DateGenerationRule_Twentieth:
+        return QuantLib::DateGeneration::Twentieth;
+    case quantra::enums::DateGenerationRule_TwentiethIMM:
+        return QuantLib::DateGeneration::TwentiethIMM;
+    case quantra::enums::DateGenerationRule_OldCDS:
+        return QuantLib::DateGeneration::OldCDS;
+    case quantra::enums::DateGenerationRule_CDS:
+        return QuantLib::DateGeneration::CDS;
+    }
+}
+
+QuantLib::Compounding compoundingToQL(quantra::enums::Compounding compounding)
+{
+
+    switch (compounding)
+    {
+    case quantra::enums::SimpleCompounding:
+        return QuantLib::Simple;
+    case quantra::enums::Compounded:
+        return QuantLib::Compounded;
+    case quantra::enums::Continuous:
+        return QuantLib::Continuous;
+    case quantra::enums::SimpleThenCompounded:
+        return QuantLib::SimpleThenCompounded;
+    }
+}
+
 #endif //ENUMS_H

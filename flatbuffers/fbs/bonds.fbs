@@ -1,4 +1,5 @@
 include "enums.fbs";
+include "common.fbs";
 
 namespace quantra;
 
@@ -7,12 +8,9 @@ table FixedRateBond {
     face_amount:double;
     rate:double;
     day_counter:enums.DayCounter;
-    
-
-    tenor_time_unit:enums.TimeUnit;
-    tenor_number: int;
-    fixing_days: int;
-    calendar:enums.Calendar;
     business_day_convention:enums.BusinessDayConvention;
-    
+    redemption:double;
+    issue_date:string;
+    schedule:Schedule;
+    yield:Yield;
 }
