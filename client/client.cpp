@@ -17,6 +17,22 @@ public:
     {
         flatbuffers::FlatBufferBuilder builder(1024);
 
+        // Create the discounting curve
+        auto calendar = quantra::enums::Calendar_TARGET;
+        auto settlement_date = builder.CreateString("2008/09/18");
+        auto fixing_days = 2;
+        auto settlement_days = 2;
+
+        // Create deposit
+        auto deposit_helper_zc3m = quantra::DepositBuilder(builder);
+        deposit_helper_zc3m.add_rate(0.0096);
+        deposit_helper_zc3m.add_tenor_number(3);
+        deposit_helper_zc3m.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
+        deposit_helper_zc3m.add_fixing_days(fixing_days);
+        deposit_helper_zc3m.add_calendar(calendar);
+        deposit_helper_zc3m.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        deposit_helper_zc3m.add_day_counter(quantra::enums::DayCounter_Actual365Fixed);
+
         // Create the Pricing table
         auto as_of_date = builder.CreateString("2020/01/01");
         auto pricing = quantra::CreatePricing(builder, as_of_date);
