@@ -8,9 +8,9 @@
 
 #include "bonds_generated.h"
 #include "common_generated.h"
-#include "curve_points_generated.h"
 #include "enums_generated.h"
 #include "term_structure_generated.h"
+#include "term_structure_points_generated.h"
 
 namespace quantra {
 

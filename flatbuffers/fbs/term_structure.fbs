@@ -1,5 +1,5 @@
 include "enums.fbs";
-include "curve_points.fbs";
+include "term_structure_points.fbs";
 
 namespace quantra;
 

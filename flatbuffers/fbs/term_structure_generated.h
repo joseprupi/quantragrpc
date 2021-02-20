@@ -6,8 +6,8 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "curve_points_generated.h"
 #include "enums_generated.h"
+#include "term_structure_points_generated.h"
 
 namespace quantra {
 

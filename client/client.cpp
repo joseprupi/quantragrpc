@@ -1,5 +1,5 @@
-#include "greeter.grpc.fb.h"
-#include "greeter_generated.h"
+#include "quantraserver.grpc.fb.h"
+#include "quantraserver_generated.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -7,17 +7,50 @@
 #include <memory>
 #include <string>
 
-class GreeterClient
+class QuantraClient
 {
 public:
-    GreeterClient(std::shared_ptr<grpc::Channel> channel)
-        : stub_(Greeter::NewStub(channel)) {}
+    QuantraClient(std::shared_ptr<grpc::Channel> channel)
+        : stub_(quantra::QuantraServer::NewStub(channel)) {}
 
     std::string SayHello(const std::string &name)
     {
+        flatbuffers::FlatBufferBuilder builder(1024);
+
+        // Create the Pricing table
+        auto as_of_date = builder.CreateString("2020/01/01");
+        auto pricing = quantra::CreatePricing(builder, as_of_date);
+
+        // Create the Schedule table
+        auto calendar = quantra::enums::Calendar_TARGET;
+        auto effective_date = builder.CreateString("2020/01/01");
+        auto termination_date = builder.CreateString("2030/01/01");
+        auto frequency = quantra::enums::Frequency_Annual;
+        auto convention = quantra::enums::BusinessDayConvention_Following;
+        auto termination_date_convention = quantra::enums::BusinessDayConvention_Following;
+        auto date_generation_rule = quantra::enums::DateGenerationRule_Backward;
+        auto end_of_month = false;
+        auto schedule = quantra::CreateSchedule(builder, calendar, effective_date, termination_date, frequency, convention, termination_date_convention, date_generation_rule, end_of_month);
+
+        // Create the Yield table
+        auto day_counter = quantra::enums::DayCounter_Actual360;
+        auto compounding = quantra::enums::Compounding_Compounded;
+        auto frequency = quantra::enums::Frequency_Annual;
+        auto yield = quantra::CreateYield(builder, day_counter, compounding, frequency);
+
+        // Create the fixed rate bond
+        auto settlement_days = 2;
+        auto face_amount = 20000;
+        auto rate = 3.5;
+        auto day_counter = quantra::enums::DayCounter_Actual360;
+        auto business_day_convention = quantra::enums::BusinessDayConvention_Following;
+        auto redemption = 20000;
+        auto issue_date = builder.CreateString("2020/01/01");
+        auto fixed_rate_bond = quantra::CreateFixedRateBond(builder, settlement_days, face_amount, rate, day_counter, business_day_convention, redemption, issue_date, schedule, yield);
+
         flatbuffers::grpc::MessageBuilder mb;
         auto name_offset = mb.CreateString(name);
-        auto request_offset = CreateHelloRequest(mb, name_offset);
+        auto request_offset = quantra::CreatePriceFixedRateBond(mb, name_offset);
         mb.Finish(request_offset);
         auto request_msg = mb.ReleaseMessage<HelloRequest>();
 
