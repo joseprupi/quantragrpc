@@ -26,7 +26,14 @@ using namespace quantra;
 
 struct PricingStruct
 {
-    Date as_of_date;
+    QuantLib::Date as_of_date;
+};
+
+struct YieldStruct
+{
+    QuantLib::DayCounter day_counter;
+    QuantLib::Compounding compounding;
+    QuantLib::Frequency frequency;
 };
 
 class PricingParser
@@ -34,7 +41,7 @@ class PricingParser
 
 private:
 public:
-    std::shared_ptr<PricingStruct> parse(const quantra::Pricing *p);
+    std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
 };
 
 class ScheduleParser
@@ -42,7 +49,15 @@ class ScheduleParser
 
 private:
 public:
-    std::shared_ptr<QuantLib::Schedule> parse(const quantra::Schedule *p);
+    std::shared_ptr<QuantLib::Schedule> parse(const quantra::Schedule *schedule);
+};
+
+class YieldParser
+{
+
+private:
+public:
+    std::shared_ptr<YieldStruct> parse(const quantra::Yield *yield);
 };
 
 #endif //QUANTRASERVER_COMMONPARSER_H

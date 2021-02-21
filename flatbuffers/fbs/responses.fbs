@@ -1,0 +1,49 @@
+namespace quantra.responses;
+
+enum FlowType : byte { 
+    Interest,
+    PastInterest,
+    Notional
+}
+
+table FlowInterest{
+    flow_type:FlowType;
+    amount:double;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    discount:float;
+    rate:float;
+    price:float;
+}
+
+table FlowPastInterest{
+    flow_type:FlowType;
+    amount:double;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    rate:float;
+}
+
+table FlowNotional{
+    flow_type:FlowType;
+    date:string;
+    amount:double;
+    discount:float;
+    price:float;
+}
+
+union Flow { FlowInterest, FlowPastInterest, FlowNotional }
+
+table FixedRatePricingResponse{
+    npv:float;
+    clean_price:float;
+    dirty_price:float;
+    accrued_amount:float;
+    yield:float;
+    accrued_days:int;
+    macaulay_duration:float;
+    modified_duration:float;
+    convexity:float;
+    bps:float;
+    flows:[Flow];
+}

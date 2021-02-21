@@ -17,21 +17,19 @@
 #include <ql/math/interpolations/cubicinterpolation.hpp>
 #include <ql/math/interpolations/loginterpolation.hpp>
 
-#include "term_structure_points_generated.h"
-#include "term_structure_generated.h"
-#include "term_structure_point_parser.h"
+#include "bonds_generated.h"
 #include "enums.h"
 #include "common.h"
 
 using namespace QuantLib;
 using namespace quantra;
 
-class TermStructureParser
+class FixedRateBondParser
 {
 
 private:
 public:
-    std::shared_ptr<YieldTermStructure> parse(const quantra::TermStructure *ts);
+    std::shared_ptr<QuantLib::FixedRateBond> parse(const quantra::FixedRateBond *ts);
 };
 
 #endif //QUANTRASERVER_FIXEDRATEBONDPARSER_H
