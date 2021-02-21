@@ -17,52 +17,121 @@ public:
     {
         flatbuffers::FlatBufferBuilder builder(1024);
 
+        // ****************************
         // Create the discounting curve
+        // ****************************
+
+        // Settings
         auto calendar = quantra::enums::Calendar_TARGET;
         auto settlement_date = builder.CreateString("2008/09/18");
-        auto fixing_days = 2;
-        auto settlement_days = 2;
+        auto fixing_days = 3;
+        auto settlement_days = 3;
 
         // Create deposit
-        auto deposit_helper_zc3m = quantra::DepositBuilder(builder);
-        deposit_helper_zc3m.add_rate(0.0096);
-        deposit_helper_zc3m.add_tenor_number(3);
-        deposit_helper_zc3m.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
-        deposit_helper_zc3m.add_fixing_days(fixing_days);
-        deposit_helper_zc3m.add_calendar(calendar);
-        deposit_helper_zc3m.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
-        deposit_helper_zc3m.add_day_counter(quantra::enums::DayCounter_Actual365Fixed);
+        auto deposit_helper_zc3m_builder = quantra::DepositBuilder(builder);
+        deposit_helper_zc3m_builder.add_tenor_number(3);
+        deposit_helper_zc3m_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
+        deposit_helper_zc3m_builder.add_fixing_days(fixing_days);
+        deposit_helper_zc3m_builder.add_calendar(calendar);
+        deposit_helper_zc3m_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        deposit_helper_zc3m_builder.add_day_counter(quantra::enums::DayCounter_Actual365Fixed);
+        auto deposit_helper_zc3m = deposit_helper_zc3m_builder.Finish();
 
-        // Create the Pricing table
-        auto as_of_date = builder.CreateString("2020/01/01");
-        auto pricing = quantra::CreatePricing(builder, as_of_date);
+        // Create deposit
+        auto deposit_helper_zc6m_builder = quantra::DepositBuilder(builder);
+        deposit_helper_zc6m_builder.add_rate(0.0145);
+        deposit_helper_zc6m_builder.add_tenor_number(6);
+        deposit_helper_zc6m_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
+        deposit_helper_zc6m_builder.add_fixing_days(fixing_days);
+        deposit_helper_zc6m_builder.add_calendar(calendar);
+        deposit_helper_zc6m_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        deposit_helper_zc6m_builder.add_day_counter(quantra::enums::DayCounter_Actual365Fixed);
+        auto deposit_helper_zc6m = deposit_helper_zc6m_builder.Finish();
+
+        // Create deposit
+        auto deposit_helper_zc1y_builder = quantra::DepositBuilder(builder);
+        deposit_helper_zc1y_builder.add_rate(0.0194);
+        deposit_helper_zc1y_builder.add_tenor_number(1);
+        deposit_helper_zc1y_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Years);
+        deposit_helper_zc1y_builder.add_fixing_days(fixing_days);
+        deposit_helper_zc1y_builder.add_calendar(calendar);
+        deposit_helper_zc1y_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        deposit_helper_zc1y_builder.add_day_counter(quantra::enums::DayCounter_Actual365Fixed);
+        auto deposit_helper_zc1y = deposit_helper_zc1y_builder.Finish();
+
+        // Create vector of points
+        std::vector<uint8_t> types_vector;
+        types_vector.push_back(quantra::Point_Deposit);
+        types_vector.push_back(quantra::Point_Deposit);
+        types_vector.push_back(quantra::Point_Deposit);
+        auto types = builder.CreateVector(types_vector);
+
+        std::vector<flatbuffers::Offset<void>> points_vector;
+        points_vector.push_back(deposit_helper_zc3m.Union());
+        points_vector.push_back(deposit_helper_zc6m.Union());
+        points_vector.push_back(deposit_helper_zc1y.Union());
+        auto points = builder.CreateVector(points_vector);
+
+        // Create the termstructure curve
+        auto id = builder.CreateString("depos_curve");
+        auto term_structure_builder = quantra::TermStructureBuilder(builder);
+        term_structure_builder.add_bootstrap_trait(quantra::enums::BootstrapTrait_Discount);
+        term_structure_builder.add_interpolator(quantra::enums::Interpolator_LogLinear);
+        term_structure_builder.add_id(id);
+        term_structure_builder.add_day_counter(quantra::enums::DayCounter_ActualActual365);
+        term_structure_builder.add_as_of_date(settlement_date);
+        term_structure_builder.add_points_type(types);
+        term_structure_builder.add_points(points);
+        auto term_structure = term_structure_builder.Finish();
+
+        // **************************
+        // Create the Fixed Rate Bond
+        // **************************
 
         // Create the Schedule table
-        auto calendar = quantra::enums::Calendar_TARGET;
-        auto effective_date = builder.CreateString("2020/01/01");
-        auto termination_date = builder.CreateString("2030/01/01");
-        auto frequency = quantra::enums::Frequency_Annual;
-        auto convention = quantra::enums::BusinessDayConvention_Following;
-        auto termination_date_convention = quantra::enums::BusinessDayConvention_Following;
-        auto date_generation_rule = quantra::enums::DateGenerationRule_Backward;
-        auto end_of_month = false;
-        auto schedule = quantra::CreateSchedule(builder, calendar, effective_date, termination_date, frequency, convention, termination_date_convention, date_generation_rule, end_of_month);
+        auto schedule_builder = quantra::ScheduleBuilder(builder);
+        schedule_builder.add_calendar(quantra::enums::Calendar_UnitedStatesGovernmentBond);
+        auto effective_date = builder.CreateString("2007/05/15");
+        schedule_builder.add_effective_date(effective_date);
+        auto termination_date = builder.CreateString("2017/05/15");
+        schedule_builder.add_termination_date(effective_date);
+        schedule_builder.add_convention(quantra::enums::BusinessDayConvention_Unadjusted);
+        schedule_builder.add_frequency(quantra::enums::Frequency_Semiannual);
+        schedule_builder.add_termination_date_convention(quantra::enums::BusinessDayConvention_Unadjusted);
+        schedule_builder.add_date_generation_rule(quantra::enums::DateGenerationRule_Backward);
+        schedule_builder.add_end_of_mont(false);
+        auto schedule = schedule_builder.Finish();
 
         // Create the Yield table
-        auto day_counter = quantra::enums::DayCounter_Actual360;
-        auto compounding = quantra::enums::Compounding_Compounded;
-        auto frequency = quantra::enums::Frequency_Annual;
-        auto yield = quantra::CreateYield(builder, day_counter, compounding, frequency);
+        auto yield_builder = quantra::YieldBuilder(builder);
+        yield_builder.add_day_counter(quantra::enums::DayCounter_Actual360);
+        yield_builder.add_compounding(quantra::enums::Compounding_Compounded);
+        yield_builder.add_frequency(quantra::enums::Frequency_Annual);
+        auto yield = yield_builder.Finish();
 
         // Create the fixed rate bond
-        auto settlement_days = 2;
-        auto face_amount = 20000;
-        auto rate = 3.5;
-        auto day_counter = quantra::enums::DayCounter_Actual360;
-        auto business_day_convention = quantra::enums::BusinessDayConvention_Following;
-        auto redemption = 20000;
-        auto issue_date = builder.CreateString("2020/01/01");
-        auto fixed_rate_bond = quantra::CreateFixedRateBond(builder, settlement_days, face_amount, rate, day_counter, business_day_convention, redemption, issue_date, schedule, yield);
+        auto fixed_rate_bond_builder = quantra::FixedRateBondBuilder(builder);
+        fixed_rate_bond_builder.add_settlement_days(settlement_days);
+        fixed_rate_bond_builder.add_face_amount(100);
+        fixed_rate_bond_builder.add_schedule(schedule);
+        fixed_rate_bond_builder.add_rate(0.045);
+        fixed_rate_bond_builder.add_day_counter(quantra::enums::DayCounter_ActualActualBond);
+        fixed_rate_bond_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        fixed_rate_bond_builder.add_redemption(100);
+        auto issue_date = builder.CreateString("2007/05/15");
+        fixed_rate_bond_builder.add_issue_date(issue_date);
+        fixed_rate_bond_builder.add_yield(yield);
+        fixed_rate_bond_builder.Finish();
+
+        // ***************************************
+        // Create the pricing request for the bond
+        // ***************************************
+
+        // Create the Pricing table
+        auto pricing_builder = quantra::PricingBuilder(builder);
+        auto as_of_date = builder.CreateString("2008/09/16");
+        pricing_builder.add_as_of_date(as_of_date);
+        auto pricing = pricing_builder.Finish();
 
         flatbuffers::grpc::MessageBuilder mb;
         auto name_offset = mb.CreateString(name);

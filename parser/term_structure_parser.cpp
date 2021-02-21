@@ -18,7 +18,7 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
         instruments.push_back(rate_helper);
     }
 
-    std::shared_ptr<YieldTermStructure> termStructure;
+    //std::shared_ptr<YieldTermStructure> termStructure;
     double tolerance = 1.0e-15;
 
     switch (ts->interpolator())
@@ -29,29 +29,29 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
         case enums::BootstrapTrait_Discount:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<Discount, BackwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<Discount, BackwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<Discount, BackwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<Discount, BackwardFlat>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_ZeroRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ZeroYield, BackwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ZeroYield, BackwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ZeroYield, BackwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ZeroYield, BackwardFlat>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_FwdRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ForwardRate, BackwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ForwardRate, BackwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ForwardRate, BackwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ForwardRate, BackwardFlat>::bootstrap_type(tolerance));
+
             break;
         }
         break;
@@ -62,29 +62,29 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
         case enums::BootstrapTrait_Discount:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<Discount, ForwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<Discount, ForwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<Discount, ForwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<Discount, ForwardFlat>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_ZeroRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ZeroYield, ForwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ZeroYield, ForwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ZeroYield, ForwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ZeroYield, ForwardFlat>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_FwdRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ForwardRate, ForwardFlat>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ForwardRate, ForwardFlat>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ForwardRate, ForwardFlat>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ForwardRate, ForwardFlat>::bootstrap_type(tolerance));
+
             break;
         }
         break;
@@ -95,29 +95,29 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
         case enums::BootstrapTrait_Discount:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<Discount, Linear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<Discount, Linear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<Discount, Linear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<Discount, Linear>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_ZeroRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ZeroYield, Linear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ZeroYield, Linear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ZeroYield, Linear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ZeroYield, Linear>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_FwdRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ForwardRate, Linear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ForwardRate, Linear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ForwardRate, Linear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ForwardRate, Linear>::bootstrap_type(tolerance));
+
             break;
         }
         break;
@@ -128,29 +128,29 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
         case enums::BootstrapTrait_Discount:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<Discount, LogLinear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<Discount, LogLinear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<Discount, LogLinear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<Discount, LogLinear>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_ZeroRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ZeroYield, LogLinear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ZeroYield, LogLinear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ZeroYield, LogLinear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ZeroYield, LogLinear>::bootstrap_type(tolerance));
+
             break;
 
         case enums::BootstrapTrait_FwdRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ForwardRate, LogLinear>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    PiecewiseYieldCurve<ForwardRate, LogLinear>::bootstrap_type(tolerance)));
+            return std::make_shared<PiecewiseYieldCurve<ForwardRate, LogLinear>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                PiecewiseYieldCurve<ForwardRate, LogLinear>::bootstrap_type(tolerance));
+
             break;
         }
         break;
@@ -162,33 +162,32 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
         case enums::BootstrapTrait_Discount:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<Discount, LogCubic>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    MonotonicLogCubic()));
+            return std::make_shared<PiecewiseYieldCurve<Discount, LogCubic>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                MonotonicLogCubic());
+
             break;
 
         case enums::BootstrapTrait_ZeroRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ZeroYield, LogCubic>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    MonotonicLogCubic()));
+            return std::make_shared<PiecewiseYieldCurve<ZeroYield, LogCubic>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                MonotonicLogCubic());
+
             break;
 
         case enums::BootstrapTrait_FwdRate:
 
-            termStructure = std::shared_ptr<YieldTermStructure>(
-                new PiecewiseYieldCurve<ForwardRate, LogCubic>(
-                    DateToQL(ts->as_of_date()->str()), instruments,
-                    DayCounterToQL(ts->day_counter()),
-                    MonotonicLogCubic()));
+            return std::make_shared<PiecewiseYieldCurve<ForwardRate, LogCubic>>(
+                DateToQL(ts->as_of_date()->str()), instruments,
+                DayCounterToQL(ts->day_counter()),
+                MonotonicLogCubic());
             break;
         }
         break;
     }
 
-    return termStructure;
+    return nullptr;
 }
