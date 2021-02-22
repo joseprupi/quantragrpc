@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/quantra
+CMAKE_SOURCE_DIR = /root/quantra/client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/quantra/build
+CMAKE_BINARY_DIR = /root/quantra/client/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles /root/quantra/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/client/build/CMakeFiles /root/quantra/client/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/client/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,33 +123,35 @@ client/fast:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
 .PHONY : client/fast
 
-#=============================================================================
-# Target rules for targets named quantra_grpc
-
-# Build rule for target.
-quantra_grpc: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 quantra_grpc
-.PHONY : quantra_grpc
-
-# fast build rule for target.
-quantra_grpc/fast:
-	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
-.PHONY : quantra_grpc/fast
-
 # target to build an object file
-client/client.o:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.o
-.PHONY : client/client.o
+client.o:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.o
+.PHONY : client.o
 
 # target to preprocess a source file
-client/client.i:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.i
-.PHONY : client/client.i
+client.i:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.i
+.PHONY : client.i
 
 # target to generate assembly for a file
-client/client.s:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.s
-.PHONY : client/client.s
+client.s:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.s
+.PHONY : client.s
+
+# target to build an object file
+root/quantra/grpc/server.o:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/root/quantra/grpc/server.o
+.PHONY : root/quantra/grpc/server.o
+
+# target to preprocess a source file
+root/quantra/grpc/server.i:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/root/quantra/grpc/server.i
+.PHONY : root/quantra/grpc/server.i
+
+# target to generate assembly for a file
+root/quantra/grpc/server.s:
+	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/root/quantra/grpc/server.s
+.PHONY : root/quantra/grpc/server.s
 
 # Help Target
 help:
@@ -160,10 +162,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... client"
 	@echo "... edit_cache"
-	@echo "... quantra_grpc"
-	@echo "... client/client.o"
-	@echo "... client/client.i"
-	@echo "... client/client.s"
+	@echo "... client.o"
+	@echo "... client.i"
+	@echo "... client.s"
+	@echo "... root/quantra/grpc/server.o"
+	@echo "... root/quantra/grpc/server.i"
+	@echo "... root/quantra/grpc/server.s"
 .PHONY : help
 
 

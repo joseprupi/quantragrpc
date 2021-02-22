@@ -1,7 +1,12 @@
 [
 {
   "directory": "/root/quantra/build",
-  "command": "/usr/bin/c++    -g   -o CMakeFiles/quantra.dir/quantra.cpp.o -c /root/quantra/quantra.cpp",
-  "file": "/root/quantra/quantra.cpp"
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs  -g   -o CMakeFiles/client.dir/client/client.o -c /root/quantra/client/client.cpp",
+  "file": "/root/quantra/client/client.cpp"
+},
+{
+  "directory": "/root/quantra/build/grpc",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/grpc/include  -g   -o CMakeFiles/quantra_grpc.dir/quantraserver.grpc.fb.o -c /root/quantra/grpc/quantraserver.grpc.fb.cc",
+  "file": "/root/quantra/grpc/quantraserver.grpc.fb.cc"
 }
 ]

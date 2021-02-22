@@ -59,19 +59,19 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/quantra
+CMAKE_SOURCE_DIR = /root/quantra/client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/quantra/build
+CMAKE_BINARY_DIR = /root/quantra/client/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/client.dir
 
 # All Build rule for target.
-CMakeFiles/client.dir/all: grpc/CMakeFiles/quantra_grpc.dir/all
+CMakeFiles/client.dir/all:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=1,2 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/client/build/CMakeFiles --progress-num=1,2,3 "Built target client"
 .PHONY : CMakeFiles/client.dir/all
 
 # Include target in all.
@@ -81,9 +81,9 @@ all: CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/client/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/client/build/CMakeFiles 0
 .PHONY : CMakeFiles/client.dir/rule
 
 # Convenience name for target.
@@ -98,61 +98,6 @@ CMakeFiles/client.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/client.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory grpc
-
-# Convenience name for "all" pass in the directory.
-grpc/all: grpc/CMakeFiles/quantra_grpc.dir/all
-
-.PHONY : grpc/all
-
-# Convenience name for "clean" pass in the directory.
-grpc/clean: grpc/CMakeFiles/quantra_grpc.dir/clean
-
-.PHONY : grpc/clean
-
-# Convenience name for "preinstall" pass in the directory.
-grpc/preinstall:
-
-.PHONY : grpc/preinstall
-
-#=============================================================================
-# Target rules for target grpc/CMakeFiles/quantra_grpc.dir
-
-# All Build rule for target.
-grpc/CMakeFiles/quantra_grpc.dir/all:
-	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/depend
-	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=3,4 "Built target quantra_grpc"
-.PHONY : grpc/CMakeFiles/quantra_grpc.dir/all
-
-# Include target in all.
-all: grpc/CMakeFiles/quantra_grpc.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-grpc/CMakeFiles/quantra_grpc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 grpc/CMakeFiles/quantra_grpc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
-.PHONY : grpc/CMakeFiles/quantra_grpc.dir/rule
-
-# Convenience name for target.
-quantra_grpc: grpc/CMakeFiles/quantra_grpc.dir/rule
-
-.PHONY : quantra_grpc
-
-# clean rule for target.
-grpc/CMakeFiles/quantra_grpc.dir/clean:
-	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/clean
-.PHONY : grpc/CMakeFiles/quantra_grpc.dir/clean
-
-# clean rule for target.
-clean: grpc/CMakeFiles/quantra_grpc.dir/clean
 
 .PHONY : clean
 

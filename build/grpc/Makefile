@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles /root/quantra/build/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /root/quantra/build && $(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles /root/quantra/build/grpc/CMakeFiles/progress.marks
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 grpc/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 grpc/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,59 +97,48 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 grpc/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 grpc/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /root/quantra/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named client
+# Convenience name for target.
+grpc/CMakeFiles/quantra_grpc.dir/rule:
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 grpc/CMakeFiles/quantra_grpc.dir/rule
+.PHONY : grpc/CMakeFiles/quantra_grpc.dir/rule
 
-# Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 client
-.PHONY : client
+# Convenience name for target.
+quantra_grpc: grpc/CMakeFiles/quantra_grpc.dir/rule
 
-# fast build rule for target.
-client/fast:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-.PHONY : client/fast
-
-#=============================================================================
-# Target rules for targets named quantra_grpc
-
-# Build rule for target.
-quantra_grpc: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 quantra_grpc
 .PHONY : quantra_grpc
 
 # fast build rule for target.
 quantra_grpc/fast:
-	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
+	cd /root/quantra/build && $(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
 .PHONY : quantra_grpc/fast
 
 # target to build an object file
-client/client.o:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.o
-.PHONY : client/client.o
+quantraserver.grpc.fb.o:
+	cd /root/quantra/build && $(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/quantraserver.grpc.fb.o
+.PHONY : quantraserver.grpc.fb.o
 
 # target to preprocess a source file
-client/client.i:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.i
-.PHONY : client/client.i
+quantraserver.grpc.fb.i:
+	cd /root/quantra/build && $(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/quantraserver.grpc.fb.i
+.PHONY : quantraserver.grpc.fb.i
 
 # target to generate assembly for a file
-client/client.s:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.s
-.PHONY : client/client.s
+quantraserver.grpc.fb.s:
+	cd /root/quantra/build && $(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/quantraserver.grpc.fb.s
+.PHONY : quantraserver.grpc.fb.s
 
 # Help Target
 help:
@@ -158,12 +147,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... client"
-	@echo "... edit_cache"
 	@echo "... quantra_grpc"
-	@echo "... client/client.o"
-	@echo "... client/client.i"
-	@echo "... client/client.s"
+	@echo "... edit_cache"
+	@echo "... quantraserver.grpc.fb.o"
+	@echo "... quantraserver.grpc.fb.i"
+	@echo "... quantraserver.grpc.fb.s"
 .PHONY : help
 
 
@@ -175,6 +163,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /root/quantra/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

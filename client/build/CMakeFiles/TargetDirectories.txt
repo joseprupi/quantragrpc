@@ -1,0 +1,3 @@
+/root/quantra/client/build/CMakeFiles/rebuild_cache.dir
+/root/quantra/client/build/CMakeFiles/client.dir
+/root/quantra/client/build/CMakeFiles/edit_cache.dir
