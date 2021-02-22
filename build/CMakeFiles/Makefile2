@@ -65,43 +65,6 @@ CMAKE_SOURCE_DIR = /root/quantra
 CMAKE_BINARY_DIR = /root/quantra/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/client.dir
-
-# All Build rule for target.
-CMakeFiles/client.dir/all: grpc/CMakeFiles/quantra_grpc.dir/all
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=1,2 "Built target client"
-.PHONY : CMakeFiles/client.dir/all
-
-# Include target in all.
-all: CMakeFiles/client.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
-.PHONY : CMakeFiles/client.dir/rule
-
-# Convenience name for target.
-client: CMakeFiles/client.dir/rule
-
-.PHONY : client
-
-# clean rule for target.
-CMakeFiles/client.dir/clean:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/clean
-.PHONY : CMakeFiles/client.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/client.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Directory level rules for directory grpc
 
 # Convenience name for "all" pass in the directory.
@@ -126,7 +89,7 @@ grpc/preinstall:
 grpc/CMakeFiles/quantra_grpc.dir/all:
 	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/depend
 	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=3,4 "Built target quantra_grpc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=10,11 "Built target quantra_grpc"
 .PHONY : grpc/CMakeFiles/quantra_grpc.dir/all
 
 # Include target in all.
@@ -153,6 +116,116 @@ grpc/CMakeFiles/quantra_grpc.dir/clean:
 
 # clean rule for target.
 clean: grpc/CMakeFiles/quantra_grpc.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory client
+
+# Convenience name for "all" pass in the directory.
+client/all: client/CMakeFiles/client.dir/all
+
+.PHONY : client/all
+
+# Convenience name for "clean" pass in the directory.
+client/clean: client/CMakeFiles/client.dir/clean
+
+.PHONY : client/clean
+
+# Convenience name for "preinstall" pass in the directory.
+client/preinstall:
+
+.PHONY : client/preinstall
+
+#=============================================================================
+# Target rules for target client/CMakeFiles/client.dir
+
+# All Build rule for target.
+client/CMakeFiles/client.dir/all: grpc/CMakeFiles/quantra_grpc.dir/all
+	$(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/depend
+	$(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target client"
+.PHONY : client/CMakeFiles/client.dir/all
+
+# Include target in all.
+all: client/CMakeFiles/client.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+client/CMakeFiles/client.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 11
+	$(MAKE) -f CMakeFiles/Makefile2 client/CMakeFiles/client.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
+.PHONY : client/CMakeFiles/client.dir/rule
+
+# Convenience name for target.
+client: client/CMakeFiles/client.dir/rule
+
+.PHONY : client
+
+# clean rule for target.
+client/CMakeFiles/client.dir/clean:
+	$(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/clean
+.PHONY : client/CMakeFiles/client.dir/clean
+
+# clean rule for target.
+clean: client/CMakeFiles/client.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory server
+
+# Convenience name for "all" pass in the directory.
+server/all: server/CMakeFiles/server.dir/all
+
+.PHONY : server/all
+
+# Convenience name for "clean" pass in the directory.
+server/clean: server/CMakeFiles/server.dir/clean
+
+.PHONY : server/clean
+
+# Convenience name for "preinstall" pass in the directory.
+server/preinstall:
+
+.PHONY : server/preinstall
+
+#=============================================================================
+# Target rules for target server/CMakeFiles/server.dir
+
+# All Build rule for target.
+server/CMakeFiles/server.dir/all: grpc/CMakeFiles/quantra_grpc.dir/all
+	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/depend
+	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/quantra/build/CMakeFiles --progress-num=12,13,14,15,16,17,18,19,20 "Built target server"
+.PHONY : server/CMakeFiles/server.dir/all
+
+# Include target in all.
+all: server/CMakeFiles/server.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+server/CMakeFiles/server.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 11
+	$(MAKE) -f CMakeFiles/Makefile2 server/CMakeFiles/server.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/quantra/build/CMakeFiles 0
+.PHONY : server/CMakeFiles/server.dir/rule
+
+# Convenience name for target.
+server: server/CMakeFiles/server.dir/rule
+
+.PHONY : server
+
+# clean rule for target.
+server/CMakeFiles/server.dir/clean:
+	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/clean
+.PHONY : server/CMakeFiles/server.dir/clean
+
+# clean rule for target.
+clean: server/CMakeFiles/server.dir/clean
 
 .PHONY : clean
 

@@ -16,7 +16,6 @@ public:
 
     float PriceBond()
     {
-        //flatbuffers::FlatBufferBuilder builder(1024);
         flatbuffers::grpc::MessageBuilder builder;
 
         // ****************************
@@ -91,12 +90,13 @@ public:
         // **************************
 
         // Create the Schedule table
+
+        auto effective_date = builder.CreateString("2007/05/15");
+        auto termination_date = builder.CreateString("2017/05/15");
         auto schedule_builder = quantra::ScheduleBuilder(builder);
         schedule_builder.add_calendar(quantra::enums::Calendar_UnitedStatesGovernmentBond);
-        auto effective_date = builder.CreateString("2007/05/15");
         schedule_builder.add_effective_date(effective_date);
-        auto termination_date = builder.CreateString("2017/05/15");
-        schedule_builder.add_termination_date(effective_date);
+        schedule_builder.add_termination_date(termination_date);
         schedule_builder.add_convention(quantra::enums::BusinessDayConvention_Unadjusted);
         schedule_builder.add_frequency(quantra::enums::Frequency_Semiannual);
         schedule_builder.add_termination_date_convention(quantra::enums::BusinessDayConvention_Unadjusted);
@@ -105,6 +105,7 @@ public:
         auto schedule = schedule_builder.Finish();
 
         // Create the fixed rate bond
+        auto issue_date = builder.CreateString("2007/05/15");
         auto fixed_rate_bond_builder = quantra::FixedRateBondBuilder(builder);
         fixed_rate_bond_builder.add_settlement_days(settlement_days);
         fixed_rate_bond_builder.add_face_amount(100);
@@ -113,7 +114,6 @@ public:
         fixed_rate_bond_builder.add_day_counter(quantra::enums::DayCounter_ActualActualBond);
         fixed_rate_bond_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
         fixed_rate_bond_builder.add_redemption(100);
-        auto issue_date = builder.CreateString("2007/05/15");
         fixed_rate_bond_builder.add_issue_date(issue_date);
         auto bond = fixed_rate_bond_builder.Finish();
 
@@ -129,8 +129,8 @@ public:
         auto yield = yield_builder.Finish();
 
         // Create the Pricing table
-        auto pricing_builder = quantra::PricingBuilder(builder);
         auto as_of_date = builder.CreateString("2008/09/16");
+        auto pricing_builder = quantra::PricingBuilder(builder);
         pricing_builder.add_as_of_date(as_of_date);
         auto pricing = pricing_builder.Finish();
 
@@ -141,6 +141,7 @@ public:
         bond_request_builder.add_term_structure(term_structure);
         auto bond_request = bond_request_builder.Finish();
 
+        builder.Finish(bond_request);
         auto request_msg = builder.ReleaseMessage<quantra::PriceFixedRateBond>();
 
         flatbuffers::grpc::Message<quantra::NPVResponse> response_msg;
@@ -155,7 +156,7 @@ public:
         }
         else
         {
-            std::cerr << status.error_code() << ": " << status.error_message()
+            std::cout << status.error_code() << ": " << status.error_message()
                       << std::endl;
             return -1;
         }

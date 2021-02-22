@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/client.dir/root/quantra/grpc/server.o CMakeFiles/client.dir/client.o  -o client 

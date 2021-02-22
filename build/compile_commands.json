@@ -1,12 +1,87 @@
 [
 {
-  "directory": "/root/quantra/build",
-  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs  -g   -o CMakeFiles/client.dir/client/client.o -c /root/quantra/client/client.cpp",
-  "file": "/root/quantra/client/client.cpp"
-},
-{
   "directory": "/root/quantra/build/grpc",
   "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/grpc/include  -g   -o CMakeFiles/quantra_grpc.dir/quantraserver.grpc.fb.o -c /root/quantra/grpc/quantraserver.grpc.fb.cc",
   "file": "/root/quantra/grpc/quantraserver.grpc.fb.cc"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/common/common.o -c /root/quantra/common/common.cpp",
+  "file": "/root/quantra/common/common.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/common/enums.o -c /root/quantra/common/enums.cpp",
+  "file": "/root/quantra/common/enums.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/parser/common_parser.o -c /root/quantra/parser/common_parser.cpp",
+  "file": "/root/quantra/parser/common_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.o -c /root/quantra/parser/fixed_rate_bond_parser.cpp",
+  "file": "/root/quantra/parser/fixed_rate_bond_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/parser/term_structure_parser.o -c /root/quantra/parser/term_structure_parser.cpp",
+  "file": "/root/quantra/parser/term_structure_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/parser/term_structure_point_parser.o -c /root/quantra/parser/term_structure_point_parser.cpp",
+  "file": "/root/quantra/parser/term_structure_point_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.o -c /root/quantra/request/fixed_rate_bond_pricing_request.cpp",
+  "file": "/root/quantra/request/fixed_rate_bond_pricing_request.cpp"
+},
+{
+  "directory": "/root/quantra/build/client",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/client.o -c /root/quantra/client/client.cpp",
+  "file": "/root/quantra/client/client.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/common/common.o -c /root/quantra/common/common.cpp",
+  "file": "/root/quantra/common/common.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/common/enums.o -c /root/quantra/common/enums.cpp",
+  "file": "/root/quantra/common/enums.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/parser/common_parser.o -c /root/quantra/parser/common_parser.cpp",
+  "file": "/root/quantra/parser/common_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o -c /root/quantra/parser/fixed_rate_bond_parser.cpp",
+  "file": "/root/quantra/parser/fixed_rate_bond_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/parser/term_structure_parser.o -c /root/quantra/parser/term_structure_parser.cpp",
+  "file": "/root/quantra/parser/term_structure_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/parser/term_structure_point_parser.o -c /root/quantra/parser/term_structure_point_parser.cpp",
+  "file": "/root/quantra/parser/term_structure_point_parser.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o -c /root/quantra/request/fixed_rate_bond_pricing_request.cpp",
+  "file": "/root/quantra/request/fixed_rate_bond_pricing_request.cpp"
+},
+{
+  "directory": "/root/quantra/build/server",
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/server.o -c /root/quantra/server/server.cpp",
+  "file": "/root/quantra/server/server.cpp"
 }
 ]

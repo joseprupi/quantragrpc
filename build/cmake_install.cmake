@@ -40,6 +40,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/root/quantra/build/grpc/cmake_install.cmake")
+  include("/root/quantra/build/client/cmake_install.cmake")
+  include("/root/quantra/build/server/cmake_install.cmake")
 
 endif()
 

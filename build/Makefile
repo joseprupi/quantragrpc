@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named client
-
-# Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 client
-.PHONY : client
-
-# fast build rule for target.
-client/fast:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-.PHONY : client/fast
-
-#=============================================================================
 # Target rules for targets named quantra_grpc
 
 # Build rule for target.
@@ -136,20 +123,31 @@ quantra_grpc/fast:
 	$(MAKE) -f grpc/CMakeFiles/quantra_grpc.dir/build.make grpc/CMakeFiles/quantra_grpc.dir/build
 .PHONY : quantra_grpc/fast
 
-# target to build an object file
-client/client.o:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.o
-.PHONY : client/client.o
+#=============================================================================
+# Target rules for targets named client
 
-# target to preprocess a source file
-client/client.i:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.i
-.PHONY : client/client.i
+# Build rule for target.
+client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 client
+.PHONY : client
 
-# target to generate assembly for a file
-client/client.s:
-	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client/client.s
-.PHONY : client/client.s
+# fast build rule for target.
+client/fast:
+	$(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
+.PHONY : client/fast
+
+#=============================================================================
+# Target rules for targets named server
+
+# Build rule for target.
+server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 server
+.PHONY : server
+
+# fast build rule for target.
+server/fast:
+	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
+.PHONY : server/fast
 
 # Help Target
 help:
@@ -158,12 +156,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... client"
 	@echo "... edit_cache"
 	@echo "... quantra_grpc"
-	@echo "... client/client.o"
-	@echo "... client/client.i"
-	@echo "... client/client.s"
+	@echo "... client"
+	@echo "... server"
 .PHONY : help
 
 
