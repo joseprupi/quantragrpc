@@ -147,7 +147,7 @@ public:
 
         grpc::ClientContext context;
 
-        auto status = stub_->BondPricing(&context, &request_msg, &response_msg);
+        auto status = stub_->BondPricing(&context, request_msg, &response_msg);
         if (status.ok())
         {
             const quantra::NPVResponse *response = response_msg.GetRoot();
