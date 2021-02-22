@@ -24,8 +24,7 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_BUSINESS_DAY_CONVENTION = 12,
     VT_REDEMPTION = 14,
     VT_ISSUE_DATE = 16,
-    VT_SCHEDULE = 18,
-    VT_YIELD = 20
+    VT_SCHEDULE = 18
   };
   int32_t settlement_days() const {
     return GetField<int32_t>(VT_SETTLEMENT_DAYS, 0);
@@ -51,9 +50,6 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const quantra::Schedule *schedule() const {
     return GetPointer<const quantra::Schedule *>(VT_SCHEDULE);
   }
-  const quantra::Yield *yield() const {
-    return GetPointer<const quantra::Yield *>(VT_YIELD);
-  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_SETTLEMENT_DAYS) &&
@@ -66,8 +62,6 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyString(issue_date()) &&
            VerifyOffset(verifier, VT_SCHEDULE) &&
            verifier.VerifyTable(schedule()) &&
-           VerifyOffset(verifier, VT_YIELD) &&
-           verifier.VerifyTable(yield()) &&
            verifier.EndTable();
   }
 };
@@ -100,9 +94,6 @@ struct FixedRateBondBuilder {
   void add_schedule(flatbuffers::Offset<quantra::Schedule> schedule) {
     fbb_.AddOffset(FixedRateBond::VT_SCHEDULE, schedule);
   }
-  void add_yield(flatbuffers::Offset<quantra::Yield> yield) {
-    fbb_.AddOffset(FixedRateBond::VT_YIELD, yield);
-  }
   explicit FixedRateBondBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -123,13 +114,11 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBond(
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
     double redemption = 0.0,
     flatbuffers::Offset<flatbuffers::String> issue_date = 0,
-    flatbuffers::Offset<quantra::Schedule> schedule = 0,
-    flatbuffers::Offset<quantra::Yield> yield = 0) {
+    flatbuffers::Offset<quantra::Schedule> schedule = 0) {
   FixedRateBondBuilder builder_(_fbb);
   builder_.add_redemption(redemption);
   builder_.add_rate(rate);
   builder_.add_face_amount(face_amount);
-  builder_.add_yield(yield);
   builder_.add_schedule(schedule);
   builder_.add_issue_date(issue_date);
   builder_.add_settlement_days(settlement_days);
@@ -147,8 +136,7 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
     double redemption = 0.0,
     const char *issue_date = nullptr,
-    flatbuffers::Offset<quantra::Schedule> schedule = 0,
-    flatbuffers::Offset<quantra::Yield> yield = 0) {
+    flatbuffers::Offset<quantra::Schedule> schedule = 0) {
   auto issue_date__ = issue_date ? _fbb.CreateString(issue_date) : 0;
   return quantra::CreateFixedRateBond(
       _fbb,
@@ -159,8 +147,7 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
       business_day_convention,
       redemption,
       issue_date__,
-      schedule,
-      yield);
+      schedule);
 }
 
 }  // namespace quantra

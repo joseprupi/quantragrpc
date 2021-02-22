@@ -13,7 +13,7 @@ std::shared_ptr<QuantLib::Schedule> ScheduleParser::parse(const quantra::Schedul
     return std::make_shared<QuantLib::Schedule>(
         DateToQL(schedule->effective_date()->str()),
         DateToQL(schedule->termination_date()->str()),
-        FrequencyToQL(schedule->frequency()),
+        QuantLib::Period(FrequencyToQL(schedule->frequency())),
         CalendarToQL(schedule->calendar()),
         ConventionToQL(schedule->convention()),
         ConventionToQL(schedule->termination_date_convention()),
@@ -24,7 +24,7 @@ std::shared_ptr<QuantLib::Schedule> ScheduleParser::parse(const quantra::Schedul
 std::shared_ptr<YieldStruct> YieldParser::parse(const quantra::Yield *yield)
 {
     return std::make_shared<YieldStruct>(
-        PricingStruct{
+        YieldStruct{
             DayCounterToQL(yield->day_counter()),
             CompoundingToQL(yield->compounding()),
             FrequencyToQL(yield->frequency())});

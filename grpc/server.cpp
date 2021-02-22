@@ -1,7 +1,8 @@
 #include "quantraserver.grpc.fb.h"
 #include "quantraserver_generated.h"
 
-#include "term_structure_parser.h"
+#include "fixed_rate_bond_pricing_request.h"
+#include "responses_generated.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -11,31 +12,19 @@
 
 class BondPricingServiceImpl final : public quantra::QuantraServer::Service
 {
+
   virtual grpc::Status BondPricing(
       ::grpc::ServerContext *context,
-      const flatbuffers::grpc::Message<quantra::PriceFixedRateBond> *request_msg,
-      flatbuffers::grpc::Message<quantra::BondPricingReply> *response_msg) override
+      const flatbuffers::grpc::Message<PriceFixedRateBond> *request_msg,
+      flatbuffers::grpc::Message<NPVResponse> *response_msg) override
   {
     flatbuffers::grpc::MessageBuilder mb_;
 
-    const quantra::PriceFixedRateBond *request = request_msg->GetRoot();
+    FixedRateBondPricingRequest request;
+    float npv = request.request(request_msg->GetRoot());
 
-    auto pricing = request->pricing();
-    auto fixed_rate_bond = request->fixed_rate_bond();
-    auto curve = request->curves()->Get(0);
-
-    TermStructureParser tsparser = TermStructureParser();
-    tsparser.parse(curve);
-    //const quantra::BondPricingRequest *request = request_msg->GetRoot();
-
-    // const std::string &name = request->name()->str();
-
-    // auto msg_offset = mb_.CreateString("Hello, " + name);
-    // auto hello_offset = quantra::CreateBondPricingReply(mb_, msg_offset);
-    // mb_.Finish(hello_offset);
-
-    // *response_msg = mb_.ReleaseMessage<quantra::BondPricingReply>();
-    // assert(response_msg->Verify());
+    auto hello_offset = quantra::CreateNPVResponse(mb_, npv);
+    mb_.Finish(hello_offset);
 
     return grpc::Status::OK;
   }

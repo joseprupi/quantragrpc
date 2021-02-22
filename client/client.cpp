@@ -1,5 +1,6 @@
 #include "quantraserver.grpc.fb.h"
 #include "quantraserver_generated.h"
+#include "responses_generated.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -13,9 +14,10 @@ public:
     QuantraClient(std::shared_ptr<grpc::Channel> channel)
         : stub_(quantra::QuantraServer::NewStub(channel)) {}
 
-    std::string SayHello(const std::string &name)
+    float PriceBond()
     {
-        flatbuffers::FlatBufferBuilder builder(1024);
+        //flatbuffers::FlatBufferBuilder builder(1024);
+        flatbuffers::grpc::MessageBuilder builder;
 
         // ****************************
         // Create the discounting curve
@@ -102,13 +104,6 @@ public:
         schedule_builder.add_end_of_mont(false);
         auto schedule = schedule_builder.Finish();
 
-        // Create the Yield table
-        auto yield_builder = quantra::YieldBuilder(builder);
-        yield_builder.add_day_counter(quantra::enums::DayCounter_Actual360);
-        yield_builder.add_compounding(quantra::enums::Compounding_Compounded);
-        yield_builder.add_frequency(quantra::enums::Frequency_Annual);
-        auto yield = yield_builder.Finish();
-
         // Create the fixed rate bond
         auto fixed_rate_bond_builder = quantra::FixedRateBondBuilder(builder);
         fixed_rate_bond_builder.add_settlement_days(settlement_days);
@@ -120,12 +115,18 @@ public:
         fixed_rate_bond_builder.add_redemption(100);
         auto issue_date = builder.CreateString("2007/05/15");
         fixed_rate_bond_builder.add_issue_date(issue_date);
-        fixed_rate_bond_builder.add_yield(yield);
-        fixed_rate_bond_builder.Finish();
+        auto bond = fixed_rate_bond_builder.Finish();
 
         // ***************************************
         // Create the pricing request for the bond
         // ***************************************
+
+        // Create the Yield table
+        auto yield_builder = quantra::YieldBuilder(builder);
+        yield_builder.add_day_counter(quantra::enums::DayCounter_Actual360);
+        yield_builder.add_compounding(quantra::enums::Compounding_Compounded);
+        yield_builder.add_frequency(quantra::enums::Frequency_Annual);
+        auto yield = yield_builder.Finish();
 
         // Create the Pricing table
         auto pricing_builder = quantra::PricingBuilder(builder);
@@ -133,61 +134,35 @@ public:
         pricing_builder.add_as_of_date(as_of_date);
         auto pricing = pricing_builder.Finish();
 
-        flatbuffers::grpc::MessageBuilder mb;
-        auto name_offset = mb.CreateString(name);
-        auto request_offset = quantra::CreatePriceFixedRateBond(mb, name_offset);
-        mb.Finish(request_offset);
-        auto request_msg = mb.ReleaseMessage<HelloRequest>();
+        auto bond_request_builder = quantra::PriceFixedRateBondBuilder(builder);
+        bond_request_builder.add_yield(yield);
+        bond_request_builder.add_pricing(pricing);
+        bond_request_builder.add_fixed_rate_bond(bond);
+        bond_request_builder.add_term_structure(term_structure);
+        auto bond_request = bond_request_builder.Finish();
 
-        flatbuffers::grpc::Message<HelloReply> response_msg;
+        auto request_msg = builder.ReleaseMessage<quantra::PriceFixedRateBond>();
+
+        flatbuffers::grpc::Message<quantra::NPVResponse> response_msg;
 
         grpc::ClientContext context;
 
-        auto status = stub_->SayHello(&context, request_msg, &response_msg);
+        auto status = stub_->BondPricing(&context, &request_msg, &response_msg);
         if (status.ok())
         {
-            const HelloReply *response = response_msg.GetRoot();
-            return response->message()->str();
+            const quantra::NPVResponse *response = response_msg.GetRoot();
+            return response->npv();
         }
         else
         {
             std::cerr << status.error_code() << ": " << status.error_message()
                       << std::endl;
-            return "RPC failed";
-        }
-    }
-
-    void SayManyHellos(const std::string &name, int num_greetings,
-                       std::function<void(const std::string &)> callback)
-    {
-        flatbuffers::grpc::MessageBuilder mb;
-        auto name_offset = mb.CreateString(name);
-        auto request_offset =
-            CreateManyHellosRequest(mb, name_offset, num_greetings);
-        mb.Finish(request_offset);
-        auto request_msg = mb.ReleaseMessage<ManyHellosRequest>();
-
-        flatbuffers::grpc::Message<HelloReply> response_msg;
-
-        grpc::ClientContext context;
-
-        auto stream = stub_->SayManyHellos(&context, request_msg);
-        while (stream->Read(&response_msg))
-        {
-            const HelloReply *response = response_msg.GetRoot();
-            callback(response->message()->str());
-        }
-        auto status = stream->Finish();
-        if (!status.ok())
-        {
-            std::cerr << status.error_code() << ": " << status.error_message()
-                      << std::endl;
-            callback("RPC failed");
+            return -1;
         }
     }
 
 private:
-    std::unique_ptr<Greeter::Stub> stub_;
+    std::unique_ptr<quantra::QuantraServer::Stub> stub_;
 };
 
 int main(int argc, char **argv)
@@ -196,17 +171,10 @@ int main(int argc, char **argv)
 
     auto channel =
         grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
-    GreeterClient greeter(channel);
+    QuantraClient greeter(channel);
 
-    std::string name("world");
-
-    std::string message = greeter.SayHello(name);
-    std::cerr << "Greeter received: " << message << std::endl;
-
-    int num_greetings = 10;
-    greeter.SayManyHellos(name, num_greetings, [](const std::string &message) {
-        std::cerr << "Greeter received: " << message << std::endl;
-    });
+    float npv = greeter.PriceBond();
+    std::cerr << "NPV received: " << npv << std::endl;
 
     return 0;
 }

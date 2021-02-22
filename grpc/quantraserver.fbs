@@ -1,4 +1,5 @@
 include "/fbs/requests.fbs";
+include "/fbs/responses.fbs";
 
 namespace quantra;
 
@@ -7,5 +8,5 @@ table BondPricingReply {
 }
 
 rpc_service QuantraServer {
-  BondPricing(PriceFixedRateBond):BondPricingReply;
+  BondPricing(PriceFixedRateBond):NPVResponse;
 }

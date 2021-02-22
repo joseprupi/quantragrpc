@@ -22,7 +22,8 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_PRICING = 4,
     VT_FIXED_RATE_BOND = 6,
-    VT_CURVES = 8
+    VT_TERM_STRUCTURE = 8,
+    VT_YIELD = 10
   };
   const quantra::Pricing *pricing() const {
     return GetPointer<const quantra::Pricing *>(VT_PRICING);
@@ -30,8 +31,11 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const quantra::FixedRateBond *fixed_rate_bond() const {
     return GetPointer<const quantra::FixedRateBond *>(VT_FIXED_RATE_BOND);
   }
-  const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves() const {
-    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *>(VT_CURVES);
+  const quantra::TermStructure *term_structure() const {
+    return GetPointer<const quantra::TermStructure *>(VT_TERM_STRUCTURE);
+  }
+  const quantra::Yield *yield() const {
+    return GetPointer<const quantra::Yield *>(VT_YIELD);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -39,9 +43,10 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyTable(pricing()) &&
            VerifyOffset(verifier, VT_FIXED_RATE_BOND) &&
            verifier.VerifyTable(fixed_rate_bond()) &&
-           VerifyOffset(verifier, VT_CURVES) &&
-           verifier.VerifyVector(curves()) &&
-           verifier.VerifyVectorOfTables(curves()) &&
+           VerifyOffset(verifier, VT_TERM_STRUCTURE) &&
+           verifier.VerifyTable(term_structure()) &&
+           VerifyOffset(verifier, VT_YIELD) &&
+           verifier.VerifyTable(yield()) &&
            verifier.EndTable();
   }
 };
@@ -56,8 +61,11 @@ struct PriceFixedRateBondBuilder {
   void add_fixed_rate_bond(flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond) {
     fbb_.AddOffset(PriceFixedRateBond::VT_FIXED_RATE_BOND, fixed_rate_bond);
   }
-  void add_curves(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves) {
-    fbb_.AddOffset(PriceFixedRateBond::VT_CURVES, curves);
+  void add_term_structure(flatbuffers::Offset<quantra::TermStructure> term_structure) {
+    fbb_.AddOffset(PriceFixedRateBond::VT_TERM_STRUCTURE, term_structure);
+  }
+  void add_yield(flatbuffers::Offset<quantra::Yield> yield) {
+    fbb_.AddOffset(PriceFixedRateBond::VT_YIELD, yield);
   }
   explicit PriceFixedRateBondBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -74,25 +82,14 @@ inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBond(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<quantra::Pricing> pricing = 0,
     flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0) {
+    flatbuffers::Offset<quantra::TermStructure> term_structure = 0,
+    flatbuffers::Offset<quantra::Yield> yield = 0) {
   PriceFixedRateBondBuilder builder_(_fbb);
-  builder_.add_curves(curves);
+  builder_.add_yield(yield);
+  builder_.add_term_structure(term_structure);
   builder_.add_fixed_rate_bond(fixed_rate_bond);
   builder_.add_pricing(pricing);
   return builder_.Finish();
-}
-
-inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBondDirect(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<quantra::Pricing> pricing = 0,
-    flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond = 0,
-    const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr) {
-  auto curves__ = curves ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>>(*curves) : 0;
-  return quantra::CreatePriceFixedRateBond(
-      _fbb,
-      pricing,
-      fixed_rate_bond,
-      curves__);
 }
 
 }  // namespace quantra

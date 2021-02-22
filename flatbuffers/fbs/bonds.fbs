@@ -12,5 +12,4 @@ table FixedRateBond {
     redemption:double;
     issue_date:string;
     schedule:Schedule;
-    yield:Yield;
 }

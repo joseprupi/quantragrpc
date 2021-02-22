@@ -8,5 +8,6 @@ namespace quantra;
 table PriceFixedRateBond{
     pricing:Pricing;
     fixed_rate_bond:FixedRateBond;
-    curves:[TermStructure];
+    term_structure:TermStructure;
+    yield:Yield;
 }

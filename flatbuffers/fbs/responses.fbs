@@ -1,4 +1,4 @@
-namespace quantra.responses;
+namespace quantra;
 
 enum FlowType : byte { 
     Interest,
@@ -46,4 +46,8 @@ table FixedRatePricingResponse{
     convexity:float;
     bps:float;
     flows:[Flow];
+}
+
+table NPVResponse{
+    npv:float;
 }

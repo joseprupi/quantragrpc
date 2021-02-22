@@ -10,6 +10,7 @@
 #include "common_generated.h"
 #include "enums_generated.h"
 #include "requests_generated.h"
+#include "responses_generated.h"
 #include "term_structure_generated.h"
 #include "term_structure_points_generated.h"
 
