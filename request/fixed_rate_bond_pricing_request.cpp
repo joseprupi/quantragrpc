@@ -3,6 +3,16 @@
 //std::shared_ptr<quantra::responses::FixedRatePricingResponse> fixedRateBondPricingRequest::request(const quantra::PriceFixedRateBond *request)
 float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBond *request)
 {
+    Calendar calendar = TARGET();
+
+    Date settlementDate(18, September, 2008);
+    // must be a business day
+    settlementDate = calendar.adjust(settlementDate);
+    Integer fixingDays = 3;
+    Date todaysDate = calendar.advance(settlementDate, -fixingDays, Days);
+    // nothing to do with Date::todaysDate
+    Settings::instance().evaluationDate() = todaysDate;
+
     FixedRateBondParser bond_parser = FixedRateBondParser();
     PricingParser pricing_parser = PricingParser();
     YieldParser yield_parser = YieldParser();

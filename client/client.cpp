@@ -29,7 +29,7 @@ public:
         auto settlement_days = 3;
 
         // Create deposit
-        auto deposit_helper_zc3m_builder = quantra::DepositBuilder(builder);
+        auto deposit_helper_zc3m_builder = quantra::DepositHelperBuilder(builder);
         deposit_helper_zc3m_builder.add_tenor_number(3);
         deposit_helper_zc3m_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
         deposit_helper_zc3m_builder.add_fixing_days(fixing_days);
@@ -39,7 +39,7 @@ public:
         auto deposit_helper_zc3m = deposit_helper_zc3m_builder.Finish();
 
         // Create deposit
-        auto deposit_helper_zc6m_builder = quantra::DepositBuilder(builder);
+        auto deposit_helper_zc6m_builder = quantra::DepositHelperBuilder(builder);
         deposit_helper_zc6m_builder.add_rate(0.0145);
         deposit_helper_zc6m_builder.add_tenor_number(6);
         deposit_helper_zc6m_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
@@ -50,7 +50,7 @@ public:
         auto deposit_helper_zc6m = deposit_helper_zc6m_builder.Finish();
 
         // Create deposit
-        auto deposit_helper_zc1y_builder = quantra::DepositBuilder(builder);
+        auto deposit_helper_zc1y_builder = quantra::DepositHelperBuilder(builder);
         deposit_helper_zc1y_builder.add_rate(0.0194);
         deposit_helper_zc1y_builder.add_tenor_number(1);
         deposit_helper_zc1y_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Years);
@@ -62,15 +62,82 @@ public:
 
         // Create vector of points
         std::vector<uint8_t> types_vector;
-        types_vector.push_back(quantra::Point_Deposit);
-        types_vector.push_back(quantra::Point_Deposit);
-        types_vector.push_back(quantra::Point_Deposit);
-        auto types = builder.CreateVector(types_vector);
-
         std::vector<flatbuffers::Offset<void>> points_vector;
+
+        types_vector.push_back(quantra::Point_DepositHelper);
+        types_vector.push_back(quantra::Point_DepositHelper);
+        types_vector.push_back(quantra::Point_DepositHelper);
+
         points_vector.push_back(deposit_helper_zc3m.Union());
         points_vector.push_back(deposit_helper_zc6m.Union());
         points_vector.push_back(deposit_helper_zc1y.Union());
+
+        float redemption = 100.0;
+
+        int number_of_bonds = 5;
+
+        std::string issue_dates[] = {
+            "2005/03/15",
+            "2005/06/15",
+            "2006/06/30",
+            "2002/11/15",
+            "1987/05/15"};
+
+        std::string maturities[] = {
+            "2010/08/31",
+            "2011/08/31",
+            "2013/08/31",
+            "2018/08/15",
+            "2038/05/15"};
+
+        float coupon_rates[] = {
+            0.02375,
+            0.04625,
+            0.03125,
+            0.04000,
+            0.04500};
+
+        float market_quotes[] = {
+            100.390625,
+            106.21875,
+            100.59375,
+            101.6875,
+            102.140625};
+
+        for (int i = 0; i < number_of_bonds; i++)
+        {
+            // Create schedule for bond helper
+            auto effective_date = builder.CreateString(issue_dates[i]);
+            auto termination_date = builder.CreateString(maturities[i]);
+            auto schedule_builder = quantra::ScheduleBuilder(builder);
+            schedule_builder.add_calendar(quantra::enums::Calendar_UnitedStatesGovernmentBond);
+            schedule_builder.add_effective_date(effective_date);
+            schedule_builder.add_termination_date(termination_date);
+            schedule_builder.add_convention(quantra::enums::BusinessDayConvention_Unadjusted);
+            schedule_builder.add_frequency(quantra::enums::Frequency_Semiannual);
+            schedule_builder.add_termination_date_convention(quantra::enums::BusinessDayConvention_Unadjusted);
+            schedule_builder.add_date_generation_rule(quantra::enums::DateGenerationRule_Backward);
+            schedule_builder.add_end_of_mont(false);
+            auto schedule = schedule_builder.Finish();
+
+            // Create bond helper
+            auto bond_helper_builder = quantra::BondHelperBuilder(builder);
+            bond_helper_builder.add_rate(market_quotes[i]);
+            bond_helper_builder.add_settlement_days(settlement_days);
+            bond_helper_builder.add_face_amount(100.0);
+            bond_helper_builder.add_schedule(schedule);
+            bond_helper_builder.add_coupon_rate(coupon_rates[i]);
+            bond_helper_builder.add_day_counter(quantra::enums::DayCounter_ActualActual365);
+            bond_helper_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_Unadjusted);
+            bond_helper_builder.add_redemption(redemption);
+            bond_helper_builder.add_issue_date(effective_date);
+            auto bond_helper = bond_helper_builder.Finish();
+
+            types_vector.push_back(quantra::Point_BondHelper);
+            points_vector.push_back(bond_helper.Union());
+        }
+
+        auto types = builder.CreateVector(types_vector);
         auto points = builder.CreateVector(points_vector);
 
         // Create the termstructure curve

@@ -26,17 +26,21 @@ client/CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.o: ../parser/fixed
 
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../client/../common/common.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../client/../common/enums.h
+client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/common_generated.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/enums_generated.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/term_structure_generated.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/term_structure_points_generated.h
+client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../parser/common_parser.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../parser/term_structure_parser.cpp
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../parser/term_structure_parser.h
 client/CMakeFiles/client.dir/__/parser/term_structure_parser.o: ../parser/term_structure_point_parser.h
 
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../client/../common/common.h
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../client/../common/enums.h
+client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/common_generated.h
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/enums_generated.h
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/term_structure_points_generated.h
+client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../parser/common_parser.h
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../parser/term_structure_point_parser.cpp
 client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o: ../parser/term_structure_point_parser.h
 

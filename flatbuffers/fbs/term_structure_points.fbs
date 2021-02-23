@@ -1,9 +1,10 @@
 include "enums.fbs";
+include "common.fbs";
 
 namespace quantra;
 
 
-table Deposit {
+table DepositHelper {
     rate:float;
     tenor_time_unit:enums.TimeUnit;
     tenor_number: int;
@@ -13,7 +14,7 @@ table Deposit {
     day_counter:enums.DayCounter;
 }
 
-table FRA {
+table FRAHelper {
     rate:float;
     months_to_start:int; 
     months_to_end:int; 
@@ -23,7 +24,7 @@ table FRA {
     day_counter:enums.DayCounter;
 }
 
-table Future {
+table FutureHelper {
     rate: float;
     future_start_date: string;
     future_months: int;
@@ -32,7 +33,7 @@ table Future {
     day_counter:enums.DayCounter;
 }
 
-table Swap {
+table SwapHelper {
     rate:float;
     tenor_time_unit:enums.TimeUnit;
     tenor_number: int;
@@ -45,7 +46,19 @@ table Swap {
     fwd_start_days:int; 
 }
 
-union Point { Deposit, FRA, Future, Swap }
+table BondHelper {
+    rate:float;
+    settlement_days:int;
+    face_amount:float;
+    schedule:Schedule;
+    coupon_rate:float;
+    day_counter:enums.DayCounter;
+    business_day_convention:enums.BusinessDayConvention;
+    redemption:float;
+    issue_date:string; 
+}
+
+union Point { DepositHelper, FRAHelper, FutureHelper, SwapHelper, BondHelper }
 // table Points {
 //     point:Point;
 // }

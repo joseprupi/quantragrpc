@@ -24,19 +24,23 @@ server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../parser/commo
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../parser/fixed_rate_bond_parser.cpp
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../parser/fixed_rate_bond_parser.h
 
+server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/common_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/enums_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/term_structure_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../flatbuffers/fbs/term_structure_points_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../server/../common/common.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../server/../common/enums.h
+server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../parser/common_parser.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../parser/term_structure_parser.cpp
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../parser/term_structure_parser.h
 server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../parser/term_structure_point_parser.h
 
+server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/common_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/enums_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/term_structure_points_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../server/../common/common.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../server/../common/enums.h
+server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../parser/common_parser.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../parser/term_structure_point_parser.cpp
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../parser/term_structure_point_parser.h
 

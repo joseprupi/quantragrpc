@@ -18,21 +18,27 @@ class BondPricingServiceImpl final : public quantra::QuantraServer::Service
       const flatbuffers::grpc::Message<PriceFixedRateBond> *request_msg,
       flatbuffers::grpc::Message<NPVResponse> *response_msg) override
   {
-    flatbuffers::grpc::MessageBuilder mb_;
+    flatbuffers::grpc::MessageBuilder builder;
 
     FixedRateBondPricingRequest request;
-    float npv = request.request(request_msg->GetRoot());
+    try
+    {
+      float npv = request.request(request_msg->GetRoot());
 
-    auto hello_offset = quantra::CreateNPVResponse(mb_, npv);
-    mb_.Finish(hello_offset);
+      auto hello_offset = quantra::CreateNPVResponse(builder, npv);
+      builder.Finish(hello_offset);
 
-    *response_msg = mb_.ReleaseMessage<NPVResponse>();
-    assert(response_msg->Verify());
+      *response_msg = builder.ReleaseMessage<NPVResponse>();
+      assert(response_msg->Verify());
 
-    return grpc::Status::OK;
+      return grpc::Status::OK;
+    }
+    catch (const std::exception &e)
+    {
+      std::string s(e.what());
+      return grpc::Status(grpc::StatusCode::UNKNOWN, s);
+    }
   }
-
-  flatbuffers::grpc::MessageBuilder mb_;
 };
 
 void RunServer()

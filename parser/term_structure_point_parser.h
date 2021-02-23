@@ -20,6 +20,7 @@
 #include "term_structure_points_generated.h"
 #include "enums.h"
 #include "common.h"
+#include "common_parser.h"
 
 using namespace QuantLib;
 using namespace quantra;
