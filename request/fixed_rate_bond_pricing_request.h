@@ -1,6 +1,8 @@
 #ifndef QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
 #define QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
 
+#include <map>
+
 #include <ql/qldefines.hpp>
 #include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
@@ -26,8 +28,8 @@
 class FixedRateBondPricingRequest
 {
 public:
-    //std::shared_ptr<quantra::responses::FixedRatePricingResponse> request(const quantra::PriceFixedRateBond *request);
-    float request(const quantra::PriceFixedRateBond *request);
+    //std::shared_ptr<quantra::responses::FixedRatePricingResponse> request(const quantra::PriceFixedRateBondRequest *request);
+    float request(const quantra::PriceFixedRateBondRequest *request);
 };
 
 #endif //QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H

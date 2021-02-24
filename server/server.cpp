@@ -15,7 +15,7 @@ class BondPricingServiceImpl final : public quantra::QuantraServer::Service
 
   virtual grpc::Status BondPricing(
       ::grpc::ServerContext *context,
-      const flatbuffers::grpc::Message<PriceFixedRateBond> *request_msg,
+      const flatbuffers::grpc::Message<PriceFixedRateBondRequest> *request_msg,
       flatbuffers::grpc::Message<NPVResponse> *response_msg) override
   {
     flatbuffers::grpc::MessageBuilder builder;

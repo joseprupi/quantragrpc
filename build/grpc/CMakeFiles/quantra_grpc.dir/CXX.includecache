@@ -13,12 +13,16 @@ common_generated.h
 ../flatbuffers/fbs/common_generated.h
 enums_generated.h
 ../flatbuffers/fbs/enums_generated.h
+term_structure_generated.h
+../flatbuffers/fbs/term_structure_generated.h
 
 ../flatbuffers/fbs/common_generated.h
 flatbuffers/flatbuffers.h
 ../flatbuffers/fbs/flatbuffers/flatbuffers.h
 enums_generated.h
 ../flatbuffers/fbs/enums_generated.h
+term_structure_generated.h
+../flatbuffers/fbs/term_structure_generated.h
 
 ../flatbuffers/fbs/enums_generated.h
 flatbuffers/flatbuffers.h
@@ -35,22 +39,12 @@ enums_generated.h
 ../flatbuffers/fbs/enums_generated.h
 term_structure_generated.h
 ../flatbuffers/fbs/term_structure_generated.h
-term_structure_points_generated.h
-../flatbuffers/fbs/term_structure_points_generated.h
 
 ../flatbuffers/fbs/responses_generated.h
 flatbuffers/flatbuffers.h
 ../flatbuffers/fbs/flatbuffers/flatbuffers.h
 
 ../flatbuffers/fbs/term_structure_generated.h
-flatbuffers/flatbuffers.h
-../flatbuffers/fbs/flatbuffers/flatbuffers.h
-enums_generated.h
-../flatbuffers/fbs/enums_generated.h
-term_structure_points_generated.h
-../flatbuffers/fbs/term_structure_points_generated.h
-
-../flatbuffers/fbs/term_structure_points_generated.h
 flatbuffers/flatbuffers.h
 ../flatbuffers/fbs/flatbuffers/flatbuffers.h
 common_generated.h
@@ -881,6 +875,4 @@ responses_generated.h
 /root/quantra/grpc/responses_generated.h
 term_structure_generated.h
 /root/quantra/grpc/term_structure_generated.h
-term_structure_points_generated.h
-/root/quantra/grpc/term_structure_points_generated.h
 

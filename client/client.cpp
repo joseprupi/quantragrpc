@@ -184,9 +184,9 @@ public:
         fixed_rate_bond_builder.add_issue_date(issue_date);
         auto bond = fixed_rate_bond_builder.Finish();
 
-        // ***************************************
-        // Create the pricing request for the bond
-        // ***************************************
+        // *****************************
+        // Create the bond pricing table
+        // *****************************
 
         // Create the Yield table
         auto yield_builder = quantra::YieldBuilder(builder);
@@ -195,21 +195,39 @@ public:
         yield_builder.add_frequency(quantra::enums::Frequency_Annual);
         auto yield = yield_builder.Finish();
 
-        // Create the Pricing table
+        // Create the BondPricing table
+        auto curve_id = builder.CreateString("depos_curve");
+        auto bond_pricing_builder = quantra::PriceFixedRateBondBuilder(builder);
+        bond_pricing_builder.add_fixed_rate_bond(bond);
+        bond_pricing_builder.add_discounting_curve(curve_id);
+        bond_pricing_builder.add_yield(yield);
+        auto bond_pricing = bond_pricing_builder.Finish();
+
+        // ***************************************
+        // Create the pricing request for the bond
+        // ***************************************
+
+        std::vector<flatbuffers::Offset<quantra::TermStructure>> term_structures_vector;
+        term_structures_vector.push_back(term_structure);
+        auto term_structures = builder.CreateVector(term_structures_vector);
+
         auto as_of_date = builder.CreateString("2008/09/16");
         auto pricing_builder = quantra::PricingBuilder(builder);
         pricing_builder.add_as_of_date(as_of_date);
+        pricing_builder.add_curves(term_structures);
         auto pricing = pricing_builder.Finish();
 
-        auto bond_request_builder = quantra::PriceFixedRateBondBuilder(builder);
-        bond_request_builder.add_yield(yield);
+        std::vector<flatbuffers::Offset<quantra::PriceFixedRateBond>> bonds_vector_vector;
+        bonds_vector_vector.push_back(bond_pricing);
+        auto bonds_vector = builder.CreateVector(bonds_vector_vector);
+
+        auto bond_request_builder = quantra::PriceFixedRateBondRequestBuilder(builder);
         bond_request_builder.add_pricing(pricing);
-        bond_request_builder.add_fixed_rate_bond(bond);
-        bond_request_builder.add_term_structure(term_structure);
+        bond_request_builder.add_bonds(bonds_vector);
         auto bond_request = bond_request_builder.Finish();
 
         builder.Finish(bond_request);
-        auto request_msg = builder.ReleaseMessage<quantra::PriceFixedRateBond>();
+        auto request_msg = builder.ReleaseMessage<quantra::PriceFixedRateBondRequest>();
 
         flatbuffers::grpc::Message<quantra::NPVResponse> response_msg;
 

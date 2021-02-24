@@ -24,10 +24,10 @@
 using namespace QuantLib;
 using namespace quantra;
 
-struct PricingStruct
-{
-    QuantLib::Date as_of_date;
-};
+// struct PricingStruct
+// {
+//     QuantLib::Date as_of_date;
+// };
 
 struct YieldStruct
 {
@@ -36,13 +36,13 @@ struct YieldStruct
     QuantLib::Frequency frequency;
 };
 
-class PricingParser
-{
+// class PricingParser
+// {
 
-private:
-public:
-    std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
-};
+// private:
+// public:
+//     std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
+// };
 
 class ScheduleParser
 {

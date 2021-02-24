@@ -10,6 +10,7 @@ server/CMakeFiles/server.dir/__/common/enums.o: ../common/enums.h
 
 server/CMakeFiles/server.dir/__/parser/common_parser.o: ../flatbuffers/fbs/common_generated.h
 server/CMakeFiles/server.dir/__/parser/common_parser.o: ../flatbuffers/fbs/enums_generated.h
+server/CMakeFiles/server.dir/__/parser/common_parser.o: ../flatbuffers/fbs/term_structure_generated.h
 server/CMakeFiles/server.dir/__/parser/common_parser.o: ../server/../common/common.h
 server/CMakeFiles/server.dir/__/parser/common_parser.o: ../server/../common/enums.h
 server/CMakeFiles/server.dir/__/parser/common_parser.o: ../parser/common_parser.cpp
@@ -18,6 +19,7 @@ server/CMakeFiles/server.dir/__/parser/common_parser.o: ../parser/common_parser.
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../flatbuffers/fbs/bonds_generated.h
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../flatbuffers/fbs/common_generated.h
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../flatbuffers/fbs/enums_generated.h
+server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../flatbuffers/fbs/term_structure_generated.h
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../server/../common/common.h
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../server/../common/enums.h
 server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o: ../parser/common_parser.h
@@ -37,6 +39,7 @@ server/CMakeFiles/server.dir/__/parser/term_structure_parser.o: ../parser/term_s
 
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/common_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/enums_generated.h
+server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/term_structure_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../flatbuffers/fbs/term_structure_points_generated.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../server/../common/common.h
 server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o: ../server/../common/enums.h

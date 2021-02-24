@@ -8,6 +8,7 @@
 
 #include "common_generated.h"
 #include "enums_generated.h"
+#include "term_structure_generated.h"
 
 namespace quantra {
 

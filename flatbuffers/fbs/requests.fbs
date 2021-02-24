@@ -1,13 +1,21 @@
-include "enums.fbs";
 include "common.fbs";
 include "bonds.fbs";
 include "term_structure.fbs";
 
 namespace quantra;
 
+// Fixed Rate Bond pricing information
+
+// Each of the bonds to be priced, with the curve
+// and Yield info
 table PriceFixedRateBond{
-    pricing:Pricing;
     fixed_rate_bond:FixedRateBond;
-    term_structure:TermStructure;
+    discounting_curve:string;
     yield:Yield;
+}
+
+// Fixed Rate Bond pricing request
+table PriceFixedRateBondRequest{
+    pricing:Pricing;
+    bonds:[PriceFixedRateBond];
 }

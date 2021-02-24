@@ -3,10 +3,6 @@ include "/fbs/responses.fbs";
 
 namespace quantra;
 
-table BondPricingReply {
-    message:string;
-}
-
 rpc_service QuantraServer {
-  BondPricing(PriceFixedRateBond):NPVResponse;
+  BondPricing(PriceFixedRateBondRequest):NPVResponse;
 }

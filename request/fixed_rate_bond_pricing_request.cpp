@@ -1,33 +1,57 @@
 #include "fixed_rate_bond_pricing_request.h"
-
+#include <map>
 //std::shared_ptr<quantra::responses::FixedRatePricingResponse> fixedRateBondPricingRequest::request(const quantra::PriceFixedRateBond *request)
-float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBond *request)
+float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequest *request)
 {
-    Calendar calendar = TARGET();
 
-    Date settlementDate(18, September, 2008);
-    // must be a business day
-    settlementDate = calendar.adjust(settlementDate);
-    Integer fixingDays = 3;
-    Date todaysDate = calendar.advance(settlementDate, -fixingDays, Days);
-    // nothing to do with Date::todaysDate
-    Settings::instance().evaluationDate() = todaysDate;
-
+    // Define the parsers used for this request
     FixedRateBondParser bond_parser = FixedRateBondParser();
-    PricingParser pricing_parser = PricingParser();
-    YieldParser yield_parser = YieldParser();
+    //YieldParser yield_parser = YieldParser();
     TermStructureParser term_structure_parser = TermStructureParser();
 
-    std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(request->fixed_rate_bond());
-    std::shared_ptr<YieldStruct> yield = yield_parser.parse(request->yield());
-    std::shared_ptr<PricingStruct> pricing = pricing_parser.parse(request->pricing());
-    std::shared_ptr<YieldTermStructure> term_structure = term_structure_parser.parse(request->term_structure());
+    // Read the pricing information
+    auto pricing = request->pricing();
 
-    RelinkableHandle<YieldTermStructure> discounting_term_structure;
-    std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(discounting_term_structure));
-    //std::shared_ptr<PricingEngine> bond_engine = std::make_shared<QuantLib::PricingEngine>(discounting_term_structure);
-    discounting_term_structure.linkTo(term_structure);
-    bond->setPricingEngine(bond_engine);
+    // Set the evaluation date from the pricing entity
+    Date as_of_date = DateToQL(pricing->as_of_date()->c_str());
+    Settings::instance().evaluationDate() = as_of_date;
 
-    return bond->NPV();
+    // Create the different term structures from the pricing entity
+    auto curves = pricing->curves();
+    std::map<std::string, std::shared_ptr<PricingEngine>> term_structures;
+    for (auto it = curves->begin(); it != curves->end(); it++)
+    {
+
+        RelinkableHandle<YieldTermStructure> discounting_term_structure;
+        std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(discounting_term_structure));
+        std::shared_ptr<YieldTermStructure> term_structure = term_structure_parser.parse(*it);
+        discounting_term_structure.linkTo(term_structure);
+        term_structures.insert(std::make_pair(it->id()->str(), bond_engine));
+    }
+
+    auto bond_pricings = request->bonds();
+
+    std::map<std::string, std::shared_ptr<PricingEngine>> mymap;
+
+    std::string s4("A character sequence");
+
+    auto it = mymap.find(s4);
+    if (it != mymap.end())
+        mymap.erase(it);
+
+    for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
+    {
+
+        auto engine = term_structures.find(it->discounting_curve()->str());
+        if (engine == term_structures.end())
+        {
+            //handle the error
+        }
+        else
+        {
+            std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
+            bond->setPricingEngine(engine->second);
+            return bond->NPV();
+        }
+    }
 }
