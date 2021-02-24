@@ -56,6 +56,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "grpc/CMakeFiles/quantra_grpc.dir/DependInfo.cmake"
-  "client/CMakeFiles/client.dir/DependInfo.cmake"
-  "server/CMakeFiles/server.dir/DependInfo.cmake"
+  "client/CMakeFiles/sync_client.dir/DependInfo.cmake"
+  "client/CMakeFiles/async_client.dir/DependInfo.cmake"
+  "server/CMakeFiles/sync_server.dir/DependInfo.cmake"
+  "server/CMakeFiles/async_server.dir/DependInfo.cmake"
   )

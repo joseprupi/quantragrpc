@@ -23,7 +23,7 @@ public:
         : stub_(quantra::QuantraServer::NewStub(channel)) {}
 
     // Assembles the client's payload and sends it to the server.
-    void SayHello(const std::string &user)
+    void PriceBond()
     {
         flatbuffers::grpc::MessageBuilder builder;
 
@@ -331,13 +331,12 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < 2000; i++)
     {
-        std::string user("world " + std::to_string(i));
-        greeter.SayHello(user); // The actual RPC call!
+        greeter.PriceBond();
     }
 
     std::cout << "Press control-c to quit" << std::endl
               << std::endl;
-    thread_.join(); //blocks forever
+    thread_.join();
 
     return 0;
 }

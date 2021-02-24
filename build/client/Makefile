@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /root/quantra/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,139 +111,64 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-client/CMakeFiles/client.dir/rule:
-	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 client/CMakeFiles/client.dir/rule
-.PHONY : client/CMakeFiles/client.dir/rule
+client/CMakeFiles/sync_client.dir/rule:
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 client/CMakeFiles/sync_client.dir/rule
+.PHONY : client/CMakeFiles/sync_client.dir/rule
 
 # Convenience name for target.
-client: client/CMakeFiles/client.dir/rule
+sync_client: client/CMakeFiles/sync_client.dir/rule
 
-.PHONY : client
+.PHONY : sync_client
 
 # fast build rule for target.
-client/fast:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
-.PHONY : client/fast
+sync_client/fast:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/sync_client.dir/build.make client/CMakeFiles/sync_client.dir/build
+.PHONY : sync_client/fast
 
-# target to build an object file
-__/common/common.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/common.o
-.PHONY : __/common/common.o
+# Convenience name for target.
+client/CMakeFiles/async_client.dir/rule:
+	cd /root/quantra/build && $(MAKE) -f CMakeFiles/Makefile2 client/CMakeFiles/async_client.dir/rule
+.PHONY : client/CMakeFiles/async_client.dir/rule
 
-# target to preprocess a source file
-__/common/common.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/common.i
-.PHONY : __/common/common.i
+# Convenience name for target.
+async_client: client/CMakeFiles/async_client.dir/rule
 
-# target to generate assembly for a file
-__/common/common.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/common.s
-.PHONY : __/common/common.s
+.PHONY : async_client
 
-# target to build an object file
-__/common/enums.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/enums.o
-.PHONY : __/common/enums.o
-
-# target to preprocess a source file
-__/common/enums.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/enums.i
-.PHONY : __/common/enums.i
-
-# target to generate assembly for a file
-__/common/enums.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/common/enums.s
-.PHONY : __/common/enums.s
-
-# target to build an object file
-__/parser/common_parser.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/common_parser.o
-.PHONY : __/parser/common_parser.o
-
-# target to preprocess a source file
-__/parser/common_parser.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/common_parser.i
-.PHONY : __/parser/common_parser.i
-
-# target to generate assembly for a file
-__/parser/common_parser.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/common_parser.s
-.PHONY : __/parser/common_parser.s
-
-# target to build an object file
-__/parser/fixed_rate_bond_parser.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.o
-.PHONY : __/parser/fixed_rate_bond_parser.o
-
-# target to preprocess a source file
-__/parser/fixed_rate_bond_parser.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.i
-.PHONY : __/parser/fixed_rate_bond_parser.i
-
-# target to generate assembly for a file
-__/parser/fixed_rate_bond_parser.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.s
-.PHONY : __/parser/fixed_rate_bond_parser.s
-
-# target to build an object file
-__/parser/term_structure_parser.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_parser.o
-.PHONY : __/parser/term_structure_parser.o
-
-# target to preprocess a source file
-__/parser/term_structure_parser.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_parser.i
-.PHONY : __/parser/term_structure_parser.i
-
-# target to generate assembly for a file
-__/parser/term_structure_parser.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_parser.s
-.PHONY : __/parser/term_structure_parser.s
-
-# target to build an object file
-__/parser/term_structure_point_parser.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o
-.PHONY : __/parser/term_structure_point_parser.o
-
-# target to preprocess a source file
-__/parser/term_structure_point_parser.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.i
-.PHONY : __/parser/term_structure_point_parser.i
-
-# target to generate assembly for a file
-__/parser/term_structure_point_parser.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.s
-.PHONY : __/parser/term_structure_point_parser.s
-
-# target to build an object file
-__/request/fixed_rate_bond_pricing_request.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.o
-.PHONY : __/request/fixed_rate_bond_pricing_request.o
-
-# target to preprocess a source file
-__/request/fixed_rate_bond_pricing_request.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.i
-.PHONY : __/request/fixed_rate_bond_pricing_request.i
-
-# target to generate assembly for a file
-__/request/fixed_rate_bond_pricing_request.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.s
-.PHONY : __/request/fixed_rate_bond_pricing_request.s
+# fast build rule for target.
+async_client/fast:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/async_client.dir/build.make client/CMakeFiles/async_client.dir/build
+.PHONY : async_client/fast
 
 # target to build an object file
 async_client.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.o
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/async_client.dir/build.make client/CMakeFiles/async_client.dir/async_client.o
 .PHONY : async_client.o
 
 # target to preprocess a source file
 async_client.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.i
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/async_client.dir/build.make client/CMakeFiles/async_client.dir/async_client.i
 .PHONY : async_client.i
 
 # target to generate assembly for a file
 async_client.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.s
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/async_client.dir/build.make client/CMakeFiles/async_client.dir/async_client.s
 .PHONY : async_client.s
+
+# target to build an object file
+sync_client.o:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/sync_client.dir/build.make client/CMakeFiles/sync_client.dir/sync_client.o
+.PHONY : sync_client.o
+
+# target to preprocess a source file
+sync_client.i:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/sync_client.dir/build.make client/CMakeFiles/sync_client.dir/sync_client.i
+.PHONY : sync_client.i
+
+# target to generate assembly for a file
+sync_client.s:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/sync_client.dir/build.make client/CMakeFiles/sync_client.dir/sync_client.s
+.PHONY : sync_client.s
 
 # Help Target
 help:
@@ -251,33 +176,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... client"
 	@echo "... edit_cache"
-	@echo "... __/common/common.o"
-	@echo "... __/common/common.i"
-	@echo "... __/common/common.s"
-	@echo "... __/common/enums.o"
-	@echo "... __/common/enums.i"
-	@echo "... __/common/enums.s"
-	@echo "... __/parser/common_parser.o"
-	@echo "... __/parser/common_parser.i"
-	@echo "... __/parser/common_parser.s"
-	@echo "... __/parser/fixed_rate_bond_parser.o"
-	@echo "... __/parser/fixed_rate_bond_parser.i"
-	@echo "... __/parser/fixed_rate_bond_parser.s"
-	@echo "... __/parser/term_structure_parser.o"
-	@echo "... __/parser/term_structure_parser.i"
-	@echo "... __/parser/term_structure_parser.s"
-	@echo "... __/parser/term_structure_point_parser.o"
-	@echo "... __/parser/term_structure_point_parser.i"
-	@echo "... __/parser/term_structure_point_parser.s"
-	@echo "... __/request/fixed_rate_bond_pricing_request.o"
-	@echo "... __/request/fixed_rate_bond_pricing_request.i"
-	@echo "... __/request/fixed_rate_bond_pricing_request.s"
+	@echo "... sync_client"
+	@echo "... rebuild_cache"
+	@echo "... async_client"
 	@echo "... async_client.o"
 	@echo "... async_client.i"
 	@echo "... async_client.s"
+	@echo "... sync_client.o"
+	@echo "... sync_client.i"
+	@echo "... sync_client.s"
 .PHONY : help
 
 

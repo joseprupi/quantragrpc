@@ -3,9 +3,11 @@
 /root/quantra/build/grpc/CMakeFiles/rebuild_cache.dir
 /root/quantra/build/grpc/CMakeFiles/quantra_grpc.dir
 /root/quantra/build/grpc/CMakeFiles/edit_cache.dir
-/root/quantra/build/client/CMakeFiles/rebuild_cache.dir
-/root/quantra/build/client/CMakeFiles/client.dir
 /root/quantra/build/client/CMakeFiles/edit_cache.dir
+/root/quantra/build/client/CMakeFiles/sync_client.dir
+/root/quantra/build/client/CMakeFiles/rebuild_cache.dir
+/root/quantra/build/client/CMakeFiles/async_client.dir
 /root/quantra/build/server/CMakeFiles/rebuild_cache.dir
-/root/quantra/build/server/CMakeFiles/server.dir
+/root/quantra/build/server/CMakeFiles/sync_server.dir
 /root/quantra/build/server/CMakeFiles/edit_cache.dir
+/root/quantra/build/server/CMakeFiles/async_server.dir

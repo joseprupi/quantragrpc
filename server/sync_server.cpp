@@ -72,8 +72,8 @@ private:
                 FixedRateBondPricingRequest request;
                 float npv = request.request(request_msg.GetRoot());
 
-                auto hello_offset = quantra::CreateNPVResponse(builder, npv);
-                builder.Finish(hello_offset);
+                auto offset = quantra::CreateNPVResponse(builder, npv);
+                builder.Finish(offset);
 
                 reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
                 assert(reply_.Verify());

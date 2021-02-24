@@ -124,30 +124,56 @@ quantra_grpc/fast:
 .PHONY : quantra_grpc/fast
 
 #=============================================================================
-# Target rules for targets named client
+# Target rules for targets named sync_client
 
 # Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 client
-.PHONY : client
+sync_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sync_client
+.PHONY : sync_client
 
 # fast build rule for target.
-client/fast:
-	$(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
-.PHONY : client/fast
+sync_client/fast:
+	$(MAKE) -f client/CMakeFiles/sync_client.dir/build.make client/CMakeFiles/sync_client.dir/build
+.PHONY : sync_client/fast
 
 #=============================================================================
-# Target rules for targets named server
+# Target rules for targets named async_client
 
 # Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 server
-.PHONY : server
+async_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 async_client
+.PHONY : async_client
 
 # fast build rule for target.
-server/fast:
-	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
-.PHONY : server/fast
+async_client/fast:
+	$(MAKE) -f client/CMakeFiles/async_client.dir/build.make client/CMakeFiles/async_client.dir/build
+.PHONY : async_client/fast
+
+#=============================================================================
+# Target rules for targets named sync_server
+
+# Build rule for target.
+sync_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sync_server
+.PHONY : sync_server
+
+# fast build rule for target.
+sync_server/fast:
+	$(MAKE) -f server/CMakeFiles/sync_server.dir/build.make server/CMakeFiles/sync_server.dir/build
+.PHONY : sync_server/fast
+
+#=============================================================================
+# Target rules for targets named async_server
+
+# Build rule for target.
+async_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 async_server
+.PHONY : async_server
+
+# fast build rule for target.
+async_server/fast:
+	$(MAKE) -f server/CMakeFiles/async_server.dir/build.make server/CMakeFiles/async_server.dir/build
+.PHONY : async_server/fast
 
 # Help Target
 help:
@@ -158,8 +184,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... quantra_grpc"
-	@echo "... client"
-	@echo "... server"
+	@echo "... sync_client"
+	@echo "... async_client"
+	@echo "... sync_server"
+	@echo "... async_server"
 .PHONY : help
 
 
