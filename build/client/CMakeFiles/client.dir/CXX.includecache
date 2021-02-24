@@ -92,19 +92,23 @@ responses_generated.h
 term_structure_generated.h
 ../grpc/term_structure_generated.h
 
-/root/quantra/client/client.cpp
-quantraserver.grpc.fb.h
-/root/quantra/client/quantraserver.grpc.fb.h
-quantraserver_generated.h
-/root/quantra/client/quantraserver_generated.h
-responses_generated.h
-/root/quantra/client/responses_generated.h
-grpcpp/grpcpp.h
--
+/root/quantra/client/async_client.cpp
 iostream
 -
 memory
 -
 string
 -
+grpcpp/grpcpp.h
+-
+grpc/support/log.h
+-
+thread
+-
+quantraserver.grpc.fb.h
+/root/quantra/client/quantraserver.grpc.fb.h
+quantraserver_generated.h
+/root/quantra/client/quantraserver_generated.h
+responses_generated.h
+/root/quantra/client/responses_generated.h
 

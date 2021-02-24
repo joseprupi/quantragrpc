@@ -231,19 +231,19 @@ __/request/fixed_rate_bond_pricing_request.s:
 .PHONY : __/request/fixed_rate_bond_pricing_request.s
 
 # target to build an object file
-client.o:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/client.o
-.PHONY : client.o
+async_client.o:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.o
+.PHONY : async_client.o
 
 # target to preprocess a source file
-client.i:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/client.i
-.PHONY : client.i
+async_client.i:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.i
+.PHONY : async_client.i
 
 # target to generate assembly for a file
-client.s:
-	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/client.s
-.PHONY : client.s
+async_client.s:
+	cd /root/quantra/build && $(MAKE) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/async_client.s
+.PHONY : async_client.s
 
 # Help Target
 help:
@@ -275,9 +275,9 @@ help:
 	@echo "... __/request/fixed_rate_bond_pricing_request.o"
 	@echo "... __/request/fixed_rate_bond_pricing_request.i"
 	@echo "... __/request/fixed_rate_bond_pricing_request.s"
-	@echo "... client.o"
-	@echo "... client.i"
-	@echo "... client.s"
+	@echo "... async_client.o"
+	@echo "... async_client.i"
+	@echo "... async_client.s"
 .PHONY : help
 
 

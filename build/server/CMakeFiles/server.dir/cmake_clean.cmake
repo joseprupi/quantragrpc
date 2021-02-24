@@ -6,7 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/server.dir/__/parser/term_structure_parser.o"
   "CMakeFiles/server.dir/__/parser/term_structure_point_parser.o"
   "CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o"
-  "CMakeFiles/server.dir/server.o"
+  "CMakeFiles/server.dir/sync_server.o"
   "server.pdb"
   "server"
 )

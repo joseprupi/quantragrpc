@@ -148,18 +148,18 @@ client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.s"
 	cd /root/quantra/build/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/request/fixed_rate_bond_pricing_request.cpp -o CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.s
 
-client/CMakeFiles/client.dir/client.o: client/CMakeFiles/client.dir/flags.make
-client/CMakeFiles/client.dir/client.o: ../client/client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/quantra/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object client/CMakeFiles/client.dir/client.o"
-	cd /root/quantra/build/client && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/client.o -c /root/quantra/client/client.cpp
+client/CMakeFiles/client.dir/async_client.o: client/CMakeFiles/client.dir/flags.make
+client/CMakeFiles/client.dir/async_client.o: ../client/async_client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/quantra/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object client/CMakeFiles/client.dir/async_client.o"
+	cd /root/quantra/build/client && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/async_client.o -c /root/quantra/client/async_client.cpp
 
-client/CMakeFiles/client.dir/client.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/client.i"
-	cd /root/quantra/build/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/quantra/client/client.cpp > CMakeFiles/client.dir/client.i
+client/CMakeFiles/client.dir/async_client.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/async_client.i"
+	cd /root/quantra/build/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/quantra/client/async_client.cpp > CMakeFiles/client.dir/async_client.i
 
-client/CMakeFiles/client.dir/client.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/client.s"
-	cd /root/quantra/build/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/client/client.cpp -o CMakeFiles/client.dir/client.s
+client/CMakeFiles/client.dir/async_client.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/async_client.s"
+	cd /root/quantra/build/client && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/client/async_client.cpp -o CMakeFiles/client.dir/async_client.s
 
 # Object files for target client
 client_OBJECTS = \
@@ -170,7 +170,7 @@ client_OBJECTS = \
 "CMakeFiles/client.dir/__/parser/term_structure_parser.o" \
 "CMakeFiles/client.dir/__/parser/term_structure_point_parser.o" \
 "CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.o" \
-"CMakeFiles/client.dir/client.o"
+"CMakeFiles/client.dir/async_client.o"
 
 # External object files for target client
 client_EXTERNAL_OBJECTS =
@@ -182,7 +182,7 @@ client/client: client/CMakeFiles/client.dir/__/parser/fixed_rate_bond_parser.o
 client/client: client/CMakeFiles/client.dir/__/parser/term_structure_parser.o
 client/client: client/CMakeFiles/client.dir/__/parser/term_structure_point_parser.o
 client/client: client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.o
-client/client: client/CMakeFiles/client.dir/client.o
+client/client: client/CMakeFiles/client.dir/async_client.o
 client/client: client/CMakeFiles/client.dir/build.make
 client/client: grpc/libquantra_grpc.a
 client/client: client/CMakeFiles/client.dir/link.txt

@@ -231,19 +231,19 @@ __/request/fixed_rate_bond_pricing_request.s:
 .PHONY : __/request/fixed_rate_bond_pricing_request.s
 
 # target to build an object file
-server.o:
-	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/server.o
-.PHONY : server.o
+sync_server.o:
+	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/sync_server.o
+.PHONY : sync_server.o
 
 # target to preprocess a source file
-server.i:
-	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/server.i
-.PHONY : server.i
+sync_server.i:
+	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/sync_server.i
+.PHONY : sync_server.i
 
 # target to generate assembly for a file
-server.s:
-	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/server.s
-.PHONY : server.s
+sync_server.s:
+	cd /root/quantra/build && $(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/sync_server.s
+.PHONY : sync_server.s
 
 # Help Target
 help:
@@ -275,9 +275,9 @@ help:
 	@echo "... __/request/fixed_rate_bond_pricing_request.o"
 	@echo "... __/request/fixed_rate_bond_pricing_request.i"
 	@echo "... __/request/fixed_rate_bond_pricing_request.s"
-	@echo "... server.o"
-	@echo "... server.i"
-	@echo "... server.s"
+	@echo "... sync_server.o"
+	@echo "... sync_server.i"
+	@echo "... sync_server.s"
 .PHONY : help
 
 

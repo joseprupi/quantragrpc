@@ -148,18 +148,18 @@ server/CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.s"
 	cd /root/quantra/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/request/fixed_rate_bond_pricing_request.cpp -o CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.s
 
-server/CMakeFiles/server.dir/server.o: server/CMakeFiles/server.dir/flags.make
-server/CMakeFiles/server.dir/server.o: ../server/server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/quantra/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object server/CMakeFiles/server.dir/server.o"
-	cd /root/quantra/build/server && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/server.o -c /root/quantra/server/server.cpp
+server/CMakeFiles/server.dir/sync_server.o: server/CMakeFiles/server.dir/flags.make
+server/CMakeFiles/server.dir/sync_server.o: ../server/sync_server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/quantra/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object server/CMakeFiles/server.dir/sync_server.o"
+	cd /root/quantra/build/server && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/server.dir/sync_server.o -c /root/quantra/server/sync_server.cpp
 
-server/CMakeFiles/server.dir/server.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/server.i"
-	cd /root/quantra/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/quantra/server/server.cpp > CMakeFiles/server.dir/server.i
+server/CMakeFiles/server.dir/sync_server.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/sync_server.i"
+	cd /root/quantra/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/quantra/server/sync_server.cpp > CMakeFiles/server.dir/sync_server.i
 
-server/CMakeFiles/server.dir/server.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/server.s"
-	cd /root/quantra/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/server/server.cpp -o CMakeFiles/server.dir/server.s
+server/CMakeFiles/server.dir/sync_server.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/sync_server.s"
+	cd /root/quantra/build/server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/quantra/server/sync_server.cpp -o CMakeFiles/server.dir/sync_server.s
 
 # Object files for target server
 server_OBJECTS = \
@@ -170,7 +170,7 @@ server_OBJECTS = \
 "CMakeFiles/server.dir/__/parser/term_structure_parser.o" \
 "CMakeFiles/server.dir/__/parser/term_structure_point_parser.o" \
 "CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o" \
-"CMakeFiles/server.dir/server.o"
+"CMakeFiles/server.dir/sync_server.o"
 
 # External object files for target server
 server_EXTERNAL_OBJECTS =
@@ -182,7 +182,7 @@ server/server: server/CMakeFiles/server.dir/__/parser/fixed_rate_bond_parser.o
 server/server: server/CMakeFiles/server.dir/__/parser/term_structure_parser.o
 server/server: server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o
 server/server: server/CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o
-server/server: server/CMakeFiles/server.dir/server.o
+server/server: server/CMakeFiles/server.dir/sync_server.o
 server/server: server/CMakeFiles/server.dir/build.make
 server/server: grpc/libquantra_grpc.a
 server/server: server/CMakeFiles/server.dir/link.txt

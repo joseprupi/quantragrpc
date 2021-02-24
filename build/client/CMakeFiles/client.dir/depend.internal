@@ -63,7 +63,7 @@ client/CMakeFiles/client.dir/__/request/fixed_rate_bond_pricing_request.o
  ../flatbuffers/fbs/term_structure_points_generated.h
  /root/quantra/request/fixed_rate_bond_pricing_request.cpp
  /root/quantra/request/fixed_rate_bond_pricing_request.h
-client/CMakeFiles/client.dir/client.o
+client/CMakeFiles/client.dir/async_client.o
  ../flatbuffers/fbs/bonds_generated.h
  ../flatbuffers/fbs/common_generated.h
  ../flatbuffers/fbs/enums_generated.h
@@ -72,4 +72,4 @@ client/CMakeFiles/client.dir/client.o
  ../flatbuffers/fbs/term_structure_generated.h
  ../grpc/quantraserver.grpc.fb.h
  ../grpc/quantraserver_generated.h
- /root/quantra/client/client.cpp
+ /root/quantra/client/async_client.cpp

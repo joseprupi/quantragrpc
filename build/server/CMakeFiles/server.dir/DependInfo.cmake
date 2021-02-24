@@ -11,7 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/root/quantra/parser/term_structure_parser.cpp" "/root/quantra/build/server/CMakeFiles/server.dir/__/parser/term_structure_parser.o"
   "/root/quantra/parser/term_structure_point_parser.cpp" "/root/quantra/build/server/CMakeFiles/server.dir/__/parser/term_structure_point_parser.o"
   "/root/quantra/request/fixed_rate_bond_pricing_request.cpp" "/root/quantra/build/server/CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o"
-  "/root/quantra/server/server.cpp" "/root/quantra/build/server/CMakeFiles/server.dir/server.o"
+  "/root/quantra/server/sync_server.cpp" "/root/quantra/build/server/CMakeFiles/server.dir/sync_server.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

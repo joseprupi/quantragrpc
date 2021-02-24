@@ -4,6 +4,8 @@
 float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequest *request)
 {
 
+    std::cerr << "Request received" << std::endl;
+
     // Define the parsers used for this request
     FixedRateBondParser bond_parser = FixedRateBondParser();
     //YieldParser yield_parser = YieldParser();
@@ -51,7 +53,10 @@ float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequ
         {
             std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
             bond->setPricingEngine(engine->second);
+            std::cerr << "NPV: " << bond->NPV() << std::endl;
             return bond->NPV();
         }
     }
+
+    //return 6.6;
 }

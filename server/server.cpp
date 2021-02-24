@@ -49,7 +49,7 @@ void RunServer()
   grpc::ServerBuilder builder;
 
   grpc::ResourceQuota rq;
-  rq.SetMaxThreads(2);
+  rq.SetMaxThreads(100);
   builder.SetResourceQuota(rq);
 
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());

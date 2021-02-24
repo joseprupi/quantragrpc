@@ -8,7 +8,7 @@ include_directories("../grpc"
 file(GLOB SOURCES   "../parser/*.cpp" 
                     "../common/*.cpp" 
                     "../request/*.cpp"  
-                    "./*.cpp")
+                    "./sync_server.cpp")
 
 link_directories(/root/grpc/install/lib/)
 add_executable(server ${SOURCES})

@@ -63,7 +63,7 @@ server/CMakeFiles/server.dir/__/request/fixed_rate_bond_pricing_request.o
  ../server/../parser/term_structure_point_parser.h
  /root/quantra/request/fixed_rate_bond_pricing_request.cpp
  /root/quantra/request/fixed_rate_bond_pricing_request.h
-server/CMakeFiles/server.dir/server.o
+server/CMakeFiles/server.dir/sync_server.o
  ../flatbuffers/fbs/bonds_generated.h
  ../flatbuffers/fbs/common_generated.h
  ../flatbuffers/fbs/enums_generated.h
@@ -80,4 +80,4 @@ server/CMakeFiles/server.dir/server.o
  ../server/../parser/term_structure_parser.h
  ../server/../parser/term_structure_point_parser.h
  ../server/../request/fixed_rate_bond_pricing_request.h
- /root/quantra/server/server.cpp
+ /root/quantra/server/sync_server.cpp

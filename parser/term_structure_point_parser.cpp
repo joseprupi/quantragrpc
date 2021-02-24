@@ -2,7 +2,6 @@
 
 std::shared_ptr<RateHelper> TermStructurePointParser::parse(uint8_t point_type, const void *data)
 {
-    std::cerr << "Point received: " << point_type << std::endl;
 
     if (point_type == quantra::Point_DepositHelper)
     {

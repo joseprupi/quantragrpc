@@ -41,8 +41,8 @@
 },
 {
   "directory": "/root/quantra/build/client",
-  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/client.o -c /root/quantra/client/client.cpp",
-  "file": "/root/quantra/client/client.cpp"
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/client/../grpc -I/root/quantra/client/../parser -I/root/quantra/client/../flatbuffers/fbs -I/root/quantra/client/../request -I/root/quantra/client/../common  -g   -o CMakeFiles/client.dir/async_client.o -c /root/quantra/client/async_client.cpp",
+  "file": "/root/quantra/client/async_client.cpp"
 },
 {
   "directory": "/root/quantra/build/server",
@@ -81,7 +81,7 @@
 },
 {
   "directory": "/root/quantra/build/server",
-  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/server.o -c /root/quantra/server/server.cpp",
-  "file": "/root/quantra/server/server.cpp"
+  "command": "/usr/bin/c++   -I/root/quantra/grpc -I/root/quantra/flatbuffers/fbs -I/root/quantra/server/../grpc -I/root/quantra/server/../parser -I/root/quantra/server/../flatbuffers/fbs -I/root/quantra/server/../request -I/root/quantra/server/../common  -g   -o CMakeFiles/server.dir/sync_server.o -c /root/quantra/server/sync_server.cpp",
+  "file": "/root/quantra/server/sync_server.cpp"
 }
 ]
