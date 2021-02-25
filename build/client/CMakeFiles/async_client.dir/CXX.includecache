@@ -99,6 +99,8 @@ memory
 -
 string
 -
+sstream
+-
 grpcpp/grpcpp.h
 -
 grpc/support/log.h

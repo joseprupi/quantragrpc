@@ -53,7 +53,7 @@ float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequ
         {
             std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
             bond->setPricingEngine(engine->second);
-            std::cerr << "NPV: " << bond->NPV() << std::endl;
+            //std::cerr << "NPV: " << bond->NPV() << std::endl;
             return bond->NPV();
         }
     }

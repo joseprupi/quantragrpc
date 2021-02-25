@@ -9,6 +9,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <sstream>
 
 class ServerImpl final
 {
@@ -21,9 +22,9 @@ public:
     }
 
     // There is no shutdown handling in this code.
-    void Run()
+    void Run(std::string port)
     {
-        std::string server_address("0.0.0.0:50051");
+        std::string server_address("127.0.0.1:" + port);
 
         grpc::ServerBuilder builder;
         // Listen on the given address without any authentication mechanism.
@@ -115,8 +116,8 @@ private:
         bool ok;
         while (true)
         {
-            std::cout << "Received rpc" << std::endl
-                      << std::endl;
+            // std::cout << "Received rpc" << std::endl
+            //           << std::endl;
 
             new CallData(&service_, cq_.get());
 
@@ -133,8 +134,12 @@ private:
 
 int main(int argc, char **argv)
 {
-    ServerImpl server;
-    server.Run();
+    if (argc > 1)
+    {
+        std::string port(argv[1]);
+        ServerImpl server;
+        server.Run(port);
+    }
 
     return 0;
 }

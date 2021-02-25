@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <sstream>
 
 #include <grpcpp/grpcpp.h>
 #include <grpc/support/log.h>
@@ -242,100 +243,84 @@ public:
         builder.Finish(bond_request);
         auto request_msg = builder.ReleaseMessage<quantra::PriceFixedRateBondRequest>();
 
-        // Call object to store rpc data
         AsyncClientCall *call = new AsyncClientCall;
 
-        // stub_->PrepareAsyncSayHello() creates an RPC object, returning
-        // an instance to store in "call" but does not actually start the RPC
-        // Because we are using the asynchronous API, we need to hold on to
-        // the "call" instance in order to get updates on the ongoing RPC.
         call->response_reader =
             stub_->PrepareAsyncBondPricing(&call->context, request_msg, &cq_);
 
-        // StartCall initiates the RPC call
         call->response_reader->StartCall();
 
-        // Request that, upon completion of the RPC, "reply" be updated with the
-        // server's response; "status" with the indication of whether the operation
-        // was successful. Tag the request with the memory address of the call object.
         call->response_reader->Finish(&call->reply, &call->status, (void *)call);
     }
 
-    // Loop while listening for completed responses.
-    // Prints out the response from the server.
-    void AsyncCompleteRpc()
+    void AsyncCompleteRpc(int n)
     {
         void *got_tag;
         bool ok = false;
 
-        // Block until the next result is available in the completion queue "cq".
+        int req_count = 0;
+
         while (cq_.Next(&got_tag, &ok))
         {
-            // The tag in this example is the memory location of the call object
             AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
 
-            // Verify that the request was completed successfully. Note that "ok"
-            // corresponds solely to the request for updates introduced by Finish().
             GPR_ASSERT(ok);
 
             if (call->status.ok())
             {
                 const quantra::NPVResponse *response = call->reply.GetRoot();
                 auto npv = response->npv();
-                std::cout << "quantra::QuantraServer received: " << npv << std::endl;
+                //std::cout << npv << std::endl;
             }
             else
                 std::cout << "RPC failed" << call->status.error_code() << std::endl;
+
             delete call;
+
+            req_count += 1;
+
+            if (req_count == n)
+                break;
         }
     }
 
 private:
-    // struct for keeping state and data information
     struct AsyncClientCall
     {
-        // Container for the data we expect from the server.
+
         flatbuffers::grpc::Message<quantra::NPVResponse> reply;
-
-        // Context for the client. It could be used to convey extra information to
-        // the server and/or tweak certain RPC behaviors.
         grpc::ClientContext context;
-
-        // Storage for the status of the RPC upon completion.
         grpc::Status status;
 
         std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<quantra::NPVResponse>>> response_reader;
     };
 
-    // Out of the passed in Channel comes the stub, stored here, our view of the
-    // server's exposed services.
     std::unique_ptr<quantra::QuantraServer::Stub> stub_;
-
-    // The producer-consumer queue we use to communicate asynchronously with the
-    // gRPC runtime.
     grpc::CompletionQueue cq_;
 };
 
 int main(int argc, char **argv)
 {
 
-    // Instantiate the client. It requires a channel, out of which the actual RPCs
-    // are created. This channel models a connection to an endpoint (in this case,
-    // localhost at port 50051). We indicate that the channel isn't authenticated
-    // (use of InsecureChannelCredentials()).
-    QuantraClient greeter(grpc::CreateChannel(
+    QuantraClient quantra_client(grpc::CreateChannel(
         "localhost:50051", grpc::InsecureChannelCredentials()));
 
-    // Spawn reader thread that loops indefinitely
-    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, &greeter);
+    int n = 1;
 
-    for (int i = 0; i < 2000; i++)
+    if (argc > 1)
     {
-        greeter.PriceBond();
+        std::istringstream iss(argv[1]);
+        iss >> n;
     }
 
-    std::cout << "Press control-c to quit" << std::endl
-              << std::endl;
+    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, &quantra_client, n);
+
+    for (int i = 0; i < n; i++)
+    {
+        quantra_client.PriceBond();
+        std::cout << i << std::endl;
+    }
+
     thread_.join();
 
     return 0;
