@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/async_client.dir/async_client.o  -o async_client  -L/root/grpc/install/lib  -L/root/quantra/build/grpc -Wl,-rpath,/root/grpc/install/lib -lgpr -lgrpc -lgrpc++ ../grpc/libquantra_grpc.a -lQuantLib -lpthread 

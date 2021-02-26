@@ -1,2 +1,0 @@
-/usr/bin/ar qc libquantra_sgrpc.a  CMakeFiles/quantra_sgrpc.dir/quantraserver.grpc.fb.o
-/usr/bin/ranlib libquantra_sgrpc.a

@@ -1,1 +1,0 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/client.dir/client/client.o  -o client  -L/root/grpc/install/lib  -L/root/quantra/build/grpc -Wl,-rpath,/root/grpc/install/lib -lgpr -lgrpc -lgrpc++ grpc/libquantra_grpc.a 
