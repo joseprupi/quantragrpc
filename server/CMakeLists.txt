@@ -1,4 +1,4 @@
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 include_directories("../grpc" 
                     "../parser" 
                     "../flatbuffers/fbs" 

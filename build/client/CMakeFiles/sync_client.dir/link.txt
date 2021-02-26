@@ -1,1 +1,1 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/sync_client.dir/sync_client.o  -o sync_client  -L/root/grpc/install/lib  -L/root/quantra/build/grpc -Wl,-rpath,/root/grpc/install/lib -lgpr -lgrpc -lgrpc++ ../grpc/libquantra_grpc.a -lQuantLib -lpthread 
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/sync_client.dir/sync_client.o  -o sync_client  -L/root/grpc/install/lib  -L/root/quantra/build/grpc -Wl,-rpath,/root/grpc/install/lib -lgpr -lgrpc -lgrpc++ ../grpc/libquantra_grpc.a -lQuantLib -lpthread 

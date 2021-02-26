@@ -259,9 +259,10 @@ public:
         bool ok = false;
 
         int req_count = 0;
-
+        std::cout << "Start loop" << std::endl;
         while (cq_.Next(&got_tag, &ok))
         {
+            //std::cout << "Calling" << std::endl;
             AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
 
             GPR_ASSERT(ok);
@@ -318,10 +319,10 @@ int main(int argc, char **argv)
     for (int i = 0; i < n; i++)
     {
         quantra_client.PriceBond();
-        std::cout << i << std::endl;
+        //std::cout << i << std::endl;
     }
 
     thread_.join();
-
+    std::cout << "Finish" << std::endl;
     return 0;
 }
