@@ -1,3 +1,5 @@
 scripts/envoy_config.pyc
 scripts/__pycache__/envoy_config.cpython-37.pyc
-scripts/data.yaml
+scripts/quantra.yaml
+build/*
+.vscode/*

@@ -2,9 +2,11 @@ import yaml
 import json
 import copy 
 import requests
+import os
 
-def config(base_port, n):
-    with open("/root/quantra/envoy/quantra.yaml", 'r') as stream:
+def config(base_port, n, base_path):
+    envoy_template = base_path + 'envoy/quantra_template.yaml'
+    with open(envoy_template, 'r') as stream:
         try:
             data = yaml.safe_load(stream)
             endpoint = data['static_resources']['clusters'][0]['load_assignment']['endpoints'][0]
@@ -12,7 +14,7 @@ def config(base_port, n):
             for i in range(n):    
                 endpoint['lb_endpoints'][0]['endpoint']['address']['socket_address']['port_value'] = base_port + i
                 data['static_resources']['clusters'][0]['load_assignment']['endpoints'].append(copy.deepcopy(endpoint))
-            with open('data.yaml', 'w') as outfile:
+            with open('quantra.yaml', 'w') as outfile:
                 yaml.dump(data, outfile)
         except yaml.YAMLError as exc:
             print(exc)
