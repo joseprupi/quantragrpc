@@ -5,15 +5,14 @@ using namespace quantra;
 std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::TermStructure *ts)
 {
     auto points = ts->points();
-    auto types = ts->points_type();
 
     TermStructurePointParser tsparser = TermStructurePointParser();
     std::vector<std::shared_ptr<RateHelper>> instruments;
 
     for (int i = 0; i < points->size(); i++)
     {
-        auto point = points->Get(i);
-        auto type = types->Get(i);
+        auto point = points->Get(i)->point_wrapper();
+        auto type = points->Get(i)->point_wrapper_type();
         std::shared_ptr<RateHelper> rate_helper = tsparser.parse(type, point);
         instruments.push_back(rate_helper);
     }

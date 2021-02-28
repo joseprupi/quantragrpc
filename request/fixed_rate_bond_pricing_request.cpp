@@ -1,10 +1,8 @@
 #include "fixed_rate_bond_pricing_request.h"
 #include <map>
-//std::shared_ptr<quantra::responses::FixedRatePricingResponse> fixedRateBondPricingRequest::request(const quantra::PriceFixedRateBond *request)
+
 float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequest *request)
 {
-
-    std::cerr << "Request received" << std::endl;
 
     // Define the parsers used for this request
     FixedRateBondParser bond_parser = FixedRateBondParser();
@@ -33,14 +31,6 @@ float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequ
 
     auto bond_pricings = request->bonds();
 
-    std::map<std::string, std::shared_ptr<PricingEngine>> mymap;
-
-    std::string s4("A character sequence");
-
-    auto it = mymap.find(s4);
-    if (it != mymap.end())
-        mymap.erase(it);
-
     for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
     {
 
@@ -53,10 +43,7 @@ float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequ
         {
             std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
             bond->setPricingEngine(engine->second);
-            //std::cerr << "NPV: " << bond->NPV() << std::endl;
             return bond->NPV();
         }
     }
-
-    //return 6.6;
 }

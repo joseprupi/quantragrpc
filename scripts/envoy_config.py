@@ -4,11 +4,12 @@ import copy
 import requests
 import os
 
-def config(base_port, n, base_path):
+def config(base_port, quantra_port, n, base_path):
     envoy_template = base_path + 'envoy/quantra_template.yaml'
     with open(envoy_template, 'r') as stream:
         try:
             data = yaml.safe_load(stream)
+            data['static_resources']['listeners'][0]['address']['socket_address']['port_value'] = quantra_port
             endpoint = data['static_resources']['clusters'][0]['load_assignment']['endpoints'][0]
             del data['static_resources']['clusters'][0]['load_assignment']['endpoints'][0]
             for i in range(n):    

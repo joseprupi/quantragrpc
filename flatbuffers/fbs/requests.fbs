@@ -19,3 +19,5 @@ table PriceFixedRateBondRequest{
     pricing:Pricing;
     bonds:[PriceFixedRateBond];
 }
+
+root_type PriceFixedRateBondRequest;

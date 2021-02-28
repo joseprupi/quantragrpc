@@ -5,7 +5,6 @@ std::shared_ptr<QuantLib::FixedRateBond> FixedRateBondParser::parse(const quantr
 
     ScheduleParser schedule_parser = ScheduleParser();
 
-    int sett = bond->settlement_days();
     return std::make_shared<QuantLib::FixedRateBond>(
         bond->settlement_days(),
         bond->face_amount(),

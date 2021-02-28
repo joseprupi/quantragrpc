@@ -71,11 +71,15 @@ table BondHelper {
 
 union Point { DepositHelper, FRAHelper, FutureHelper, SwapHelper, BondHelper }
 
+table PointsWrapper{
+    point_wrapper:Point;
+}
+
 table TermStructure {
     id:string;
     day_counter:enums.DayCounter;
     interpolator:enums.Interpolator;
     bootstrap_trait:enums.BootstrapTrait;
-    points:[Point];
+    points:[PointsWrapper];
     as_of_date:string;
 }

@@ -29,6 +29,9 @@ struct SwapHelperBuilder;
 struct BondHelper;
 struct BondHelperBuilder;
 
+struct PointsWrapper;
+struct PointsWrapperBuilder;
+
 struct TermStructure;
 struct TermStructureBuilder;
 
@@ -830,6 +833,94 @@ inline flatbuffers::Offset<BondHelper> CreateBondHelperDirect(
       issue_date__);
 }
 
+struct PointsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PointsWrapperBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_POINT_WRAPPER_TYPE = 4,
+    VT_POINT_WRAPPER = 6
+  };
+  quantra::Point point_wrapper_type() const {
+    return static_cast<quantra::Point>(GetField<uint8_t>(VT_POINT_WRAPPER_TYPE, 0));
+  }
+  const void *point_wrapper() const {
+    return GetPointer<const void *>(VT_POINT_WRAPPER);
+  }
+  template<typename T> const T *point_wrapper_as() const;
+  const quantra::DepositHelper *point_wrapper_as_DepositHelper() const {
+    return point_wrapper_type() == quantra::Point_DepositHelper ? static_cast<const quantra::DepositHelper *>(point_wrapper()) : nullptr;
+  }
+  const quantra::FRAHelper *point_wrapper_as_FRAHelper() const {
+    return point_wrapper_type() == quantra::Point_FRAHelper ? static_cast<const quantra::FRAHelper *>(point_wrapper()) : nullptr;
+  }
+  const quantra::FutureHelper *point_wrapper_as_FutureHelper() const {
+    return point_wrapper_type() == quantra::Point_FutureHelper ? static_cast<const quantra::FutureHelper *>(point_wrapper()) : nullptr;
+  }
+  const quantra::SwapHelper *point_wrapper_as_SwapHelper() const {
+    return point_wrapper_type() == quantra::Point_SwapHelper ? static_cast<const quantra::SwapHelper *>(point_wrapper()) : nullptr;
+  }
+  const quantra::BondHelper *point_wrapper_as_BondHelper() const {
+    return point_wrapper_type() == quantra::Point_BondHelper ? static_cast<const quantra::BondHelper *>(point_wrapper()) : nullptr;
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_POINT_WRAPPER_TYPE) &&
+           VerifyOffset(verifier, VT_POINT_WRAPPER) &&
+           VerifyPoint(verifier, point_wrapper(), point_wrapper_type()) &&
+           verifier.EndTable();
+  }
+};
+
+template<> inline const quantra::DepositHelper *PointsWrapper::point_wrapper_as<quantra::DepositHelper>() const {
+  return point_wrapper_as_DepositHelper();
+}
+
+template<> inline const quantra::FRAHelper *PointsWrapper::point_wrapper_as<quantra::FRAHelper>() const {
+  return point_wrapper_as_FRAHelper();
+}
+
+template<> inline const quantra::FutureHelper *PointsWrapper::point_wrapper_as<quantra::FutureHelper>() const {
+  return point_wrapper_as_FutureHelper();
+}
+
+template<> inline const quantra::SwapHelper *PointsWrapper::point_wrapper_as<quantra::SwapHelper>() const {
+  return point_wrapper_as_SwapHelper();
+}
+
+template<> inline const quantra::BondHelper *PointsWrapper::point_wrapper_as<quantra::BondHelper>() const {
+  return point_wrapper_as_BondHelper();
+}
+
+struct PointsWrapperBuilder {
+  typedef PointsWrapper Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_point_wrapper_type(quantra::Point point_wrapper_type) {
+    fbb_.AddElement<uint8_t>(PointsWrapper::VT_POINT_WRAPPER_TYPE, static_cast<uint8_t>(point_wrapper_type), 0);
+  }
+  void add_point_wrapper(flatbuffers::Offset<void> point_wrapper) {
+    fbb_.AddOffset(PointsWrapper::VT_POINT_WRAPPER, point_wrapper);
+  }
+  explicit PointsWrapperBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<PointsWrapper> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<PointsWrapper>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<PointsWrapper> CreatePointsWrapper(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    quantra::Point point_wrapper_type = quantra::Point_NONE,
+    flatbuffers::Offset<void> point_wrapper = 0) {
+  PointsWrapperBuilder builder_(_fbb);
+  builder_.add_point_wrapper(point_wrapper);
+  builder_.add_point_wrapper_type(point_wrapper_type);
+  return builder_.Finish();
+}
+
 struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef TermStructureBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -837,9 +928,8 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_DAY_COUNTER = 6,
     VT_INTERPOLATOR = 8,
     VT_BOOTSTRAP_TRAIT = 10,
-    VT_POINTS_TYPE = 12,
-    VT_POINTS = 14,
-    VT_AS_OF_DATE = 16
+    VT_POINTS = 12,
+    VT_AS_OF_DATE = 14
   };
   const flatbuffers::String *id() const {
     return GetPointer<const flatbuffers::String *>(VT_ID);
@@ -853,11 +943,8 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   quantra::enums::BootstrapTrait bootstrap_trait() const {
     return static_cast<quantra::enums::BootstrapTrait>(GetField<int8_t>(VT_BOOTSTRAP_TRAIT, 0));
   }
-  const flatbuffers::Vector<uint8_t> *points_type() const {
-    return GetPointer<const flatbuffers::Vector<uint8_t> *>(VT_POINTS_TYPE);
-  }
-  const flatbuffers::Vector<flatbuffers::Offset<void>> *points() const {
-    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<void>> *>(VT_POINTS);
+  const flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>> *points() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>> *>(VT_POINTS);
   }
   const flatbuffers::String *as_of_date() const {
     return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
@@ -869,11 +956,9 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int8_t>(verifier, VT_DAY_COUNTER) &&
            VerifyField<int8_t>(verifier, VT_INTERPOLATOR) &&
            VerifyField<int8_t>(verifier, VT_BOOTSTRAP_TRAIT) &&
-           VerifyOffset(verifier, VT_POINTS_TYPE) &&
-           verifier.VerifyVector(points_type()) &&
            VerifyOffset(verifier, VT_POINTS) &&
            verifier.VerifyVector(points()) &&
-           VerifyPointVector(verifier, points(), points_type()) &&
+           verifier.VerifyVectorOfTables(points()) &&
            VerifyOffset(verifier, VT_AS_OF_DATE) &&
            verifier.VerifyString(as_of_date()) &&
            verifier.EndTable();
@@ -896,10 +981,7 @@ struct TermStructureBuilder {
   void add_bootstrap_trait(quantra::enums::BootstrapTrait bootstrap_trait) {
     fbb_.AddElement<int8_t>(TermStructure::VT_BOOTSTRAP_TRAIT, static_cast<int8_t>(bootstrap_trait), 0);
   }
-  void add_points_type(flatbuffers::Offset<flatbuffers::Vector<uint8_t>> points_type) {
-    fbb_.AddOffset(TermStructure::VT_POINTS_TYPE, points_type);
-  }
-  void add_points(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<void>>> points) {
+  void add_points(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>>> points) {
     fbb_.AddOffset(TermStructure::VT_POINTS, points);
   }
   void add_as_of_date(flatbuffers::Offset<flatbuffers::String> as_of_date) {
@@ -922,13 +1004,11 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructure(
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
     quantra::enums::Interpolator interpolator = quantra::enums::Interpolator_BackwardFlat,
     quantra::enums::BootstrapTrait bootstrap_trait = quantra::enums::BootstrapTrait_Discount,
-    flatbuffers::Offset<flatbuffers::Vector<uint8_t>> points_type = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<void>>> points = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>>> points = 0,
     flatbuffers::Offset<flatbuffers::String> as_of_date = 0) {
   TermStructureBuilder builder_(_fbb);
   builder_.add_as_of_date(as_of_date);
   builder_.add_points(points);
-  builder_.add_points_type(points_type);
   builder_.add_id(id);
   builder_.add_bootstrap_trait(bootstrap_trait);
   builder_.add_interpolator(interpolator);
@@ -942,12 +1022,10 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructureDirect(
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
     quantra::enums::Interpolator interpolator = quantra::enums::Interpolator_BackwardFlat,
     quantra::enums::BootstrapTrait bootstrap_trait = quantra::enums::BootstrapTrait_Discount,
-    const std::vector<uint8_t> *points_type = nullptr,
-    const std::vector<flatbuffers::Offset<void>> *points = nullptr,
+    const std::vector<flatbuffers::Offset<quantra::PointsWrapper>> *points = nullptr,
     const char *as_of_date = nullptr) {
   auto id__ = id ? _fbb.CreateString(id) : 0;
-  auto points_type__ = points_type ? _fbb.CreateVector<uint8_t>(*points_type) : 0;
-  auto points__ = points ? _fbb.CreateVector<flatbuffers::Offset<void>>(*points) : 0;
+  auto points__ = points ? _fbb.CreateVector<flatbuffers::Offset<quantra::PointsWrapper>>(*points) : 0;
   auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
   return quantra::CreateTermStructure(
       _fbb,
@@ -955,7 +1033,6 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructureDirect(
       day_counter,
       interpolator,
       bootstrap_trait,
-      points_type__,
       points__,
       as_of_date__);
 }
