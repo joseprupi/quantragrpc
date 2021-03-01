@@ -451,9 +451,7 @@ struct FixedRateBondValues FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table 
     VT_MACAULAY_DURATION = 16,
     VT_MODIFIED_DURATION = 18,
     VT_CONVEXITY = 20,
-    VT_BPS = 22,
-    VT_FLOWS_TYPE = 24,
-    VT_FLOWS = 26
+    VT_BPS = 22
   };
   float npv() const {
     return GetField<float>(VT_NPV, 0.0f);
@@ -485,12 +483,6 @@ struct FixedRateBondValues FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table 
   float bps() const {
     return GetField<float>(VT_BPS, 0.0f);
   }
-  const flatbuffers::Vector<uint8_t> *flows_type() const {
-    return GetPointer<const flatbuffers::Vector<uint8_t> *>(VT_FLOWS_TYPE);
-  }
-  const flatbuffers::Vector<flatbuffers::Offset<void>> *flows() const {
-    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<void>> *>(VT_FLOWS);
-  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<float>(verifier, VT_NPV) &&
@@ -503,11 +495,6 @@ struct FixedRateBondValues FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table 
            VerifyField<float>(verifier, VT_MODIFIED_DURATION) &&
            VerifyField<float>(verifier, VT_CONVEXITY) &&
            VerifyField<float>(verifier, VT_BPS) &&
-           VerifyOffset(verifier, VT_FLOWS_TYPE) &&
-           verifier.VerifyVector(flows_type()) &&
-           VerifyOffset(verifier, VT_FLOWS) &&
-           verifier.VerifyVector(flows()) &&
-           VerifyFlowVector(verifier, flows(), flows_type()) &&
            verifier.EndTable();
   }
 };
@@ -546,12 +533,6 @@ struct FixedRateBondValuesBuilder {
   void add_bps(float bps) {
     fbb_.AddElement<float>(FixedRateBondValues::VT_BPS, bps, 0.0f);
   }
-  void add_flows_type(flatbuffers::Offset<flatbuffers::Vector<uint8_t>> flows_type) {
-    fbb_.AddOffset(FixedRateBondValues::VT_FLOWS_TYPE, flows_type);
-  }
-  void add_flows(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<void>>> flows) {
-    fbb_.AddOffset(FixedRateBondValues::VT_FLOWS, flows);
-  }
   explicit FixedRateBondValuesBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -574,12 +555,8 @@ inline flatbuffers::Offset<FixedRateBondValues> CreateFixedRateBondValues(
     float macaulay_duration = 0.0f,
     float modified_duration = 0.0f,
     float convexity = 0.0f,
-    float bps = 0.0f,
-    flatbuffers::Offset<flatbuffers::Vector<uint8_t>> flows_type = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<void>>> flows = 0) {
+    float bps = 0.0f) {
   FixedRateBondValuesBuilder builder_(_fbb);
-  builder_.add_flows(flows);
-  builder_.add_flows_type(flows_type);
   builder_.add_bps(bps);
   builder_.add_convexity(convexity);
   builder_.add_modified_duration(modified_duration);
@@ -591,38 +568,6 @@ inline flatbuffers::Offset<FixedRateBondValues> CreateFixedRateBondValues(
   builder_.add_clean_price(clean_price);
   builder_.add_npv(npv);
   return builder_.Finish();
-}
-
-inline flatbuffers::Offset<FixedRateBondValues> CreateFixedRateBondValuesDirect(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    float npv = 0.0f,
-    float clean_price = 0.0f,
-    float dirty_price = 0.0f,
-    float accrued_amount = 0.0f,
-    float yield = 0.0f,
-    int32_t accrued_days = 0,
-    float macaulay_duration = 0.0f,
-    float modified_duration = 0.0f,
-    float convexity = 0.0f,
-    float bps = 0.0f,
-    const std::vector<uint8_t> *flows_type = nullptr,
-    const std::vector<flatbuffers::Offset<void>> *flows = nullptr) {
-  auto flows_type__ = flows_type ? _fbb.CreateVector<uint8_t>(*flows_type) : 0;
-  auto flows__ = flows ? _fbb.CreateVector<flatbuffers::Offset<void>>(*flows) : 0;
-  return quantra::CreateFixedRateBondValues(
-      _fbb,
-      npv,
-      clean_price,
-      dirty_price,
-      accrued_amount,
-      yield,
-      accrued_days,
-      macaulay_duration,
-      modified_duration,
-      convexity,
-      bps,
-      flows_type__,
-      flows__);
 }
 
 struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
