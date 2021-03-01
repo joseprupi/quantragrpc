@@ -17,7 +17,14 @@ Quantra tries to solve this problems running different instances of QuantLib in 
 
 Quantra allows to execute different processes serving gRPC requests sent by the clients and serialized with Flatbuffers format.
 
-These requests are being processed by an Envoy proxy that forwards them to each of the processes running in the background in a Round Robin fashion.
+These requests are being processed by an Envoy proxy that forwards them to each of the processes running in the background.
 
 ![Arqchitecture](docs/architecture.jpg?raw=true "Arqchitecture")
 
+# Examples
+
+## C++
+
+## Formating data
+
+flatc --raw-binary -t ../flatbuffers/fbs/requests.fbs --json --strict-json -- ./data/fixed_rate_bond_request.bin
