@@ -46,4 +46,6 @@ float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequ
             return bond->NPV();
         }
     }
+
+    return -1;
 }

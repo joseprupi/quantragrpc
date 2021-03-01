@@ -2,6 +2,9 @@
 
 #include "enums.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
+
 QuantLib::TimeUnit TimeUnitToQL(quantra::enums::TimeUnit timeUnit)
 {
 
@@ -356,3 +359,5 @@ QuantLib::Compounding CompoundingToQL(quantra::enums::Compounding compounding)
         return QuantLib::SimpleThenCompounded;
     }
 }
+
+#pragma GCC diagnostic pop

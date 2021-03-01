@@ -1,6 +1,8 @@
 project(quantra)
 set(CMAKE_BUILD_TYPE Release)
 
+set (CMAKE_CXX_FLAGS "-Wreturn-type")
+
 set(FLATBUFFERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/flatbuffers/)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/grpc/
