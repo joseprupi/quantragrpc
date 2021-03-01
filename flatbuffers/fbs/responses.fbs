@@ -45,7 +45,7 @@ table FixedRateBondValues{
     modified_duration:float;
     convexity:float;
     bps:float;
-    flows:[Flow];
+    //flows:[Flow];
 }
 
 table PriceFixedRateBondResponse{

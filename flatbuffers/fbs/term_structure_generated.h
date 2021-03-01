@@ -6,13 +6,10 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "common_generated.h"
 #include "enums_generated.h"
+#include "schedule_generated.h"
 
 namespace quantra {
-
-struct Schedule;
-struct ScheduleBuilder;
 
 struct DepositHelper;
 struct DepositHelperBuilder;
@@ -103,143 +100,6 @@ template<> struct PointTraits<quantra::BondHelper> {
 
 bool VerifyPoint(flatbuffers::Verifier &verifier, const void *obj, Point type);
 bool VerifyPointVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types);
-
-struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef ScheduleBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_CALENDAR = 4,
-    VT_EFFECTIVE_DATE = 6,
-    VT_TERMINATION_DATE = 8,
-    VT_FREQUENCY = 10,
-    VT_CONVENTION = 12,
-    VT_TERMINATION_DATE_CONVENTION = 14,
-    VT_DATE_GENERATION_RULE = 16,
-    VT_END_OF_MONT = 18
-  };
-  quantra::enums::Calendar calendar() const {
-    return static_cast<quantra::enums::Calendar>(GetField<int8_t>(VT_CALENDAR, 0));
-  }
-  const flatbuffers::String *effective_date() const {
-    return GetPointer<const flatbuffers::String *>(VT_EFFECTIVE_DATE);
-  }
-  const flatbuffers::String *termination_date() const {
-    return GetPointer<const flatbuffers::String *>(VT_TERMINATION_DATE);
-  }
-  quantra::enums::Frequency frequency() const {
-    return static_cast<quantra::enums::Frequency>(GetField<int8_t>(VT_FREQUENCY, 0));
-  }
-  quantra::enums::BusinessDayConvention convention() const {
-    return static_cast<quantra::enums::BusinessDayConvention>(GetField<int8_t>(VT_CONVENTION, 0));
-  }
-  quantra::enums::BusinessDayConvention termination_date_convention() const {
-    return static_cast<quantra::enums::BusinessDayConvention>(GetField<int8_t>(VT_TERMINATION_DATE_CONVENTION, 0));
-  }
-  quantra::enums::DateGenerationRule date_generation_rule() const {
-    return static_cast<quantra::enums::DateGenerationRule>(GetField<int8_t>(VT_DATE_GENERATION_RULE, 0));
-  }
-  bool end_of_mont() const {
-    return GetField<uint8_t>(VT_END_OF_MONT, 0) != 0;
-  }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<int8_t>(verifier, VT_CALENDAR) &&
-           VerifyOffset(verifier, VT_EFFECTIVE_DATE) &&
-           verifier.VerifyString(effective_date()) &&
-           VerifyOffset(verifier, VT_TERMINATION_DATE) &&
-           verifier.VerifyString(termination_date()) &&
-           VerifyField<int8_t>(verifier, VT_FREQUENCY) &&
-           VerifyField<int8_t>(verifier, VT_CONVENTION) &&
-           VerifyField<int8_t>(verifier, VT_TERMINATION_DATE_CONVENTION) &&
-           VerifyField<int8_t>(verifier, VT_DATE_GENERATION_RULE) &&
-           VerifyField<uint8_t>(verifier, VT_END_OF_MONT) &&
-           verifier.EndTable();
-  }
-};
-
-struct ScheduleBuilder {
-  typedef Schedule Table;
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_calendar(quantra::enums::Calendar calendar) {
-    fbb_.AddElement<int8_t>(Schedule::VT_CALENDAR, static_cast<int8_t>(calendar), 0);
-  }
-  void add_effective_date(flatbuffers::Offset<flatbuffers::String> effective_date) {
-    fbb_.AddOffset(Schedule::VT_EFFECTIVE_DATE, effective_date);
-  }
-  void add_termination_date(flatbuffers::Offset<flatbuffers::String> termination_date) {
-    fbb_.AddOffset(Schedule::VT_TERMINATION_DATE, termination_date);
-  }
-  void add_frequency(quantra::enums::Frequency frequency) {
-    fbb_.AddElement<int8_t>(Schedule::VT_FREQUENCY, static_cast<int8_t>(frequency), 0);
-  }
-  void add_convention(quantra::enums::BusinessDayConvention convention) {
-    fbb_.AddElement<int8_t>(Schedule::VT_CONVENTION, static_cast<int8_t>(convention), 0);
-  }
-  void add_termination_date_convention(quantra::enums::BusinessDayConvention termination_date_convention) {
-    fbb_.AddElement<int8_t>(Schedule::VT_TERMINATION_DATE_CONVENTION, static_cast<int8_t>(termination_date_convention), 0);
-  }
-  void add_date_generation_rule(quantra::enums::DateGenerationRule date_generation_rule) {
-    fbb_.AddElement<int8_t>(Schedule::VT_DATE_GENERATION_RULE, static_cast<int8_t>(date_generation_rule), 0);
-  }
-  void add_end_of_mont(bool end_of_mont) {
-    fbb_.AddElement<uint8_t>(Schedule::VT_END_OF_MONT, static_cast<uint8_t>(end_of_mont), 0);
-  }
-  explicit ScheduleBuilder(flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  flatbuffers::Offset<Schedule> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<Schedule>(end);
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<Schedule> CreateSchedule(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina,
-    flatbuffers::Offset<flatbuffers::String> effective_date = 0,
-    flatbuffers::Offset<flatbuffers::String> termination_date = 0,
-    quantra::enums::Frequency frequency = quantra::enums::Frequency_Annual,
-    quantra::enums::BusinessDayConvention convention = quantra::enums::BusinessDayConvention_Following,
-    quantra::enums::BusinessDayConvention termination_date_convention = quantra::enums::BusinessDayConvention_Following,
-    quantra::enums::DateGenerationRule date_generation_rule = quantra::enums::DateGenerationRule_Backward,
-    bool end_of_mont = false) {
-  ScheduleBuilder builder_(_fbb);
-  builder_.add_termination_date(termination_date);
-  builder_.add_effective_date(effective_date);
-  builder_.add_end_of_mont(end_of_mont);
-  builder_.add_date_generation_rule(date_generation_rule);
-  builder_.add_termination_date_convention(termination_date_convention);
-  builder_.add_convention(convention);
-  builder_.add_frequency(frequency);
-  builder_.add_calendar(calendar);
-  return builder_.Finish();
-}
-
-inline flatbuffers::Offset<Schedule> CreateScheduleDirect(
-    flatbuffers::FlatBufferBuilder &_fbb,
-    quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina,
-    const char *effective_date = nullptr,
-    const char *termination_date = nullptr,
-    quantra::enums::Frequency frequency = quantra::enums::Frequency_Annual,
-    quantra::enums::BusinessDayConvention convention = quantra::enums::BusinessDayConvention_Following,
-    quantra::enums::BusinessDayConvention termination_date_convention = quantra::enums::BusinessDayConvention_Following,
-    quantra::enums::DateGenerationRule date_generation_rule = quantra::enums::DateGenerationRule_Backward,
-    bool end_of_mont = false) {
-  auto effective_date__ = effective_date ? _fbb.CreateString(effective_date) : 0;
-  auto termination_date__ = termination_date ? _fbb.CreateString(termination_date) : 0;
-  return quantra::CreateSchedule(
-      _fbb,
-      calendar,
-      effective_date__,
-      termination_date__,
-      frequency,
-      convention,
-      termination_date_convention,
-      date_generation_rule,
-      end_of_mont);
-}
 
 struct DepositHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef DepositHelperBuilder Builder;
@@ -1076,6 +936,36 @@ inline bool VerifyPointVector(flatbuffers::Verifier &verifier, const flatbuffers
     }
   }
   return true;
+}
+
+inline const quantra::TermStructure *GetTermStructure(const void *buf) {
+  return flatbuffers::GetRoot<quantra::TermStructure>(buf);
+}
+
+inline const quantra::TermStructure *GetSizePrefixedTermStructure(const void *buf) {
+  return flatbuffers::GetSizePrefixedRoot<quantra::TermStructure>(buf);
+}
+
+inline bool VerifyTermStructureBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifyBuffer<quantra::TermStructure>(nullptr);
+}
+
+inline bool VerifySizePrefixedTermStructureBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifySizePrefixedBuffer<quantra::TermStructure>(nullptr);
+}
+
+inline void FinishTermStructureBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::TermStructure> root) {
+  fbb.Finish(root);
+}
+
+inline void FinishSizePrefixedTermStructureBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::TermStructure> root) {
+  fbb.FinishSizePrefixed(root);
 }
 
 }  // namespace quantra

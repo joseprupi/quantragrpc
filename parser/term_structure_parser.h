@@ -17,7 +17,6 @@
 #include <ql/math/interpolations/cubicinterpolation.hpp>
 #include <ql/math/interpolations/loginterpolation.hpp>
 
-#include "term_structure_points_generated.h"
 #include "term_structure_generated.h"
 #include "term_structure_point_parser.h"
 #include "enums.h"

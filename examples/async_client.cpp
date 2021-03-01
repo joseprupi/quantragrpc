@@ -8,7 +8,7 @@
 #include <grpc/support/log.h>
 #include <thread>
 
-#include "messages.h"
+#include "data/fixed_rate_bond_request_fbs.h"
 
 using grpc::Channel;
 using grpc::ClientAsyncResponseReader;

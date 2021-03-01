@@ -20,14 +20,10 @@
 #include "common_generated.h"
 #include "enums.h"
 #include "common.h"
+#include "schedule_generated.h"
 
 using namespace QuantLib;
 using namespace quantra;
-
-// struct PricingStruct
-// {
-//     QuantLib::Date as_of_date;
-// };
 
 struct YieldStruct
 {
@@ -35,14 +31,6 @@ struct YieldStruct
     QuantLib::Compounding compounding;
     QuantLib::Frequency frequency;
 };
-
-// class PricingParser
-// {
-
-// private:
-// public:
-//     std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
-// };
 
 class ScheduleParser
 {

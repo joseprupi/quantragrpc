@@ -1,5 +1,5 @@
 include "enums.fbs";
-include "common.fbs";
+include "schedule.fbs";
 
 namespace quantra;
 
@@ -13,3 +13,5 @@ table FixedRateBond {
     issue_date:string;
     schedule:Schedule;
 }
+
+root_type FixedRateBond;

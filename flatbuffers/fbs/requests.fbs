@@ -4,17 +4,17 @@ include "term_structure.fbs";
 
 namespace quantra;
 
-// Fixed Rate Bond pricing information
+table Pricing{
+    as_of_date: string;
+    curves:[TermStructure];
+}
 
-// Each of the bonds to be priced, with the curve
-// and Yield info
 table PriceFixedRateBond{
     fixed_rate_bond:FixedRateBond;
     discounting_curve:string;
     yield:Yield;
 }
 
-// Fixed Rate Bond pricing request
 table PriceFixedRateBondRequest{
     pricing:Pricing;
     bonds:[PriceFixedRateBond];

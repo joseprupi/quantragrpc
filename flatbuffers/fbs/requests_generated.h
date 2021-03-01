@@ -9,15 +9,85 @@
 #include "bonds_generated.h"
 #include "common_generated.h"
 #include "enums_generated.h"
+#include "schedule_generated.h"
 #include "term_structure_generated.h"
 
 namespace quantra {
+
+struct Pricing;
+struct PricingBuilder;
 
 struct PriceFixedRateBond;
 struct PriceFixedRateBondBuilder;
 
 struct PriceFixedRateBondRequest;
 struct PriceFixedRateBondRequestBuilder;
+
+struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PricingBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_AS_OF_DATE = 4,
+    VT_CURVES = 6
+  };
+  const flatbuffers::String *as_of_date() const {
+    return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
+  }
+  const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *>(VT_CURVES);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_AS_OF_DATE) &&
+           verifier.VerifyString(as_of_date()) &&
+           VerifyOffset(verifier, VT_CURVES) &&
+           verifier.VerifyVector(curves()) &&
+           verifier.VerifyVectorOfTables(curves()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PricingBuilder {
+  typedef Pricing Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_as_of_date(flatbuffers::Offset<flatbuffers::String> as_of_date) {
+    fbb_.AddOffset(Pricing::VT_AS_OF_DATE, as_of_date);
+  }
+  void add_curves(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves) {
+    fbb_.AddOffset(Pricing::VT_CURVES, curves);
+  }
+  explicit PricingBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<Pricing> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<Pricing>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<Pricing> CreatePricing(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::String> as_of_date = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0) {
+  PricingBuilder builder_(_fbb);
+  builder_.add_curves(curves);
+  builder_.add_as_of_date(as_of_date);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<Pricing> CreatePricingDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    const char *as_of_date = nullptr,
+    const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr) {
+  auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
+  auto curves__ = curves ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>>(*curves) : 0;
+  return quantra::CreatePricing(
+      _fbb,
+      as_of_date__,
+      curves__);
+}
 
 struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PriceFixedRateBondBuilder Builder;
@@ -159,6 +229,36 @@ inline flatbuffers::Offset<PriceFixedRateBondRequest> CreatePriceFixedRateBondRe
       _fbb,
       pricing,
       bonds__);
+}
+
+inline const quantra::PriceFixedRateBondRequest *GetPriceFixedRateBondRequest(const void *buf) {
+  return flatbuffers::GetRoot<quantra::PriceFixedRateBondRequest>(buf);
+}
+
+inline const quantra::PriceFixedRateBondRequest *GetSizePrefixedPriceFixedRateBondRequest(const void *buf) {
+  return flatbuffers::GetSizePrefixedRoot<quantra::PriceFixedRateBondRequest>(buf);
+}
+
+inline bool VerifyPriceFixedRateBondRequestBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifyBuffer<quantra::PriceFixedRateBondRequest>(nullptr);
+}
+
+inline bool VerifySizePrefixedPriceFixedRateBondRequestBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifySizePrefixedBuffer<quantra::PriceFixedRateBondRequest>(nullptr);
+}
+
+inline void FinishPriceFixedRateBondRequestBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::PriceFixedRateBondRequest> root) {
+  fbb.Finish(root);
+}
+
+inline void FinishSizePrefixedPriceFixedRateBondRequestBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::PriceFixedRateBondRequest> root) {
+  fbb.FinishSizePrefixed(root);
 }
 
 }  // namespace quantra

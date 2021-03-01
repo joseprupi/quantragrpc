@@ -6,9 +6,8 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "common_generated.h"
 #include "enums_generated.h"
-#include "term_structure_generated.h"
+#include "schedule_generated.h"
 
 namespace quantra {
 
@@ -149,6 +148,36 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
       redemption,
       issue_date__,
       schedule);
+}
+
+inline const quantra::FixedRateBond *GetFixedRateBond(const void *buf) {
+  return flatbuffers::GetRoot<quantra::FixedRateBond>(buf);
+}
+
+inline const quantra::FixedRateBond *GetSizePrefixedFixedRateBond(const void *buf) {
+  return flatbuffers::GetSizePrefixedRoot<quantra::FixedRateBond>(buf);
+}
+
+inline bool VerifyFixedRateBondBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifyBuffer<quantra::FixedRateBond>(nullptr);
+}
+
+inline bool VerifySizePrefixedFixedRateBondBuffer(
+    flatbuffers::Verifier &verifier) {
+  return verifier.VerifySizePrefixedBuffer<quantra::FixedRateBond>(nullptr);
+}
+
+inline void FinishFixedRateBondBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::FixedRateBond> root) {
+  fbb.Finish(root);
+}
+
+inline void FinishSizePrefixedFixedRateBondBuffer(
+    flatbuffers::FlatBufferBuilder &fbb,
+    flatbuffers::Offset<quantra::FixedRateBond> root) {
+  fbb.FinishSizePrefixed(root);
 }
 
 }  // namespace quantra

@@ -1,0 +1,179 @@
+{
+  pricing: {
+    as_of_date: "2008/09/16",
+    curves: [
+      {
+        id: "depos_curve",
+        day_counter: "ActualActual365",
+        interpolator: "LogLinear",
+        points: [
+          {
+            point_wrapper_type: "DepositHelper",
+            point_wrapper: {
+              tenor_time_unit: "Months",
+              tenor_number: 3,
+              fixing_days: 3,
+              calendar: "TARGET",
+              business_day_convention: "ModifiedFollowing",
+              day_counter: "Actual365Fixed"
+            }
+          },
+          {
+            point_wrapper_type: "DepositHelper",
+            point_wrapper: {
+              rate: 0.0145,
+              tenor_time_unit: "Months",
+              tenor_number: 6,
+              fixing_days: 3,
+              calendar: "TARGET",
+              business_day_convention: "ModifiedFollowing",
+              day_counter: "Actual365Fixed"
+            }
+          },
+          {
+            point_wrapper_type: "DepositHelper",
+            point_wrapper: {
+              rate: 0.0194,
+              tenor_time_unit: "Years",
+              tenor_number: 1,
+              fixing_days: 3,
+              calendar: "TARGET",
+              business_day_convention: "ModifiedFollowing",
+              day_counter: "Actual365Fixed"
+            }
+          },
+          {
+            point_wrapper_type: "BondHelper",
+            point_wrapper: {
+              rate: 100.390625,
+              settlement_days: 3,
+              face_amount: 100.0,
+              schedule: {
+                calendar: "UnitedStatesGovernmentBond",
+                effective_date: "2005/03/15",
+                termination_date: "2010/08/31",
+                frequency: "Semiannual",
+                convention: "Unadjusted",
+                termination_date_convention: "Unadjusted"
+              },
+              coupon_rate: 0.02375,
+              day_counter: "ActualActual365",
+              business_day_convention: "Unadjusted",
+              redemption: 100.0,
+              issue_date: "2005/03/15"
+            }
+          },
+          {
+            point_wrapper_type: "BondHelper",
+            point_wrapper: {
+              rate: 106.21875,
+              settlement_days: 3,
+              face_amount: 100.0,
+              schedule: {
+                calendar: "UnitedStatesGovernmentBond",
+                effective_date: "2005/06/15",
+                termination_date: "2011/08/31",
+                frequency: "Semiannual",
+                convention: "Unadjusted",
+                termination_date_convention: "Unadjusted"
+              },
+              coupon_rate: 0.04625,
+              day_counter: "ActualActual365",
+              business_day_convention: "Unadjusted",
+              redemption: 100.0,
+              issue_date: "2005/06/15"
+            }
+          },
+          {
+            point_wrapper_type: "BondHelper",
+            point_wrapper: {
+              rate: 100.59375,
+              settlement_days: 3,
+              face_amount: 100.0,
+              schedule: {
+                calendar: "UnitedStatesGovernmentBond",
+                effective_date: "2006/06/30",
+                termination_date: "2013/08/31",
+                frequency: "Semiannual",
+                convention: "Unadjusted",
+                termination_date_convention: "Unadjusted"
+              },
+              coupon_rate: 0.03125,
+              day_counter: "ActualActual365",
+              business_day_convention: "Unadjusted",
+              redemption: 100.0,
+              issue_date: "2006/06/30"
+            }
+          },
+          {
+            point_wrapper_type: "BondHelper",
+            point_wrapper: {
+              rate: 101.6875,
+              settlement_days: 3,
+              face_amount: 100.0,
+              schedule: {
+                calendar: "UnitedStatesGovernmentBond",
+                effective_date: "2002/11/15",
+                termination_date: "2018/08/15",
+                frequency: "Semiannual",
+                convention: "Unadjusted",
+                termination_date_convention: "Unadjusted"
+              },
+              coupon_rate: 0.04,
+              day_counter: "ActualActual365",
+              business_day_convention: "Unadjusted",
+              redemption: 100.0,
+              issue_date: "2002/11/15"
+            }
+          },
+          {
+            point_wrapper_type: "BondHelper",
+            point_wrapper: {
+              rate: 102.140625,
+              settlement_days: 3,
+              face_amount: 100.0,
+              schedule: {
+                calendar: "UnitedStatesGovernmentBond",
+                effective_date: "1987/05/15",
+                termination_date: "2038/05/15",
+                frequency: "Semiannual",
+                convention: "Unadjusted",
+                termination_date_convention: "Unadjusted"
+              },
+              coupon_rate: 0.045,
+              day_counter: "ActualActual365",
+              business_day_convention: "Unadjusted",
+              redemption: 100.0,
+              issue_date: "1987/05/15"
+            }
+          }
+        ],
+        as_of_date: "2008/09/18"
+      }
+    ]
+  },
+  bonds: [
+    {
+      fixed_rate_bond: {
+        settlement_days: 3,
+        face_amount: 100.0,
+        rate: 0.045,
+        day_counter: "ActualActualBond",
+        business_day_convention: "ModifiedFollowing",
+        redemption: 100.0,
+        issue_date: "2007/05/15",
+        schedule: {
+          calendar: "UnitedStatesGovernmentBond",
+          effective_date: "2007/05/15",
+          termination_date: "2017/05/15",
+          frequency: "Semiannual",
+          convention: "Unadjusted",
+          termination_date_convention: "Unadjusted"
+        }
+      },
+      discounting_curve: "depos_curve",
+      yield: {
+      }
+    }
+  ]
+}
