@@ -1,5 +1,6 @@
 include "common.fbs";
-include "bonds.fbs";
+include "fixed_rate_bond.fbs";
+include "floating_rate_bond.fbs";
 include "term_structure.fbs";
 
 namespace quantra;
@@ -12,6 +13,13 @@ table Pricing{
 table PriceFixedRateBond{
     fixed_rate_bond:FixedRateBond;
     discounting_curve:string;
+    yield:Yield;
+}
+
+table PriceFloatingRateBond{
+    fixed_rate_bond:FixedRateBond;
+    discounting_curve:string;
+    forecasting_curve:string;
     yield:Yield;
 }
 

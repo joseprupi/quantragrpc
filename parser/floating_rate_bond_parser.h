@@ -1,5 +1,5 @@
-#ifndef QUANTRASERVER_FIXEDRATEBONDPARSER_H
-#define QUANTRASERVER_FIXEDRATEBONDPARSER_H
+#ifndef QUANTRASERVER_FLOATINGRATEBONDPARSER_H
+#define QUANTRASERVER_FLOATINGRATEBONDPARSER_H
 
 #include <ql/qldefines.hpp>
 #include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
@@ -17,10 +17,11 @@
 #include <ql/math/interpolations/cubicinterpolation.hpp>
 #include <ql/math/interpolations/loginterpolation.hpp>
 
-#include "fixed_rate_bond_generated.h"
+#include "floating_rate_bond_generated.h"
 #include "enums.h"
 #include "common.h"
 #include "common_parser.h"
+#include "index_parser.h"
 
 using namespace QuantLib;
 using namespace quantra;
@@ -30,7 +31,7 @@ class FixedRateBondParser
 
 private:
 public:
-    std::shared_ptr<QuantLib::FixedRateBond> parse(const quantra::FixedRateBond *ts);
+    std::shared_ptr<QuantLib::FloatingRateBond> parse(const quantra::FloatingRateBond *ts);
 };
 
-#endif //QUANTRASERVER_FIXEDRATEBONDPARSER_H
+#endif //QUANTRASERVER_FLOATINGRATEBONDPARSER_H

@@ -6,11 +6,12 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "bonds_generated.h"
 #include "common_generated.h"
 #include "enums_generated.h"
+#include "fixed_rate_bond_generated.h"
 #include "requests_generated.h"
 #include "responses_generated.h"
+#include "schedule_generated.h"
 #include "term_structure_generated.h"
 
 #endif  // FLATBUFFERS_GENERATED_QUANTRASERVER_QUANTRA_H_

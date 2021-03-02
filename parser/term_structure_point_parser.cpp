@@ -63,11 +63,6 @@ std::shared_ptr<RateHelper> TermStructurePointParser::parse(uint8_t point_type, 
 
         ScheduleParser schedule_parser = ScheduleParser();
 
-        QuantLib::Schedule fixedBondSchedule(Date(15, May, 2007),
-                                             Date(15, May, 2017), Period(Semiannual),
-                                             UnitedStates(UnitedStates::GovernmentBond),
-                                             Unadjusted, Unadjusted, DateGeneration::Backward, false);
-
         std::shared_ptr<SimpleQuote> rate(new SimpleQuote(point->rate()));
         RelinkableHandle<Quote> quote;
         quote.linkTo(rate);

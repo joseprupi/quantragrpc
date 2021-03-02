@@ -6,6 +6,6 @@ add_custom_command(
     )
 
 add_custom_target(
-        fbs ALL
+        fatbuffers ALL
         DEPENDS fbs/fbs.stamp
     )

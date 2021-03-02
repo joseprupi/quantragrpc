@@ -3,7 +3,8 @@ include_directories("../grpc"
                     "../parser" 
                     "../flatbuffers/fbs" 
                     "../request" 
-                    "../common")
+                    "../common"
+                    "data")
  
 # file(GLOB SYNC_SOURCES " ../parser/*.cpp" "
 #                     ../common/*.cpp" "
@@ -14,12 +15,14 @@ file(GLOB ASYNC_SOURCES " ../parser/*.cpp" "
                     ../common/*.cpp" "
                     ../request/*.cpp"  
                     "./messages.cpp"
+                    "data/fixed_rate_bond_request_fbs.cpp"
                     "./async_client.cpp")
 
 file(GLOB JSON_SOURCES " ../parser/*.cpp" "
                     ../common/*.cpp" "
                     ../request/*.cpp"  
                     "./messages.cpp"
+                    "data/fixed_rate_bond_request_fbs.cpp"
                     "./bond_request_to_json.cpp")
 
 find_package(Threads REQUIRED)
