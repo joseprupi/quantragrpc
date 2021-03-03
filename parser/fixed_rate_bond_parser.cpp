@@ -10,8 +10,8 @@ std::shared_ptr<QuantLib::FixedRateBond> FixedRateBondParser::parse(const quantr
         bond->face_amount(),
         *schedule_parser.parse(bond->schedule()),
         std::vector<Rate>(1, bond->rate()),
-        DayCounterToQL(bond->day_counter()),
-        ConventionToQL(bond->business_day_convention()),
+        DayCounterToQL(bond->accrual_day_counter()),
+        ConventionToQL(bond->payment_convention()),
         bond->redemption(),
         DateToQL(bond->issue_date()->str()));
 }

@@ -202,8 +202,8 @@ public:
         fixed_rate_bond_builder.add_face_amount(100);
         fixed_rate_bond_builder.add_schedule(schedule);
         fixed_rate_bond_builder.add_rate(0.045);
-        fixed_rate_bond_builder.add_day_counter(quantra::enums::DayCounter_ActualActualBond);
-        fixed_rate_bond_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+        fixed_rate_bond_builder.add_accrual_day_counter(quantra::enums::DayCounter_ActualActualBond);
+        fixed_rate_bond_builder.add_payment_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
         fixed_rate_bond_builder.add_redemption(100);
         fixed_rate_bond_builder.add_issue_date(issue_date);
         auto bond = fixed_rate_bond_builder.Finish();

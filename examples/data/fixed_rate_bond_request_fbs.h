@@ -9,4 +9,4 @@
 #include "quantraserver_generated.h"
 #include "fixed_rate_bond_pricing_request.h"
 
-void bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder);
+flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder);

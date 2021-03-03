@@ -25,71 +25,22 @@ class FloatingRateBond(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # FloatingRateBond
-    def FixingDays(self):
+    def SettlementDays(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
         return 0
 
     # FloatingRateBond
-    def SettlementDays(self):
+    def FaceAmount(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
-        return 0
-
-    # FloatingRateBond
-    def FaceAmount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
-
-    # FloatingRateBond
-    def Spread(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # FloatingRateBond
-    def DayCounter(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
-        return 0
-
-    # FloatingRateBond
-    def BusinessDayConvention(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
-        return 0
-
-    # FloatingRateBond
-    def Redemption(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # FloatingRateBond
-    def IssueDate(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
-        if o != 0:
-            return self._tab.String(o + self._tab.Pos)
-        return None
-
-    # FloatingRateBond
-    def Frequency(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
-        return 0
 
     # FloatingRateBond
     def Schedule(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             x = self._tab.Indirect(o + self._tab.Pos)
             from quantra.Schedule import Schedule
@@ -100,7 +51,7 @@ class FloatingRateBond(object):
 
     # FloatingRateBond
     def Index(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             x = self._tab.Indirect(o + self._tab.Pos)
             from quantra.Index import Index
@@ -109,54 +60,103 @@ class FloatingRateBond(object):
             return obj
         return None
 
+    # FloatingRateBond
+    def AccrualDayCounter(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
+        return 0
+
+    # FloatingRateBond
+    def PaymentConvention(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
+        return 0
+
+    # FloatingRateBond
+    def FixingDays(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
+    # FloatingRateBond
+    def Spread(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
+        return 0.0
+
+    # FloatingRateBond
+    def InArrears(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # FloatingRateBond
+    def Redemption(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
+        return 0.0
+
+    # FloatingRateBond
+    def IssueDate(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
 def Start(builder): builder.StartObject(11)
 def FloatingRateBondStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddFixingDays(builder, fixingDays): builder.PrependInt32Slot(0, fixingDays, 0)
-def FloatingRateBondAddFixingDays(builder, fixingDays):
-    """This method is deprecated. Please switch to AddFixingDays."""
-    return AddFixingDays(builder, fixingDays)
-def AddSettlementDays(builder, settlementDays): builder.PrependInt32Slot(1, settlementDays, 0)
+def AddSettlementDays(builder, settlementDays): builder.PrependInt32Slot(0, settlementDays, 0)
 def FloatingRateBondAddSettlementDays(builder, settlementDays):
     """This method is deprecated. Please switch to AddSettlementDays."""
     return AddSettlementDays(builder, settlementDays)
-def AddFaceAmount(builder, faceAmount): builder.PrependFloat64Slot(2, faceAmount, 0.0)
+def AddFaceAmount(builder, faceAmount): builder.PrependFloat64Slot(1, faceAmount, 0.0)
 def FloatingRateBondAddFaceAmount(builder, faceAmount):
     """This method is deprecated. Please switch to AddFaceAmount."""
     return AddFaceAmount(builder, faceAmount)
-def AddSpread(builder, spread): builder.PrependFloat64Slot(3, spread, 0.0)
-def FloatingRateBondAddSpread(builder, spread):
-    """This method is deprecated. Please switch to AddSpread."""
-    return AddSpread(builder, spread)
-def AddDayCounter(builder, dayCounter): builder.PrependInt8Slot(4, dayCounter, 0)
-def FloatingRateBondAddDayCounter(builder, dayCounter):
-    """This method is deprecated. Please switch to AddDayCounter."""
-    return AddDayCounter(builder, dayCounter)
-def AddBusinessDayConvention(builder, businessDayConvention): builder.PrependInt8Slot(5, businessDayConvention, 0)
-def FloatingRateBondAddBusinessDayConvention(builder, businessDayConvention):
-    """This method is deprecated. Please switch to AddBusinessDayConvention."""
-    return AddBusinessDayConvention(builder, businessDayConvention)
-def AddRedemption(builder, redemption): builder.PrependFloat64Slot(6, redemption, 0.0)
-def FloatingRateBondAddRedemption(builder, redemption):
-    """This method is deprecated. Please switch to AddRedemption."""
-    return AddRedemption(builder, redemption)
-def AddIssueDate(builder, issueDate): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(issueDate), 0)
-def FloatingRateBondAddIssueDate(builder, issueDate):
-    """This method is deprecated. Please switch to AddIssueDate."""
-    return AddIssueDate(builder, issueDate)
-def AddFrequency(builder, frequency): builder.PrependInt8Slot(8, frequency, 0)
-def FloatingRateBondAddFrequency(builder, frequency):
-    """This method is deprecated. Please switch to AddFrequency."""
-    return AddFrequency(builder, frequency)
-def AddSchedule(builder, schedule): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(schedule), 0)
+def AddSchedule(builder, schedule): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(schedule), 0)
 def FloatingRateBondAddSchedule(builder, schedule):
     """This method is deprecated. Please switch to AddSchedule."""
     return AddSchedule(builder, schedule)
-def AddIndex(builder, index): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(index), 0)
+def AddIndex(builder, index): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(index), 0)
 def FloatingRateBondAddIndex(builder, index):
     """This method is deprecated. Please switch to AddIndex."""
     return AddIndex(builder, index)
+def AddAccrualDayCounter(builder, accrualDayCounter): builder.PrependInt8Slot(4, accrualDayCounter, 0)
+def FloatingRateBondAddAccrualDayCounter(builder, accrualDayCounter):
+    """This method is deprecated. Please switch to AddAccrualDayCounter."""
+    return AddAccrualDayCounter(builder, accrualDayCounter)
+def AddPaymentConvention(builder, paymentConvention): builder.PrependInt8Slot(5, paymentConvention, 0)
+def FloatingRateBondAddPaymentConvention(builder, paymentConvention):
+    """This method is deprecated. Please switch to AddPaymentConvention."""
+    return AddPaymentConvention(builder, paymentConvention)
+def AddFixingDays(builder, fixingDays): builder.PrependInt32Slot(6, fixingDays, 0)
+def FloatingRateBondAddFixingDays(builder, fixingDays):
+    """This method is deprecated. Please switch to AddFixingDays."""
+    return AddFixingDays(builder, fixingDays)
+def AddSpread(builder, spread): builder.PrependFloat64Slot(7, spread, 0.0)
+def FloatingRateBondAddSpread(builder, spread):
+    """This method is deprecated. Please switch to AddSpread."""
+    return AddSpread(builder, spread)
+def AddInArrears(builder, inArrears): builder.PrependBoolSlot(8, inArrears, 0)
+def FloatingRateBondAddInArrears(builder, inArrears):
+    """This method is deprecated. Please switch to AddInArrears."""
+    return AddInArrears(builder, inArrears)
+def AddRedemption(builder, redemption): builder.PrependFloat64Slot(9, redemption, 0.0)
+def FloatingRateBondAddRedemption(builder, redemption):
+    """This method is deprecated. Please switch to AddRedemption."""
+    return AddRedemption(builder, redemption)
+def AddIssueDate(builder, issueDate): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(issueDate), 0)
+def FloatingRateBondAddIssueDate(builder, issueDate):
+    """This method is deprecated. Please switch to AddIssueDate."""
+    return AddIssueDate(builder, issueDate)
 def End(builder): return builder.EndObject()
 def FloatingRateBondEnd(builder):
     """This method is deprecated. Please switch to End."""

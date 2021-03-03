@@ -4,19 +4,14 @@
 float FixedRateBondPricingRequest::request(const quantra::PriceFixedRateBondRequest *request)
 {
 
-    // Define the parsers used for this request
     FixedRateBondParser bond_parser = FixedRateBondParser();
-    //YieldParser yield_parser = YieldParser();
     TermStructureParser term_structure_parser = TermStructureParser();
 
-    // Read the pricing information
     auto pricing = request->pricing();
 
-    // Set the evaluation date from the pricing entity
     Date as_of_date = DateToQL(pricing->as_of_date()->c_str());
     Settings::instance().evaluationDate() = as_of_date;
 
-    // Create the different term structures from the pricing entity
     auto curves = pricing->curves();
     std::map<std::string, std::shared_ptr<PricingEngine>> term_structures;
     for (auto it = curves->begin(); it != curves->end(); it++)

@@ -5,21 +5,9 @@ include "term_structure.fbs";
 
 namespace quantra;
 
-table Pricing{
-    as_of_date: string;
-    curves:[TermStructure];
-}
-
 table PriceFixedRateBond{
     fixed_rate_bond:FixedRateBond;
     discounting_curve:string;
-    yield:Yield;
-}
-
-table PriceFloatingRateBond{
-    fixed_rate_bond:FixedRateBond;
-    discounting_curve:string;
-    forecasting_curve:string;
     yield:Yield;
 }
 

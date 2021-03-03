@@ -20,7 +20,7 @@
 #include <ql/math/interpolations/loginterpolation.hpp>
 
 #include "responses_generated.h"
-#include "requests_generated.h"
+#include "price_fixed_rate_bond_request_generated.h"
 #include "common_parser.h"
 #include "fixed_rate_bond_parser.h"
 #include "term_structure_parser.h"

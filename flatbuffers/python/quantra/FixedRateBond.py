@@ -46,14 +46,14 @@ class FixedRateBond(object):
         return 0.0
 
     # FixedRateBond
-    def DayCounter(self):
+    def AccrualDayCounter(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
     # FixedRateBond
-    def BusinessDayConvention(self):
+    def PaymentConvention(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
@@ -100,14 +100,14 @@ def AddRate(builder, rate): builder.PrependFloat64Slot(2, rate, 0.0)
 def FixedRateBondAddRate(builder, rate):
     """This method is deprecated. Please switch to AddRate."""
     return AddRate(builder, rate)
-def AddDayCounter(builder, dayCounter): builder.PrependInt8Slot(3, dayCounter, 0)
-def FixedRateBondAddDayCounter(builder, dayCounter):
-    """This method is deprecated. Please switch to AddDayCounter."""
-    return AddDayCounter(builder, dayCounter)
-def AddBusinessDayConvention(builder, businessDayConvention): builder.PrependInt8Slot(4, businessDayConvention, 0)
-def FixedRateBondAddBusinessDayConvention(builder, businessDayConvention):
-    """This method is deprecated. Please switch to AddBusinessDayConvention."""
-    return AddBusinessDayConvention(builder, businessDayConvention)
+def AddAccrualDayCounter(builder, accrualDayCounter): builder.PrependInt8Slot(3, accrualDayCounter, 0)
+def FixedRateBondAddAccrualDayCounter(builder, accrualDayCounter):
+    """This method is deprecated. Please switch to AddAccrualDayCounter."""
+    return AddAccrualDayCounter(builder, accrualDayCounter)
+def AddPaymentConvention(builder, paymentConvention): builder.PrependInt8Slot(4, paymentConvention, 0)
+def FixedRateBondAddPaymentConvention(builder, paymentConvention):
+    """This method is deprecated. Please switch to AddPaymentConvention."""
+    return AddPaymentConvention(builder, paymentConvention)
 def AddRedemption(builder, redemption): builder.PrependFloat64Slot(5, redemption, 0.0)
 def FixedRateBondAddRedemption(builder, redemption):
     """This method is deprecated. Please switch to AddRedemption."""

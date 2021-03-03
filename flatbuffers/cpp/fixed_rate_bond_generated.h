@@ -20,8 +20,8 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_SETTLEMENT_DAYS = 4,
     VT_FACE_AMOUNT = 6,
     VT_RATE = 8,
-    VT_DAY_COUNTER = 10,
-    VT_BUSINESS_DAY_CONVENTION = 12,
+    VT_ACCRUAL_DAY_COUNTER = 10,
+    VT_PAYMENT_CONVENTION = 12,
     VT_REDEMPTION = 14,
     VT_ISSUE_DATE = 16,
     VT_SCHEDULE = 18
@@ -35,11 +35,11 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   double rate() const {
     return GetField<double>(VT_RATE, 0.0);
   }
-  quantra::enums::DayCounter day_counter() const {
-    return static_cast<quantra::enums::DayCounter>(GetField<int8_t>(VT_DAY_COUNTER, 0));
+  quantra::enums::DayCounter accrual_day_counter() const {
+    return static_cast<quantra::enums::DayCounter>(GetField<int8_t>(VT_ACCRUAL_DAY_COUNTER, 0));
   }
-  quantra::enums::BusinessDayConvention business_day_convention() const {
-    return static_cast<quantra::enums::BusinessDayConvention>(GetField<int8_t>(VT_BUSINESS_DAY_CONVENTION, 0));
+  quantra::enums::BusinessDayConvention payment_convention() const {
+    return static_cast<quantra::enums::BusinessDayConvention>(GetField<int8_t>(VT_PAYMENT_CONVENTION, 0));
   }
   double redemption() const {
     return GetField<double>(VT_REDEMPTION, 0.0);
@@ -55,8 +55,8 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_SETTLEMENT_DAYS) &&
            VerifyField<double>(verifier, VT_FACE_AMOUNT) &&
            VerifyField<double>(verifier, VT_RATE) &&
-           VerifyField<int8_t>(verifier, VT_DAY_COUNTER) &&
-           VerifyField<int8_t>(verifier, VT_BUSINESS_DAY_CONVENTION) &&
+           VerifyField<int8_t>(verifier, VT_ACCRUAL_DAY_COUNTER) &&
+           VerifyField<int8_t>(verifier, VT_PAYMENT_CONVENTION) &&
            VerifyField<double>(verifier, VT_REDEMPTION) &&
            VerifyOffset(verifier, VT_ISSUE_DATE) &&
            verifier.VerifyString(issue_date()) &&
@@ -79,11 +79,11 @@ struct FixedRateBondBuilder {
   void add_rate(double rate) {
     fbb_.AddElement<double>(FixedRateBond::VT_RATE, rate, 0.0);
   }
-  void add_day_counter(quantra::enums::DayCounter day_counter) {
-    fbb_.AddElement<int8_t>(FixedRateBond::VT_DAY_COUNTER, static_cast<int8_t>(day_counter), 0);
+  void add_accrual_day_counter(quantra::enums::DayCounter accrual_day_counter) {
+    fbb_.AddElement<int8_t>(FixedRateBond::VT_ACCRUAL_DAY_COUNTER, static_cast<int8_t>(accrual_day_counter), 0);
   }
-  void add_business_day_convention(quantra::enums::BusinessDayConvention business_day_convention) {
-    fbb_.AddElement<int8_t>(FixedRateBond::VT_BUSINESS_DAY_CONVENTION, static_cast<int8_t>(business_day_convention), 0);
+  void add_payment_convention(quantra::enums::BusinessDayConvention payment_convention) {
+    fbb_.AddElement<int8_t>(FixedRateBond::VT_PAYMENT_CONVENTION, static_cast<int8_t>(payment_convention), 0);
   }
   void add_redemption(double redemption) {
     fbb_.AddElement<double>(FixedRateBond::VT_REDEMPTION, redemption, 0.0);
@@ -110,8 +110,8 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBond(
     int32_t settlement_days = 0,
     double face_amount = 0.0,
     double rate = 0.0,
-    quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
-    quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
+    quantra::enums::DayCounter accrual_day_counter = quantra::enums::DayCounter_Actual360,
+    quantra::enums::BusinessDayConvention payment_convention = quantra::enums::BusinessDayConvention_Following,
     double redemption = 0.0,
     flatbuffers::Offset<flatbuffers::String> issue_date = 0,
     flatbuffers::Offset<quantra::Schedule> schedule = 0) {
@@ -122,8 +122,8 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBond(
   builder_.add_schedule(schedule);
   builder_.add_issue_date(issue_date);
   builder_.add_settlement_days(settlement_days);
-  builder_.add_business_day_convention(business_day_convention);
-  builder_.add_day_counter(day_counter);
+  builder_.add_payment_convention(payment_convention);
+  builder_.add_accrual_day_counter(accrual_day_counter);
   return builder_.Finish();
 }
 
@@ -132,8 +132,8 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
     int32_t settlement_days = 0,
     double face_amount = 0.0,
     double rate = 0.0,
-    quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
-    quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
+    quantra::enums::DayCounter accrual_day_counter = quantra::enums::DayCounter_Actual360,
+    quantra::enums::BusinessDayConvention payment_convention = quantra::enums::BusinessDayConvention_Following,
     double redemption = 0.0,
     const char *issue_date = nullptr,
     flatbuffers::Offset<quantra::Schedule> schedule = 0) {
@@ -143,8 +143,8 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
       settlement_days,
       face_amount,
       rate,
-      day_counter,
-      business_day_convention,
+      accrual_day_counter,
+      payment_convention,
       redemption,
       issue_date__,
       schedule);

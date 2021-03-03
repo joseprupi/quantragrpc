@@ -1,3 +1,4 @@
+include "term_structure.fbs";
 include "enums.fbs";
 
 namespace quantra;
@@ -6,4 +7,9 @@ table Yield{
     day_counter:enums.DayCounter;
     compounding:enums.Compounding;
     frequency:enums.Frequency;
+}
+
+table Pricing{
+    as_of_date: string;
+    curves:[TermStructure];
 }

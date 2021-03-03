@@ -1,6 +1,6 @@
 #include "fixed_rate_bond_request_fbs.h"
 
-void bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder)
+flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder)
 {
 
     // Settings
@@ -186,8 +186,8 @@ void bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder
     fixed_rate_bond_builder.add_face_amount(100);
     fixed_rate_bond_builder.add_schedule(schedule);
     fixed_rate_bond_builder.add_rate(0.045);
-    fixed_rate_bond_builder.add_day_counter(quantra::enums::DayCounter_ActualActualBond);
-    fixed_rate_bond_builder.add_business_day_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
+    fixed_rate_bond_builder.add_accrual_day_counter(quantra::enums::DayCounter_ActualActualBond);
+    fixed_rate_bond_builder.add_payment_convention(quantra::enums::BusinessDayConvention_ModifiedFollowing);
     fixed_rate_bond_builder.add_redemption(100);
     fixed_rate_bond_builder.add_issue_date(issue_date);
     auto bond = fixed_rate_bond_builder.Finish();
@@ -225,10 +225,12 @@ void bond_request_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder
     auto bond_request = bond_request_builder.Finish();
     builder->Finish(bond_request);
 
-    uint8_t *buf = builder->GetBufferPointer();
-    int size = builder->GetSize();
+    auto p = builder->GetBufferPointer();
+    auto size = builder->GetSize();
 
-    std::ofstream ofile("data.bin", std::ios::binary);
-    ofile.write((char *)buf, size);
-    ofile.close();
+    grpc_slice slice = grpc_slice_from_copied_buffer((char *)p, size);
+    flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> msg(slice, false);
+    std::cout << "Verify:" << msg.Verify() << std::endl;
+
+    return msg;
 }
