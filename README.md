@@ -37,7 +37,16 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ## Nice to have
 
-![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
+### Architecture
 
 * It would be nice to have a Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). 
-* Having a cache to for interprocess communications for things such as bootstrapped curves and avoid recalculation
+* Having a cache to for interprocess communications for things such as bootstrapped curves and avoid recalculation (I am currently working on this)
+
+![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
+
+### Data
+
+* It would be nice to have an implementation for translating from QuantLib native objects to Flatbuffers. This way translating from the already existing implementation to Quantra to speed up the calculations would be easier. Also, with something like this even without the server it would be possible to store QuantLib objects in Flatbuffers and JSON format.
+
+![Data](docs/data2.jpg?raw=true "Data")
+
