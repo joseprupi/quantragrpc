@@ -9,7 +9,7 @@ QuantLib is a quantitative finance library written in C++ and a standard in the 
 
 ## How
 
-Quantra tries to solve this problems running different instances of QuantLib in separate processes that are executed as gRPC servers that communicate with the clients using Flatbuffers binary format.
+Quantra tries to solve these problems with the implementation of a high level API and allowing multiple process to be executed in parallel. The latter is done running different instances of QuantLib in separate processes that are executed as gRPC servers and communicate with the clients with Flatbuffers.
 
 ### Architecture
 
