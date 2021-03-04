@@ -19,6 +19,16 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 ![Arqchitecture](docs/architecture.jpg?raw=true "Arqchitecture")
 
+### Formats
+
+The main format of quantra is Flatbuffers which is used to communicate with the server.
+
+As the serialization to Flatbuffers can be tedious, part of the client implementation translates from C++ structs to Flatbuffers that can be sent to the server. 
+
+Once the data has been serialized this can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
+
+![Data](docs/data.jpg?raw=true "Data")
+
 # Examples
 
 ## C++
