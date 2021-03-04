@@ -46,7 +46,7 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ### Data
 
-* It would be nice to have an implementation for translating from QuantLib native objects to Flatbuffers. This way translating from the already existing implementation to Quantra to speed up the calculations would be easier. Also, with something like this even without the server it would be possible to store QuantLib objects in Flatbuffers and JSON format.
+It would be nice to have an implementation for translating from QuantLib native objects to Flatbuffers. This way translating to Quantra the already existing implementation using QuantLib would be easier. Also, with something like this even without the server it would be possible to store QuantLib objects in Flatbuffers and JSON format.
 
 ![Data](docs/data2.jpg?raw=true "Data")
 
