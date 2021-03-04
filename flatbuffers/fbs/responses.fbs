@@ -34,6 +34,10 @@ table FlowNotional{
 
 union Flow { FlowInterest, FlowPastInterest, FlowNotional }
 
+table FlowsWrapper{
+    flow_wrapper:Flow;
+}
+
 table PriceFixedRateBondResponse{
     npv:float;
     clean_price:float;
@@ -45,13 +49,5 @@ table PriceFixedRateBondResponse{
     modified_duration:float;
     convexity:float;
     bps:float;
-    //flows:[Flow];
-}
-
-// table PriceFixedRateBondResponse{
-//     bonds:[FixedRateBondValues];
-// }
-
-table NPVResponse{
-    npv:float;
+    flows:[FlowsWrapper];
 }

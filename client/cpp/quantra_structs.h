@@ -12,7 +12,7 @@ struct FRAHelper;
 struct FutureHelper;
 struct SwapHelper;
 struct BondHelper;
-union Point;
+struct Point;
 struct TermStructure;
 struct FixedRateBond;
 struct FloatingRateBond;
@@ -66,7 +66,7 @@ struct DepositHelper
 {
     float rate;
     TimeUnit tenor_time_unit;
-    int tenor_numbe;
+    int tenor_number;
     int fixing_days;
     Calendar calendar;
     BusinessDayConvention business_day_convention;
@@ -121,13 +121,26 @@ struct BondHelper
     std::string issue_date;
 };
 
-union Point
+enum PointType
 {
-    struct DepositHelper;
-    struct FRAHelper;
-    struct FutureHelper;
-    struct SwapHelper;
-    struct BondHelper;
+    Deposit,
+    FRA,
+    Future,
+    Swap,
+    Bond
+};
+
+struct Point
+{
+    PointType point_type;
+    union
+    {
+        DepositHelper deposit_helper;
+        FRAHelper FRA_helper;
+        FutureHelper future_helper;
+        SwapHelper swap_helper;
+        BondHelper bond_helper;
+    };
 };
 
 struct TermStructure
