@@ -149,6 +149,7 @@ struct TermStructure
     DayCounter day_counter;
     Interpolator interpolator;
     BootstrapTrait bootstrap_trait;
+    std::string as_of_date;
     std::vector<Point> points;
 };
 

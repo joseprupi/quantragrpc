@@ -1,12 +1,10 @@
-# Introduction
-
-Quantra is a pricing engine based on QuantLib that allows distributed compuations and serializing objects to JSON and Flatbuffers binary format.
+Quantra is a pricing engine based on QuantLib that allows distributed compuations and serializing quantra objects to JSON and Flatbuffers binary format.
 
 ## Why
 
-QuantLib is a quantitative finance library written in C++ and a standard in the industry but it is also a "low level" library that brings some drawbacks in terms of usability such as:
+QuantLib is a quantitative finance library written in C++ and a standard in the industry. It can also be seen as a "low level" library that brings some drawbacks in terms of usability such as:
 
-* Written in C++ (an active Python extension being developed that solves this problem)
+* Written in C++ (a Python extension exists that solves this problem)
 * Not able to be executed in multithreading fashion to parallelize computations because of its design
 
 ## How

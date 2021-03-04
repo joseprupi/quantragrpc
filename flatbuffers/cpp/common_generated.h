@@ -83,13 +83,21 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PricingBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AS_OF_DATE = 4,
-    VT_CURVES = 6
+    VT_CURVES = 6,
+    VT_BOND_PRICING_DETAILS = 8,
+    VT_BOND_PRICING_FLOWS = 10
   };
   const flatbuffers::String *as_of_date() const {
     return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
   }
   const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *>(VT_CURVES);
+  }
+  bool bond_pricing_details() const {
+    return GetField<uint8_t>(VT_BOND_PRICING_DETAILS, 0) != 0;
+  }
+  bool bond_pricing_flows() const {
+    return GetField<uint8_t>(VT_BOND_PRICING_FLOWS, 0) != 0;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -98,6 +106,8 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyOffset(verifier, VT_CURVES) &&
            verifier.VerifyVector(curves()) &&
            verifier.VerifyVectorOfTables(curves()) &&
+           VerifyField<uint8_t>(verifier, VT_BOND_PRICING_DETAILS) &&
+           VerifyField<uint8_t>(verifier, VT_BOND_PRICING_FLOWS) &&
            verifier.EndTable();
   }
 };
@@ -111,6 +121,12 @@ struct PricingBuilder {
   }
   void add_curves(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves) {
     fbb_.AddOffset(Pricing::VT_CURVES, curves);
+  }
+  void add_bond_pricing_details(bool bond_pricing_details) {
+    fbb_.AddElement<uint8_t>(Pricing::VT_BOND_PRICING_DETAILS, static_cast<uint8_t>(bond_pricing_details), 0);
+  }
+  void add_bond_pricing_flows(bool bond_pricing_flows) {
+    fbb_.AddElement<uint8_t>(Pricing::VT_BOND_PRICING_FLOWS, static_cast<uint8_t>(bond_pricing_flows), 0);
   }
   explicit PricingBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -126,23 +142,31 @@ struct PricingBuilder {
 inline flatbuffers::Offset<Pricing> CreatePricing(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<flatbuffers::String> as_of_date = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0) {
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0,
+    bool bond_pricing_details = false,
+    bool bond_pricing_flows = false) {
   PricingBuilder builder_(_fbb);
   builder_.add_curves(curves);
   builder_.add_as_of_date(as_of_date);
+  builder_.add_bond_pricing_flows(bond_pricing_flows);
+  builder_.add_bond_pricing_details(bond_pricing_details);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<Pricing> CreatePricingDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     const char *as_of_date = nullptr,
-    const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr) {
+    const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr,
+    bool bond_pricing_details = false,
+    bool bond_pricing_flows = false) {
   auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
   auto curves__ = curves ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>>(*curves) : 0;
   return quantra::CreatePricing(
       _fbb,
       as_of_date__,
-      curves__);
+      curves__,
+      bond_pricing_details,
+      bond_pricing_flows);
 }
 
 }  // namespace quantra

@@ -17,11 +17,11 @@ struct FlowPastInterestBuilder;
 struct FlowNotional;
 struct FlowNotionalBuilder;
 
+struct FlowsWrapper;
+struct FlowsWrapperBuilder;
+
 struct PriceFixedRateBondResponse;
 struct PriceFixedRateBondResponseBuilder;
-
-struct NPVResponse;
-struct NPVResponseBuilder;
 
 enum FlowType : int8_t {
   FlowType_Interest = 0,
@@ -436,6 +436,80 @@ inline flatbuffers::Offset<FlowNotional> CreateFlowNotionalDirect(
       price);
 }
 
+struct FlowsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowsWrapperBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_FLOW_WRAPPER_TYPE = 4,
+    VT_FLOW_WRAPPER = 6
+  };
+  quantra::Flow flow_wrapper_type() const {
+    return static_cast<quantra::Flow>(GetField<uint8_t>(VT_FLOW_WRAPPER_TYPE, 0));
+  }
+  const void *flow_wrapper() const {
+    return GetPointer<const void *>(VT_FLOW_WRAPPER);
+  }
+  template<typename T> const T *flow_wrapper_as() const;
+  const quantra::FlowInterest *flow_wrapper_as_FlowInterest() const {
+    return flow_wrapper_type() == quantra::Flow_FlowInterest ? static_cast<const quantra::FlowInterest *>(flow_wrapper()) : nullptr;
+  }
+  const quantra::FlowPastInterest *flow_wrapper_as_FlowPastInterest() const {
+    return flow_wrapper_type() == quantra::Flow_FlowPastInterest ? static_cast<const quantra::FlowPastInterest *>(flow_wrapper()) : nullptr;
+  }
+  const quantra::FlowNotional *flow_wrapper_as_FlowNotional() const {
+    return flow_wrapper_type() == quantra::Flow_FlowNotional ? static_cast<const quantra::FlowNotional *>(flow_wrapper()) : nullptr;
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_FLOW_WRAPPER_TYPE) &&
+           VerifyOffset(verifier, VT_FLOW_WRAPPER) &&
+           VerifyFlow(verifier, flow_wrapper(), flow_wrapper_type()) &&
+           verifier.EndTable();
+  }
+};
+
+template<> inline const quantra::FlowInterest *FlowsWrapper::flow_wrapper_as<quantra::FlowInterest>() const {
+  return flow_wrapper_as_FlowInterest();
+}
+
+template<> inline const quantra::FlowPastInterest *FlowsWrapper::flow_wrapper_as<quantra::FlowPastInterest>() const {
+  return flow_wrapper_as_FlowPastInterest();
+}
+
+template<> inline const quantra::FlowNotional *FlowsWrapper::flow_wrapper_as<quantra::FlowNotional>() const {
+  return flow_wrapper_as_FlowNotional();
+}
+
+struct FlowsWrapperBuilder {
+  typedef FlowsWrapper Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_flow_wrapper_type(quantra::Flow flow_wrapper_type) {
+    fbb_.AddElement<uint8_t>(FlowsWrapper::VT_FLOW_WRAPPER_TYPE, static_cast<uint8_t>(flow_wrapper_type), 0);
+  }
+  void add_flow_wrapper(flatbuffers::Offset<void> flow_wrapper) {
+    fbb_.AddOffset(FlowsWrapper::VT_FLOW_WRAPPER, flow_wrapper);
+  }
+  explicit FlowsWrapperBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<FlowsWrapper> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<FlowsWrapper>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    quantra::Flow flow_wrapper_type = quantra::Flow_NONE,
+    flatbuffers::Offset<void> flow_wrapper = 0) {
+  FlowsWrapperBuilder builder_(_fbb);
+  builder_.add_flow_wrapper(flow_wrapper);
+  builder_.add_flow_wrapper_type(flow_wrapper_type);
+  return builder_.Finish();
+}
+
 struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PriceFixedRateBondResponseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -448,7 +522,8 @@ struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers:
     VT_MACAULAY_DURATION = 16,
     VT_MODIFIED_DURATION = 18,
     VT_CONVEXITY = 20,
-    VT_BPS = 22
+    VT_BPS = 22,
+    VT_FLOWS = 24
   };
   float npv() const {
     return GetField<float>(VT_NPV, 0.0f);
@@ -480,6 +555,9 @@ struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers:
   float bps() const {
     return GetField<float>(VT_BPS, 0.0f);
   }
+  const flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>> *flows() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>> *>(VT_FLOWS);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<float>(verifier, VT_NPV) &&
@@ -492,6 +570,9 @@ struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers:
            VerifyField<float>(verifier, VT_MODIFIED_DURATION) &&
            VerifyField<float>(verifier, VT_CONVEXITY) &&
            VerifyField<float>(verifier, VT_BPS) &&
+           VerifyOffset(verifier, VT_FLOWS) &&
+           verifier.VerifyVector(flows()) &&
+           verifier.VerifyVectorOfTables(flows()) &&
            verifier.EndTable();
   }
 };
@@ -530,6 +611,9 @@ struct PriceFixedRateBondResponseBuilder {
   void add_bps(float bps) {
     fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_BPS, bps, 0.0f);
   }
+  void add_flows(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows) {
+    fbb_.AddOffset(PriceFixedRateBondResponse::VT_FLOWS, flows);
+  }
   explicit PriceFixedRateBondResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -552,8 +636,10 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
     float macaulay_duration = 0.0f,
     float modified_duration = 0.0f,
     float convexity = 0.0f,
-    float bps = 0.0f) {
+    float bps = 0.0f,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows = 0) {
   PriceFixedRateBondResponseBuilder builder_(_fbb);
+  builder_.add_flows(flows);
   builder_.add_bps(bps);
   builder_.add_convexity(convexity);
   builder_.add_modified_duration(modified_duration);
@@ -567,45 +653,33 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
   return builder_.Finish();
 }
 
-struct NPVResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef NPVResponseBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_NPV = 4
-  };
-  float npv() const {
-    return GetField<float>(VT_NPV, 0.0f);
-  }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_NPV) &&
-           verifier.EndTable();
-  }
-};
-
-struct NPVResponseBuilder {
-  typedef NPVResponse Table;
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_npv(float npv) {
-    fbb_.AddElement<float>(NPVResponse::VT_NPV, npv, 0.0f);
-  }
-  explicit NPVResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  flatbuffers::Offset<NPVResponse> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<NPVResponse>(end);
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<NPVResponse> CreateNPVResponse(
+inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponseDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float npv = 0.0f) {
-  NPVResponseBuilder builder_(_fbb);
-  builder_.add_npv(npv);
-  return builder_.Finish();
+    float npv = 0.0f,
+    float clean_price = 0.0f,
+    float dirty_price = 0.0f,
+    float accrued_amount = 0.0f,
+    float yield = 0.0f,
+    int32_t accrued_days = 0,
+    float macaulay_duration = 0.0f,
+    float modified_duration = 0.0f,
+    float convexity = 0.0f,
+    float bps = 0.0f,
+    const std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> *flows = nullptr) {
+  auto flows__ = flows ? _fbb.CreateVector<flatbuffers::Offset<quantra::FlowsWrapper>>(*flows) : 0;
+  return quantra::CreatePriceFixedRateBondResponse(
+      _fbb,
+      npv,
+      clean_price,
+      dirty_price,
+      accrued_amount,
+      yield,
+      accrued_days,
+      macaulay_duration,
+      modified_duration,
+      convexity,
+      bps,
+      flows__);
 }
 
 inline bool VerifyFlow(flatbuffers::Verifier &verifier, const void *obj, Flow type) {
