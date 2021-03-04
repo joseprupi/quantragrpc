@@ -19,11 +19,11 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 ![Arqchitecture](docs/architecture.jpg?raw=true "Arqchitecture")
 
-### Formats
+### Data format
 
 The main format of quantra is Flatbuffers which is used to communicate with the server.
 
-As the serialization to Flatbuffers can be tedious, part of the client implementation translates from C++ structs to Flatbuffers that can be sent to the server. 
+As the serialization to Flatbuffers can be tedious part of the client implementation translates from quantra defined C++ structs to Flatbuffers. 
 
 Once the data has been serialized this can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
 
@@ -35,4 +35,9 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ## Formating data
 
-flatc --raw-binary -t ../flatbuffers/fbs/requests.fbs --json --strict-json -- ./data/fixed_rate_bond_request.bin
+## Nice to have
+
+![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
+
+* It would be nice to have a Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). 
+* Having a cache to for interprocess communications for things such as bootstrapped curves and avoid recalculation
