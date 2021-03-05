@@ -13,6 +13,7 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
 
     // Create deposit
     auto deposit_helper_zc3m_builder = quantra::DepositHelperBuilder(*builder);
+    deposit_helper_zc3m_builder.add_rate(0.0096);
     deposit_helper_zc3m_builder.add_tenor_number(3);
     deposit_helper_zc3m_builder.add_tenor_time_unit(quantra::enums::TimeUnit_Months);
     deposit_helper_zc3m_builder.add_fixing_days(fixing_days);

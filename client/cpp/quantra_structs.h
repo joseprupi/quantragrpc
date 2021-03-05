@@ -28,15 +28,15 @@ struct Yield
 
 struct Pricing
 {
-    std::string as_of_date;
+    char as_of_date[11];
     std::vector<TermStructure> curves;
 };
 
 struct Schedule
 {
     Calendar calendar;
-    std::string effective_date;
-    std::string termination_date;
+    char effective_date[11];
+    char termination_date[11];
     Frequency frequency;
     BusinessDayConvention convention;
     BusinessDayConvention termination_date_convention;
@@ -46,7 +46,7 @@ struct Schedule
 
 struct Fixing
 {
-    std::string date;
+    char date[11];
     float rate;
 };
 
@@ -87,7 +87,7 @@ struct FRAHelper
 struct FutureHelper
 {
     float rate;
-    std::string future_start_date;
+    char future_start_date[11];
     int future_months;
     Calendar calendar;
     BusinessDayConvention business_day_convention;
@@ -118,7 +118,7 @@ struct BondHelper
     DayCounter day_counter;
     BusinessDayConvention business_day_convention;
     float redemption;
-    std::string issue_date;
+    char issue_date[11];
 };
 
 enum PointType
@@ -145,11 +145,11 @@ struct Point
 
 struct TermStructure
 {
-    std::string id;
+    char id[11];
     DayCounter day_counter;
     Interpolator interpolator;
     BootstrapTrait bootstrap_trait;
-    std::string as_of_date;
+    char as_of_date[11];
     std::vector<Point> points;
 };
 
@@ -161,7 +161,7 @@ struct FixedRateBond
     DayCounter accrual_day_counter;
     BusinessDayConvention payment_convention;
     double redemption;
-    std::string issue_date;
+    char issue_date[11];
     Schedule schedule;
 };
 
@@ -183,7 +183,7 @@ struct FloatingRateBond
 struct PriceFixedRateBond
 {
     FixedRateBond fixed_rate_bond;
-    std::string discounting_curve;
+    char discounting_curve[11];
     Yield yield;
 };
 
@@ -196,8 +196,8 @@ struct PriceFixedRateBondRequest
 struct PriceFloatingRateBond
 {
     FloatingRateBond floating_rate_bond;
-    std::string discounting_curve;
-    std::string forecasting_curve;
+    char discounting_curve[11];
+    char forecasting_curve[11];
     Yield yield;
 };
 
