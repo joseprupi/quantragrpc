@@ -1,6 +1,6 @@
 #include "flatbuffers/grpc.h"
 
-#include "quantra_structs.h";
+#include "quantra_structs.h"
 #include "term_structure_generated.h"
 #include "index_generated.h"
 #include "common_generated.h"
@@ -8,6 +8,8 @@
 #include "floating_rate_bond_generated.h"
 #include "price_fixed_rate_bond_request_generated.h"
 #include "price_floating_rate_bond_request_generated.h"
+
+using namespace structs;
 
 flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Yield &yield);
 flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Pricing &pricing);

@@ -1,6 +1,8 @@
-#include "quantra_structs.h";
+#include "quantra_structs.h"
 
-PriceFloatingRateBondRequest request()
+using namespace structs;
+
+PriceFixedRateBondRequest request()
 {
     std::vector<Point> points;
 
@@ -49,14 +51,14 @@ PriceFloatingRateBondRequest request()
 
     points.push_back(deposit_zc1y_point);
 
-    char *issue_dates[] = {
+    const char *issue_dates[] = {
         "2005/03/15",
         "2005/06/15",
         "2006/06/30",
         "2002/11/15",
         "1987/05/15"};
 
-    char *maturities[] = {
+    const char *maturities[] = {
         "2010/08/31",
         "2011/08/31",
         "2013/08/31",
@@ -139,9 +141,9 @@ PriceFloatingRateBondRequest request()
         .issue_date = "2007/05/15",
         .schedule = schedule};
 
-    PriceFixedRateBond price_fixed_rate_bond = {
-        .fixed_rate_bond = bond,
-        .discounting_curve = "depos"};
+    PriceFixedRateBond price_fixed_rate_bond;
+    price_fixed_rate_bond.fixed_rate_bond = bond;
+    strcpy(price_fixed_rate_bond.discounting_curve, "depos");
 
     std::vector<PriceFixedRateBond> bonds;
     bonds.push_back(price_fixed_rate_bond);
@@ -157,4 +159,6 @@ PriceFloatingRateBondRequest request()
     PriceFixedRateBondRequest request = {
         .pricing = pricing,
         .bonds = bonds};
+
+    return request;
 }

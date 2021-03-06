@@ -51,3 +51,7 @@ table PriceFixedRateBondResponse{
     bps:float;
     flows:[FlowsWrapper];
 }
+
+table NPVResponse{
+    npv:float;
+} 

@@ -56,7 +56,21 @@ class Pricing(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
-def Start(builder): builder.StartObject(2)
+    # Pricing
+    def BondPricingDetails(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Pricing
+    def BondPricingFlows(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+def Start(builder): builder.StartObject(4)
 def PricingStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -72,6 +86,14 @@ def StartCurvesVector(builder, numElems): return builder.StartVector(4, numElems
 def PricingStartCurvesVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartCurvesVector(builder, numElems)
+def AddBondPricingDetails(builder, bondPricingDetails): builder.PrependBoolSlot(2, bondPricingDetails, 0)
+def PricingAddBondPricingDetails(builder, bondPricingDetails):
+    """This method is deprecated. Please switch to AddBondPricingDetails."""
+    return AddBondPricingDetails(builder, bondPricingDetails)
+def AddBondPricingFlows(builder, bondPricingFlows): builder.PrependBoolSlot(3, bondPricingFlows, 0)
+def PricingAddBondPricingFlows(builder, bondPricingFlows):
+    """This method is deprecated. Please switch to AddBondPricingFlows."""
+    return AddBondPricingFlows(builder, bondPricingFlows)
 def End(builder): return builder.EndObject()
 def PricingEnd(builder):
     """This method is deprecated. Please switch to End."""

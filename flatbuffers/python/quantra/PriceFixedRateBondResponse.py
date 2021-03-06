@@ -94,7 +94,32 @@ class PriceFixedRateBondResponse(object):
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
-def Start(builder): builder.StartObject(10)
+    # PriceFixedRateBondResponse
+    def Flows(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from quantra.FlowsWrapper import FlowsWrapper
+            obj = FlowsWrapper()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # PriceFixedRateBondResponse
+    def FlowsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # PriceFixedRateBondResponse
+    def FlowsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        return o == 0
+
+def Start(builder): builder.StartObject(11)
 def PriceFixedRateBondResponseStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -138,6 +163,14 @@ def AddBps(builder, bps): builder.PrependFloat32Slot(9, bps, 0.0)
 def PriceFixedRateBondResponseAddBps(builder, bps):
     """This method is deprecated. Please switch to AddBps."""
     return AddBps(builder, bps)
+def AddFlows(builder, flows): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(flows), 0)
+def PriceFixedRateBondResponseAddFlows(builder, flows):
+    """This method is deprecated. Please switch to AddFlows."""
+    return AddFlows(builder, flows)
+def StartFlowsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def PriceFixedRateBondResponseStartFlowsVector(builder, numElems):
+    """This method is deprecated. Please switch to Start."""
+    return StartFlowsVector(builder, numElems)
 def End(builder): return builder.EndObject()
 def PriceFixedRateBondResponseEnd(builder):
     """This method is deprecated. Please switch to End."""

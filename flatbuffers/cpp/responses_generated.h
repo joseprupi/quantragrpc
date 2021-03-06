@@ -23,6 +23,9 @@ struct FlowsWrapperBuilder;
 struct PriceFixedRateBondResponse;
 struct PriceFixedRateBondResponseBuilder;
 
+struct NPVResponse;
+struct NPVResponseBuilder;
+
 enum FlowType : int8_t {
   FlowType_Interest = 0,
   FlowType_PastInterest = 1,
@@ -680,6 +683,47 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
       convexity,
       bps,
       flows__);
+}
+
+struct NPVResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef NPVResponseBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NPV = 4
+  };
+  float npv() const {
+    return GetField<float>(VT_NPV, 0.0f);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_NPV) &&
+           verifier.EndTable();
+  }
+};
+
+struct NPVResponseBuilder {
+  typedef NPVResponse Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_npv(float npv) {
+    fbb_.AddElement<float>(NPVResponse::VT_NPV, npv, 0.0f);
+  }
+  explicit NPVResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<NPVResponse> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<NPVResponse>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<NPVResponse> CreateNPVResponse(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    float npv = 0.0f) {
+  NPVResponseBuilder builder_(_fbb);
+  builder_.add_npv(npv);
+  return builder_.Finish();
 }
 
 inline bool VerifyFlow(flatbuffers::Verifier &verifier, const void *obj, Flow type) {
