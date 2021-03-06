@@ -2,7 +2,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/cpp
                     /root/quantra/flatbuffers/cpp
                     /root/quantra/grpc)
 
-file(GLOB CPP_CLIENT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cpp/quantra_client.cpp)
+file(GLOB CPP_CLIENT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.cpp)
 
 find_package(Threads REQUIRED)
 link_directories(/root/grpc/install/lib/)

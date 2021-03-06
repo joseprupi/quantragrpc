@@ -195,30 +195,40 @@ flatbuffers::Offset<quantra::TermStructure> term_structure_to_fbs(std::shared_pt
         switch (it->point_type)
         {
         case Deposit:
+        {
             auto deposit = deposit_helper_to_fbs(builder, it->deposit_helper);
             points_vector.push_back(deposit);
 
             break;
+        }
         case FRA:
+        {
             auto FRA = FRAhelper_to_fbs(builder, it->FRA_helper);
             points_vector.push_back(FRA);
 
             break;
+        }
         case Future:
+        {
             auto future = future_helper_to_fbs(builder, it->future_helper);
             points_vector.push_back(future);
 
             break;
+        }
         case Swap:
+        {
             auto swap = swap_helper_to_fbs(builder, it->swap_helper);
             points_vector.push_back(swap);
 
             break;
+        }
         case Bond:
+        {
             auto bond = bond_helper_to_fbs(builder, it->bond_helper);
             points_vector.push_back(bond);
-            break;
 
+            break;
+        }
         default:
             break;
         }

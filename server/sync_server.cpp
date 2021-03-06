@@ -116,8 +116,8 @@ private:
         bool ok;
         while (true)
         {
-            // std::cout << "Received rpc" << std::endl
-            //           << std::endl;
+            std::cout << "Received rpc" << std::endl
+                      << std::endl;
 
             new CallData(&service_, cq_.get());
 
