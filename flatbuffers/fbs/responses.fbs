@@ -1,13 +1,13 @@
 namespace quantra;
 
-enum FlowType : byte { 
+/*enum FlowType : byte { 
     Interest,
     PastInterest,
     Notional
-}
+}*/
 
 table FlowInterest{
-    flow_type:FlowType;
+    //flow_type:FlowType;
     amount:double;
     accrual_start_date:string;
     accrual_end_date:string;
@@ -17,7 +17,7 @@ table FlowInterest{
 }
 
 table FlowPastInterest{
-    flow_type:FlowType;
+    //flow_type:FlowType;
     amount:double;
     accrual_start_date:string;
     accrual_end_date:string;
@@ -25,7 +25,7 @@ table FlowPastInterest{
 }
 
 table FlowNotional{
-    flow_type:FlowType;
+    //flow_type:FlowType;
     date:string;
     amount:double;
     discount:float;

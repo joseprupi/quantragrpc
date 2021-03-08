@@ -15,3 +15,7 @@ table Pricing{
     bond_pricing_details:bool;
     bond_pricing_flows:bool;
 }
+
+table Error{
+    error_message: string;
+}

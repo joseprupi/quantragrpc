@@ -27,9 +27,9 @@ namespace structs
 
     struct Yield
     {
-        DayCounter day_counter;
-        Compounding compounding;
-        Frequency frequency;
+        quantra::enums::DayCounter day_counter;
+        quantra::enums::Compounding compounding;
+        quantra::enums::Frequency frequency;
     };
 
     struct Pricing
@@ -40,13 +40,13 @@ namespace structs
 
     struct Schedule
     {
-        Calendar calendar;
+        quantra::enums::Calendar calendar;
         char effective_date[11];
         char termination_date[11];
-        Frequency frequency;
-        BusinessDayConvention convention;
-        BusinessDayConvention termination_date_convention;
-        DateGenerationRule date_generation_rule;
+        quantra::enums::Frequency frequency;
+        quantra::enums::BusinessDayConvention convention;
+        quantra::enums::BusinessDayConvention termination_date_convention;
+        quantra::enums::DateGenerationRule date_generation_rule;
         bool end_of_mont;
     };
 
@@ -59,24 +59,24 @@ namespace structs
     struct Index
     {
         int period_number;
-        TimeUnit period_time_unit;
+        quantra::enums::TimeUnit period_time_unit;
         int settlement_days;
-        Calendar calendar;
-        BusinessDayConvention business_day_convention;
+        quantra::enums::Calendar calendar;
+        quantra::enums::BusinessDayConvention business_day_convention;
         bool end_of_month;
-        DayCounter day_counter;
+        quantra::enums::DayCounter day_counter;
         std::vector<Fixing> fixings;
     };
 
     struct DepositHelper
     {
         float rate;
-        TimeUnit tenor_time_unit;
+        quantra::enums::TimeUnit tenor_time_unit;
         int tenor_number;
         int fixing_days;
-        Calendar calendar;
-        BusinessDayConvention business_day_convention;
-        DayCounter day_counter;
+        quantra::enums::Calendar calendar;
+        quantra::enums::BusinessDayConvention business_day_convention;
+        quantra::enums::DayCounter day_counter;
     };
 
     struct FRAHelper
@@ -85,9 +85,9 @@ namespace structs
         int months_to_start;
         int months_to_end;
         int fixing_days;
-        Calendar calendar;
-        BusinessDayConvention business_day_convention;
-        DayCounter day_counter;
+        quantra::enums::Calendar calendar;
+        quantra::enums::BusinessDayConvention business_day_convention;
+        quantra::enums::DayCounter day_counter;
     };
 
     struct FutureHelper
@@ -95,21 +95,21 @@ namespace structs
         float rate;
         char future_start_date[11];
         int future_months;
-        Calendar calendar;
-        BusinessDayConvention business_day_convention;
-        DayCounter day_counter;
+        quantra::enums::Calendar calendar;
+        quantra::enums::BusinessDayConvention business_day_convention;
+        quantra::enums::DayCounter day_counter;
     };
 
     struct SwapHelper
     {
         float rate;
-        TimeUnit tenor_time_unit;
+        quantra::enums::TimeUnit tenor_time_unit;
         int tenor_number;
-        Calendar calendar;
-        Frequency sw_fixed_leg_frequency;
-        BusinessDayConvention sw_fixed_leg_convention;
-        DayCounter sw_fixed_leg_day_counter;
-        Ibor sw_floating_leg_index;
+        quantra::enums::Calendar calendar;
+        quantra::enums::Frequency sw_fixed_leg_frequency;
+        quantra::enums::BusinessDayConvention sw_fixed_leg_convention;
+        quantra::enums::DayCounter sw_fixed_leg_day_counter;
+        quantra::enums::Ibor sw_floating_leg_index;
         float spread;
         int fwd_start_days;
     };
@@ -121,8 +121,8 @@ namespace structs
         float face_amount;
         Schedule schedule;
         float coupon_rate;
-        DayCounter day_counter;
-        BusinessDayConvention business_day_convention;
+        quantra::enums::DayCounter day_counter;
+        quantra::enums::BusinessDayConvention business_day_convention;
         float redemption;
         char issue_date[11];
     };
@@ -152,9 +152,9 @@ namespace structs
     struct TermStructure
     {
         char id[11];
-        DayCounter day_counter;
-        Interpolator interpolator;
-        BootstrapTrait bootstrap_trait;
+        quantra::enums::DayCounter day_counter;
+        quantra::enums::Interpolator interpolator;
+        quantra::enums::BootstrapTrait bootstrap_trait;
         char as_of_date[11];
         std::vector<Point> points;
     };
@@ -164,8 +164,8 @@ namespace structs
         int settlement_days;
         double face_amount;
         double rate;
-        DayCounter accrual_day_counter;
-        BusinessDayConvention payment_convention;
+        quantra::enums::DayCounter accrual_day_counter;
+        quantra::enums::BusinessDayConvention payment_convention;
         double redemption;
         char issue_date[11];
         Schedule schedule;
@@ -177,8 +177,8 @@ namespace structs
         double face_amount;
         Schedule schedule;
         Index index;
-        DayCounter accrual_day_counter;
-        BusinessDayConvention payment_convention;
+        quantra::enums::DayCounter accrual_day_counter;
+        quantra::enums::BusinessDayConvention payment_convention;
         int fixing_days;
         double spread;
         bool in_arrears;

@@ -1,6 +1,10 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/cpp
                     /root/quantra/flatbuffers/cpp
-                    /root/quantra/grpc)
+                    /root/quantra/grpc
+                    /root/quantra/examples/data
+                    /root/quantra/request
+                    /root/quantra/common
+                    /root/quantra/parser)
 
 file(GLOB CPP_CLIENT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.cpp)
 

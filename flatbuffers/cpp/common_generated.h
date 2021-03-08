@@ -18,6 +18,9 @@ struct YieldBuilder;
 struct Pricing;
 struct PricingBuilder;
 
+struct Error;
+struct ErrorBuilder;
+
 struct Yield FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef YieldBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -167,6 +170,57 @@ inline flatbuffers::Offset<Pricing> CreatePricingDirect(
       curves__,
       bond_pricing_details,
       bond_pricing_flows);
+}
+
+struct Error FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ErrorBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ERROR_MESSAGE = 4
+  };
+  const flatbuffers::String *error_message() const {
+    return GetPointer<const flatbuffers::String *>(VT_ERROR_MESSAGE);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_ERROR_MESSAGE) &&
+           verifier.VerifyString(error_message()) &&
+           verifier.EndTable();
+  }
+};
+
+struct ErrorBuilder {
+  typedef Error Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_error_message(flatbuffers::Offset<flatbuffers::String> error_message) {
+    fbb_.AddOffset(Error::VT_ERROR_MESSAGE, error_message);
+  }
+  explicit ErrorBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<Error> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<Error>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<Error> CreateError(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::String> error_message = 0) {
+  ErrorBuilder builder_(_fbb);
+  builder_.add_error_message(error_message);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<Error> CreateErrorDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    const char *error_message = nullptr) {
+  auto error_message__ = error_message ? _fbb.CreateString(error_message) : 0;
+  return quantra::CreateError(
+      _fbb,
+      error_message__);
 }
 
 }  // namespace quantra

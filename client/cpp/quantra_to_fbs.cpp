@@ -1,6 +1,6 @@
-#include "quantra_to_fbs.h";
+#include "quantra_to_fbs.h"
 
-flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Yield &yield)
+flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::Yield &yield)
 {
     auto yield_builder = quantra::YieldBuilder(*builder);
     yield_builder.add_day_counter(yield.day_counter);
@@ -9,7 +9,7 @@ flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::gr
     return yield_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Pricing &pricing)
+flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::Pricing &pricing)
 {
     std::vector<flatbuffers::Offset<quantra::TermStructure>> term_structures_vector;
 
@@ -28,7 +28,7 @@ flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers
     return pricing_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::DepositHelper> deposit_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, DepositHelper &deposit)
+flatbuffers::Offset<quantra::DepositHelper> deposit_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::DepositHelper &deposit)
 {
     auto deposit_builder = quantra::DepositHelperBuilder(*builder);
     deposit_builder.add_tenor_number(deposit.tenor_number);
@@ -40,7 +40,7 @@ flatbuffers::Offset<quantra::DepositHelper> deposit_to_fbs(std::shared_ptr<flatb
     return deposit_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::Schedule> schedule_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Schedule &schedule)
+flatbuffers::Offset<quantra::Schedule> schedule_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::Schedule &schedule)
 {
     auto effective_date = builder->CreateString(schedule.effective_date);
     auto termination_date = builder->CreateString(schedule.termination_date);
@@ -56,7 +56,7 @@ flatbuffers::Offset<quantra::Schedule> schedule_to_fbs(std::shared_ptr<flatbuffe
     return schedule_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::Index> index_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, Index &index)
+flatbuffers::Offset<quantra::Index> index_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::Index &index)
 {
     std::vector<flatbuffers::Offset<quantra::Fixing>> fixings_vector;
 
@@ -86,7 +86,7 @@ flatbuffers::Offset<quantra::Index> index_to_fbs(std::shared_ptr<flatbuffers::gr
     return index_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PointsWrapper> deposit_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, DepositHelper &deposit_helper)
+flatbuffers::Offset<quantra::PointsWrapper> deposit_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::DepositHelper &deposit_helper)
 {
     auto deposit_builder = quantra::DepositHelperBuilder(*builder);
     deposit_builder.add_rate(deposit_helper.rate);
@@ -104,7 +104,7 @@ flatbuffers::Offset<quantra::PointsWrapper> deposit_helper_to_fbs(std::shared_pt
     return deposit_wrapper_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PointsWrapper> FRAhelper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, FRAHelper &FRA_helper)
+flatbuffers::Offset<quantra::PointsWrapper> FRAhelper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::FRAHelper &FRA_helper)
 {
     auto FRA_helper_builder = quantra::FRAHelperBuilder(*builder);
     FRA_helper_builder.add_rate(FRA_helper.rate);
@@ -121,7 +121,7 @@ flatbuffers::Offset<quantra::PointsWrapper> FRAhelper_to_fbs(std::shared_ptr<fla
     return FRA_wrapper_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PointsWrapper> future_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, FutureHelper &future_helper)
+flatbuffers::Offset<quantra::PointsWrapper> future_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::FutureHelper &future_helper)
 {
     auto future_start_date = builder->CreateString(future_helper.future_start_date);
 
@@ -140,7 +140,7 @@ flatbuffers::Offset<quantra::PointsWrapper> future_helper_to_fbs(std::shared_ptr
     return future_wrapper_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PointsWrapper> swap_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, SwapHelper &swap_helper)
+flatbuffers::Offset<quantra::PointsWrapper> swap_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::SwapHelper &swap_helper)
 {
     auto swap_helper_builder = quantra::SwapHelperBuilder(*builder);
 
@@ -161,7 +161,7 @@ flatbuffers::Offset<quantra::PointsWrapper> swap_helper_to_fbs(std::shared_ptr<f
     return swap_wrapper_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PointsWrapper> bond_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, BondHelper &bond_helper)
+flatbuffers::Offset<quantra::PointsWrapper> bond_helper_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::BondHelper &bond_helper)
 {
     auto schedule = schedule_to_fbs(builder, bond_helper.schedule);
     auto issue_date = builder->CreateString(bond_helper.issue_date);
@@ -185,7 +185,7 @@ flatbuffers::Offset<quantra::PointsWrapper> bond_helper_to_fbs(std::shared_ptr<f
     return bond_wrapper_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::TermStructure> term_structure_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, TermStructure &term_structure)
+flatbuffers::Offset<quantra::TermStructure> term_structure_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::TermStructure &term_structure)
 {
 
     std::vector<flatbuffers::Offset<quantra::PointsWrapper>> points_vector;
@@ -247,8 +247,7 @@ flatbuffers::Offset<quantra::TermStructure> term_structure_to_fbs(std::shared_pt
     term_structure_builder.add_points(points);
     return term_structure_builder.Finish();
 }
-
-flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, FixedRateBond &fixed_rate_bond)
+flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::FixedRateBond &fixed_rate_bond)
 {
     auto schedule = schedule_to_fbs(builder, fixed_rate_bond.schedule);
     auto issue_date = builder->CreateString(fixed_rate_bond.issue_date);
@@ -265,7 +264,7 @@ flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond_to_fbs(std::shared_p
     return fixed_rate_bond_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::FloatingRateBond> floating_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, FloatingRateBond &floating_rate_bond)
+flatbuffers::Offset<quantra::FloatingRateBond> floating_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::FloatingRateBond &floating_rate_bond)
 {
     auto schedule = schedule_to_fbs(builder, floating_rate_bond.schedule);
     auto index = index_to_fbs(builder, floating_rate_bond.index);
@@ -286,7 +285,7 @@ flatbuffers::Offset<quantra::FloatingRateBond> floating_rate_bond_to_fbs(std::sh
     return floating_rate_bond_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, PriceFixedRateBond &price_bond)
+flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::PriceFixedRateBond &price_bond)
 {
     auto fixed_rate_bond = fixed_rate_bond_to_fbs(builder, price_bond.fixed_rate_bond);
     auto discounting_curve = builder->CreateString(price_bond.discounting_curve);
@@ -298,7 +297,7 @@ flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std
     return price_fixed_rate_bond_builder.Finish();
 }
 
-flatbuffers::Offset<quantra::PriceFixedRateBondRequest> price_fixe_rate_bond_request_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, PriceFixedRateBondRequest &price_bond)
+flatbuffers::Offset<quantra::PriceFixedRateBondRequest> price_fixe_rate_bond_request_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, structs::PriceFixedRateBondRequest &price_bond)
 {
     auto pricing = pricing_to_fbs(builder, price_bond.pricing);
 

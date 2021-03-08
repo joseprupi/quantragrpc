@@ -28,8 +28,7 @@
 class FixedRateBondPricingRequest
 {
 public:
-    //std::shared_ptr<quantra::responses::FixedRatePricingResponse> request(const quantra::PriceFixedRateBondRequest *request);
-    float request(const quantra::PriceFixedRateBondRequest *request);
+    void request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request);
 };
 
 #endif //QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H

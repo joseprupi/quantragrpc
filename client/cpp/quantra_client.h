@@ -28,6 +28,7 @@ private:
     {
 
         flatbuffers::grpc::Message<quantra::NPVResponse> reply;
+        flatbuffers::grpc::Message<quantra::Error> error_details;
         grpc::ClientContext context;
         grpc::Status status;
         int request_pos;

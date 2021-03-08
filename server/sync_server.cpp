@@ -17,44 +17,30 @@ public:
     ~ServerImpl()
     {
         server_->Shutdown();
-        // Always shutdown the completion queue after the server.
         cq_->Shutdown();
     }
 
-    // There is no shutdown handling in this code.
     void Run(std::string port)
     {
         std::string server_address("127.0.0.1:" + port);
 
         grpc::ServerBuilder builder;
-        // Listen on the given address without any authentication mechanism.
         builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-        // Register "service_" as the instance through which we'll communicate with
-        // clients. In this case it corresponds to an *asynchronous* service.
         builder.RegisterService(&service_);
-        // Get hold of the completion queue used for the asynchronous communication
-        // with the gRPC runtime.
         cq_ = builder.AddCompletionQueue();
-        // Finally assemble the server.
         server_ = builder.BuildAndStart();
         std::cout << "Server listening on " << server_address << std::endl;
 
-        // Proceed to the server's main loop.
         HandleRpcs();
     }
 
 private:
-    // Class encompasing the state and logic needed to serve a request.
     class CallData
     {
     public:
-        // Take in the "service" instance (in this case representing an asynchronous
-        // server) and the completion queue "cq" used for asynchronous communication
-        // with the gRPC runtime.
         CallData(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
             : service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
         {
-            // Invoke the serving logic right away.
             Proceed();
         }
 
@@ -68,24 +54,52 @@ private:
             }
             else if (status_ == PROCESS)
             {
-                //new CallData(service_, cq_);
-                flatbuffers::grpc::MessageBuilder builder;
-                FixedRateBondPricingRequest request;
-                float npv = request.request(request_msg.GetRoot());
+                std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
+                try
+                {
 
-                auto offset = quantra::CreateNPVResponse(builder, npv);
-                builder.Finish(offset);
+                    FixedRateBondPricingRequest request;
+                    request.request(builder, request_msg.GetRoot());
 
-                reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
-                assert(reply_.Verify());
+                    reply_ = builder->ReleaseMessage<quantra::Pricing>();
+                    assert(reply_.Verify());
 
-                status_ = FINISH;
-                responder_.Finish(reply_, grpc::Status::OK, this);
+                    status_ = FINISH;
+                    responder_.Finish(reply_, grpc::Status::OK, this);
+                }
+                catch (QuantLib::Error e)
+                {
+
+                    std::string error_msg = "QuantLib error: ";
+                    error_msg.append(e.what());
+
+                    auto offset = quantra::CreateNPVResponse(builder, 0.0);
+                    builder.Finish(offset);
+                    reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
+                    assert(reply_.Verify());
+
+                    status_ = FINISH;
+                    auto status = grpc::Status(grpc::StatusCode::ABORTED, "QuantLib error", error_msg);
+                    responder_.Finish(reply_, status, this);
+                }
+                catch (std::exception e)
+                {
+                    std::string error_msg = "Unknown error: ";
+                    error_msg.append(e.what());
+
+                    auto offset = quantra::CreateNPVResponse(builder, 0.0);
+                    builder.Finish(offset);
+                    reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
+                    assert(reply_.Verify());
+
+                    status_ = FINISH;
+                    auto status = grpc::Status(grpc::StatusCode::ABORTED, "Unknown error", error_msg);
+                    responder_.Finish(reply_, status, this);
+                }
             }
             else
             {
                 GPR_ASSERT(status_ == FINISH);
-                // Once in the FINISH state, deallocate ourselves (CallData).
                 delete this;
             }
         }
@@ -106,7 +120,7 @@ private:
             PROCESS,
             FINISH
         };
-        CallStatus status_; // The current serving state.
+        CallStatus status_;
     };
 
     void HandleRpcs()
@@ -116,9 +130,6 @@ private:
         bool ok;
         while (true)
         {
-            std::cout << "Received rpc" << std::endl
-                      << std::endl;
-
             new CallData(&service_, cq_.get());
 
             GPR_ASSERT(cq_->Next(&tag, &ok));

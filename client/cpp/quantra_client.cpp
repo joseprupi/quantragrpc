@@ -17,7 +17,9 @@ void QuantraClient::PriceFixedRateBondRequestCall(structs::PriceFixedRateBondReq
 {
     std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
 
-    price_fixe_rate_bond_request_to_fbs(builder, request);
+    auto bond_request = price_fixe_rate_bond_request_to_fbs(builder, request);
+    builder->Finish(bond_request);
+
     auto request_msg = builder->ReleaseMessage<quantra::PriceFixedRateBondRequest>();
 
     AsyncClientCall *call = new AsyncClientCall;
@@ -62,10 +64,16 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
         if (call->status.ok())
         {
             const quantra::NPVResponse *response = call->reply.GetRoot();
+            auto npv = response->npv();
+            std::cout << "NPV: " << npv << std::endl;
             responses.insert(responses.begin() + call->request_pos, npv_response_to_quantra(response));
         }
         else
-            std::cout << "RPC failed" << call->status.error_code() << std::endl;
+        {
+            std::cout << "RPC code: " << call->status.error_code() << std::endl;
+            std::cout << "RPC message: " << call->status.error_message() << std::endl;
+            std::cout << "Error details: " << call->status.error_details() << std::endl;
+        }
 
         delete call;
 
