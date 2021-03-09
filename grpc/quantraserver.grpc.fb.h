@@ -34,33 +34,33 @@ class QuantraServer final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status BondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<NPVResponse>* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>> AsyncBondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>>(AsyncBondPricingRaw(context, request, cq));
+    virtual ::grpc::Status PriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>> AsyncPriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>>(AsyncPriceFixedRateBondRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>> PrepareAsyncBondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>>(PrepareAsyncBondPricingRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>> PrepareAsyncPriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>>(PrepareAsyncPriceFixedRateBondRaw(context, request, cq));
     }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>* AsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<NPVResponse>>* PrepareAsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* AsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* PrepareAsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status BondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<NPVResponse>* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>> AsyncBondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>>(AsyncBondPricingRaw(context, request, cq));
+    ::grpc::Status PriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>> AsyncPriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>>(AsyncPriceFixedRateBondRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>> PrepareAsyncBondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>>(PrepareAsyncBondPricingRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>> PrepareAsyncPriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>>(PrepareAsyncPriceFixedRateBondRaw(context, request, cq));
     }
   
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>* AsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>* PrepareAsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_BondPricing_;
+    ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* AsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* PrepareAsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_PriceFixedRateBond_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
   
@@ -68,69 +68,69 @@ class QuantraServer final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status BondPricing(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<NPVResponse>* response);
+    virtual ::grpc::Status PriceFixedRateBond(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_BondPricing : public BaseClass {
+  class WithAsyncMethod_PriceFixedRateBond : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_BondPricing() {
+    WithAsyncMethod_PriceFixedRateBond() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_BondPricing() override {
+    ~WithAsyncMethod_PriceFixedRateBond() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status BondPricing(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<NPVResponse>* response) final override {
+    ::grpc::Status PriceFixedRateBond(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestBondPricing(::grpc::ServerContext* context, flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, ::grpc::ServerAsyncResponseWriter< flatbuffers::grpc::Message<NPVResponse>>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestPriceFixedRateBond(::grpc::ServerContext* context, flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, ::grpc::ServerAsyncResponseWriter< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef   WithAsyncMethod_BondPricing<  Service   >   AsyncService;
+  typedef   WithAsyncMethod_PriceFixedRateBond<  Service   >   AsyncService;
   template <class BaseClass>
-  class WithGenericMethod_BondPricing : public BaseClass {
+  class WithGenericMethod_PriceFixedRateBond : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_BondPricing() {
+    WithGenericMethod_PriceFixedRateBond() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_BondPricing() override {
+    ~WithGenericMethod_PriceFixedRateBond() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status BondPricing(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<NPVResponse>* response) final override {
+    ::grpc::Status PriceFixedRateBond(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_BondPricing : public BaseClass {
+  class WithStreamedUnaryMethod_PriceFixedRateBond : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithStreamedUnaryMethod_BondPricing() {
+    WithStreamedUnaryMethod_PriceFixedRateBond() {
       ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler< flatbuffers::grpc::Message<PriceFixedRateBondRequest>, flatbuffers::grpc::Message<NPVResponse>>(std::bind(&WithStreamedUnaryMethod_BondPricing<BaseClass>::StreamedBondPricing, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler< flatbuffers::grpc::Message<PriceFixedRateBondRequest>, flatbuffers::grpc::Message<PriceFixedRateBondResponse>>(std::bind(&WithStreamedUnaryMethod_PriceFixedRateBond<BaseClass>::StreamedPriceFixedRateBond, this, std::placeholders::_1, std::placeholders::_2)));
     }
-    ~WithStreamedUnaryMethod_BondPricing() override {
+    ~WithStreamedUnaryMethod_PriceFixedRateBond() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status BondPricing(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<NPVResponse>* response) final override {
+    ::grpc::Status PriceFixedRateBond(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedBondPricing(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< flatbuffers::grpc::Message<PriceFixedRateBondRequest>,flatbuffers::grpc::Message<NPVResponse>>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedPriceFixedRateBond(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< flatbuffers::grpc::Message<PriceFixedRateBondRequest>,flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* server_unary_streamer) = 0;
   };
-  typedef   WithStreamedUnaryMethod_BondPricing<  Service   >   StreamedUnaryService;
+  typedef   WithStreamedUnaryMethod_PriceFixedRateBond<  Service   >   StreamedUnaryService;
   typedef   Service   SplitStreamedService;
-  typedef   WithStreamedUnaryMethod_BondPricing<  Service   >   StreamedService;
+  typedef   WithStreamedUnaryMethod_PriceFixedRateBond<  Service   >   StreamedService;
 };
 
 }  // namespace quantra

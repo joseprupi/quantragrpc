@@ -4,5 +4,5 @@ include "/fbs/responses.fbs";
 namespace quantra;
 
 rpc_service QuantraServer {
-  PriceFixedRateBond(PriceFixedRateBondRequest):NPVResponse;
+  PriceFixedRateBond(PriceFixedRateBondRequest):PriceFixedRateBondResponse;
 }

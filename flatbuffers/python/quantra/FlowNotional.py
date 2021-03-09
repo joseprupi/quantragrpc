@@ -25,61 +25,50 @@ class FlowNotional(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # FlowNotional
-    def FlowType(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
-        return 0
-
-    # FlowNotional
     def Date(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
     # FlowNotional
     def Amount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # FlowNotional
     def Discount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
     # FlowNotional
     def Price(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
-def Start(builder): builder.StartObject(5)
+def Start(builder): builder.StartObject(4)
 def FlowNotionalStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddFlowType(builder, flowType): builder.PrependInt8Slot(0, flowType, 0)
-def FlowNotionalAddFlowType(builder, flowType):
-    """This method is deprecated. Please switch to AddFlowType."""
-    return AddFlowType(builder, flowType)
-def AddDate(builder, date): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(date), 0)
+def AddDate(builder, date): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(date), 0)
 def FlowNotionalAddDate(builder, date):
     """This method is deprecated. Please switch to AddDate."""
     return AddDate(builder, date)
-def AddAmount(builder, amount): builder.PrependFloat64Slot(2, amount, 0.0)
+def AddAmount(builder, amount): builder.PrependFloat64Slot(1, amount, 0.0)
 def FlowNotionalAddAmount(builder, amount):
     """This method is deprecated. Please switch to AddAmount."""
     return AddAmount(builder, amount)
-def AddDiscount(builder, discount): builder.PrependFloat32Slot(3, discount, 0.0)
+def AddDiscount(builder, discount): builder.PrependFloat32Slot(2, discount, 0.0)
 def FlowNotionalAddDiscount(builder, discount):
     """This method is deprecated. Please switch to AddDiscount."""
     return AddDiscount(builder, discount)
-def AddPrice(builder, price): builder.PrependFloat32Slot(4, price, 0.0)
+def AddPrice(builder, price): builder.PrependFloat32Slot(3, price, 0.0)
 def FlowNotionalAddPrice(builder, price):
     """This method is deprecated. Please switch to AddPrice."""
     return AddPrice(builder, price)

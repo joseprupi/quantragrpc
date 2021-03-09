@@ -9,7 +9,7 @@ inline structs::PriceFixedRateBondRequest request_bond()
     std::vector<structs::Point> points;
 
     structs::DepositHelper deposit_zc3m;
-    deposit_zc3m.rate = 440.0096;
+    deposit_zc3m.rate = 0.0096;
     deposit_zc3m.tenor_time_unit = TimeUnit_Months;
     deposit_zc3m.tenor_number = 3;
     deposit_zc3m.fixing_days = 3;
@@ -156,6 +156,8 @@ inline structs::PriceFixedRateBondRequest request_bond()
     structs::Pricing pricing;
     strcpy(pricing.as_of_date, "2008/09/16");
     pricing.curves = term_structures;
+    pricing.bond_pricing_details = true;
+    pricing.bond_pricing_flows = true;
 
     structs::PriceFixedRateBondRequest request;
     request.pricing = pricing;

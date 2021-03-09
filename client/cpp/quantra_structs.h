@@ -36,6 +36,8 @@ namespace structs
     {
         char as_of_date[11];
         std::vector<TermStructure> curves;
+        bool bond_pricing_details;
+        bool bond_pricing_flows;
     };
 
     struct Schedule
@@ -213,7 +215,7 @@ namespace structs
         std::vector<PriceFloatingRateBond> bonds;
     };
 
-    struct NPVResponse
+    struct PriceFixedRateBondResponse
     {
         float npv;
     };

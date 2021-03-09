@@ -1,7 +1,7 @@
 #include "fixed_rate_bond_pricing_request.h"
 #include <map>
 
-void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request)
+flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request)
 {
 
     FixedRateBondParser bond_parser = FixedRateBondParser();
@@ -20,7 +20,7 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
     for (auto it = curves->begin(); it != curves->end(); it++)
     {
 
-        std::shared_ptr<RelinkableHandle<YieldTermStructure>> discounting_term_structure;
+        auto discounting_term_structure = std::make_shared<RelinkableHandle<YieldTermStructure>>();
         std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(*discounting_term_structure));
         std::shared_ptr<YieldTermStructure> term_structure = term_structure_parser.parse(*it);
         discounting_term_structure->linkTo(term_structure);
@@ -69,7 +69,7 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
                 response_builder.add_macaulay_duration(BondFunctions::duration(*bond, interest_rate,
                                                                                Duration::Macaulay, Settings::instance().evaluationDate()));
                 response_builder.add_macaulay_duration(BondFunctions::convexity(*bond, interest_rate, Settings::instance().evaluationDate()));
-                response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
+                //response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
             }
 
             if (pricing->bond_pricing_flows())
@@ -84,8 +84,12 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
                     {
                         if (!coupon->hasOccurred(Settings::instance().evaluationDate()))
                         {
-                            auto accrual_start_date = builder->CreateString(coupon->accrualStartDate());
-                            auto accrual_end_date = builder->CreateString(coupon->accrualEndDate());
+                            std::ostringstream os;
+
+                            os << QuantLib::io::iso_date(coupon->accrualStartDate());
+                            auto accrual_start_date = builder->CreateString(os.str());
+                            os << QuantLib::io::iso_date(coupon->accrualEndDate());
+                            auto accrual_end_date = builder->CreateString(os.str());
                             auto flow_interest_builder = FlowInterestBuilder(*builder);
                             flow_interest_builder.add_amount(coupon->amount());
                             flow_interest_builder.add_accrual_start_date(accrual_start_date);
@@ -104,8 +108,12 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
                         }
                         else
                         {
-                            auto accrual_start_date = builder->CreateString(coupon->accrualStartDate());
-                            auto accrual_end_date = builder->CreateString(coupon->accrualEndDate());
+                            std::ostringstream os;
+
+                            os << QuantLib::io::iso_date(coupon->accrualStartDate());
+                            auto accrual_start_date = builder->CreateString(os.str());
+                            os << QuantLib::io::iso_date(coupon->accrualEndDate());
+                            auto accrual_end_date = builder->CreateString(os.str());
                             auto flow_past_interest_builder = FlowInterestBuilder(*builder);
                             flow_past_interest_builder.add_amount(coupon->amount());
                             flow_past_interest_builder.add_accrual_start_date(accrual_start_date);
@@ -126,7 +134,11 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
 
                         if (!coupon->hasOccurred(Settings::instance().evaluationDate()))
                         {
-                            auto date = builder->CreateString(coupon->date());
+                            std::ostringstream os;
+
+                            os << QuantLib::io::iso_date(coupon->date());
+                            auto date = builder->CreateString(os.str());
+
                             auto flow_notional_builder = FlowNotionalBuilder(*builder);
                             flow_notional_builder.add_amount(coupon->amount());
                             flow_notional_builder.add_date(date);
@@ -136,13 +148,18 @@ void FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::Mes
                             auto flow_past_interest = flow_notional_builder.Finish();
 
                             auto flows_wrapper_builder = quantra::FlowsWrapperBuilder(*builder);
-                            flows_wrapper_builder.add_flow_wrapper_type(quantra::Flow_FlowPastInterest);
+                            flows_wrapper_builder.add_flow_wrapper_type(quantra::Flow_FlowNotional);
                             flows_wrapper_builder.add_flow_wrapper(flow_past_interest.Union());
                             auto flow = flows_wrapper_builder.Finish();
                             flows_vector.push_back(flow);
                         }
                     }
                 }
+                auto flows = builder->CreateVector(flows_vector);
+                response_builder.add_flows(flows);
             }
         }
     }
+
+    return response_builder.Finish();
+}

@@ -16,7 +16,7 @@
 namespace quantra {
 
 static const char* QuantraServer_method_names[] = {
-  "/quantra.QuantraServer/BondPricing",
+  "/quantra.QuantraServer/PriceFixedRateBond",
 };
 
 std::unique_ptr< QuantraServer::Stub> QuantraServer::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -25,33 +25,33 @@ std::unique_ptr< QuantraServer::Stub> QuantraServer::NewStub(const std::shared_p
 }
 
 QuantraServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel)  , rpcmethod_BondPricing_(QuantraServer_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel)  , rpcmethod_PriceFixedRateBond_(QuantraServer_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
   
-::grpc::Status QuantraServer::Stub::BondPricing(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<NPVResponse>* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BondPricing_, context, request, response);
+::grpc::Status QuantraServer::Stub::PriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_PriceFixedRateBond_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>* QuantraServer::Stub::AsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< flatbuffers::grpc::Message<NPVResponse>>::Create(channel_.get(), cq, rpcmethod_BondPricing_, context, request, true);
+::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* QuantraServer::Stub::AsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>::Create(channel_.get(), cq, rpcmethod_PriceFixedRateBond_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<NPVResponse>>* QuantraServer::Stub::PrepareAsyncBondPricingRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< flatbuffers::grpc::Message<NPVResponse>>::Create(channel_.get(), cq, rpcmethod_BondPricing_, context, request, false);
+::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>* QuantraServer::Stub::PrepareAsyncPriceFixedRateBondRaw(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>::Create(channel_.get(), cq, rpcmethod_PriceFixedRateBond_, context, request, false);
 }
 
 QuantraServer::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       QuantraServer_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< QuantraServer::Service, flatbuffers::grpc::Message<PriceFixedRateBondRequest>, flatbuffers::grpc::Message<NPVResponse>>(
-          std::mem_fn(&QuantraServer::Service::BondPricing), this)));
+      new ::grpc::internal::RpcMethodHandler< QuantraServer::Service, flatbuffers::grpc::Message<PriceFixedRateBondRequest>, flatbuffers::grpc::Message<PriceFixedRateBondResponse>>(
+          std::mem_fn(&QuantraServer::Service::PriceFixedRateBond), this)));
 }
 
 QuantraServer::Service::~Service() {
 }
 
-::grpc::Status QuantraServer::Service::BondPricing(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<NPVResponse>* response) {
+::grpc::Status QuantraServer::Service::PriceFixedRateBond(::grpc::ServerContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>* request, flatbuffers::grpc::Message<PriceFixedRateBondResponse>* response) {
   (void) context;
   (void) request;
   (void) response;

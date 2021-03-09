@@ -26,7 +26,7 @@ void QuantraClient::PriceFixedRateBondRequestCall(structs::PriceFixedRateBondReq
     call->request_pos = request_tag;
 
     call->response_reader =
-        stub_->PrepareAsyncBondPricing(&call->context, request_msg, &cq_);
+        stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &cq_);
 
     call->response_reader->StartCall();
 
@@ -63,10 +63,7 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
 
         if (call->status.ok())
         {
-            const quantra::NPVResponse *response = call->reply.GetRoot();
-            auto npv = response->npv();
-            std::cout << "NPV: " << npv << std::endl;
-            responses.insert(responses.begin() + call->request_pos, npv_response_to_quantra(response));
+            const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
         }
         else
         {

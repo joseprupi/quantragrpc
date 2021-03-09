@@ -19,6 +19,8 @@
 #include <ql/math/interpolations/cubicinterpolation.hpp>
 #include <ql/math/interpolations/loginterpolation.hpp>
 
+#include "flatbuffers/grpc.h"
+
 #include "responses_generated.h"
 #include "price_fixed_rate_bond_request_generated.h"
 #include "common_parser.h"
@@ -28,7 +30,7 @@
 class FixedRateBondPricingRequest
 {
 public:
-    void request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request);
+    flatbuffers::Offset<quantra::PriceFixedRateBondResponse> request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request);
 };
 
 #endif //QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H

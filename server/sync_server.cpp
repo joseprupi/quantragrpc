@@ -49,19 +49,19 @@ private:
             if (status_ == CREATE)
             {
                 status_ = PROCESS;
-                service_->RequestBondPricing(&ctx_, &request_msg, &responder_, cq_, cq_,
-                                             this);
+                service_->RequestPriceFixedRateBond(&ctx_, &request_msg, &responder_, cq_, cq_,
+                                                    this);
             }
             else if (status_ == PROCESS)
             {
                 std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
                 try
                 {
-
                     FixedRateBondPricingRequest request;
-                    request.request(builder, request_msg.GetRoot());
+                    auto response = request.request(builder, request_msg.GetRoot());
+                    builder->Finish(response);
 
-                    reply_ = builder->ReleaseMessage<quantra::Pricing>();
+                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -73,9 +73,11 @@ private:
                     std::string error_msg = "QuantLib error: ";
                     error_msg.append(e.what());
 
-                    auto offset = quantra::CreateNPVResponse(builder, 0.0);
-                    builder.Finish(offset);
-                    reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
+                    builder->Reset();
+                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    builder->Finish(empty_pricing.Finish());
+
+                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -87,9 +89,11 @@ private:
                     std::string error_msg = "Unknown error: ";
                     error_msg.append(e.what());
 
-                    auto offset = quantra::CreateNPVResponse(builder, 0.0);
-                    builder.Finish(offset);
-                    reply_ = builder.ReleaseMessage<quantra::NPVResponse>();
+                    builder->Reset();
+                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    builder->Finish(empty_pricing.Finish());
+
+                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -110,9 +114,9 @@ private:
         grpc::ServerContext ctx_;
 
         flatbuffers::grpc::Message<PriceFixedRateBondRequest> request_msg;
-        flatbuffers::grpc::Message<NPVResponse> reply_;
+        flatbuffers::grpc::Message<PriceFixedRateBondResponse> reply_;
 
-        grpc::ServerAsyncResponseWriter<flatbuffers::grpc::Message<NPVResponse>> responder_;
+        grpc::ServerAsyncResponseWriter<flatbuffers::grpc::Message<PriceFixedRateBondResponse>> responder_;
 
         enum CallStatus
         {
@@ -150,6 +154,11 @@ int main(int argc, char **argv)
         std::string port(argv[1]);
         ServerImpl server;
         server.Run(port);
+    }
+    else
+    {
+        ServerImpl server;
+        server.Run("50051");
     }
 
     return 0;

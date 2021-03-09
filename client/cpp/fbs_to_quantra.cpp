@@ -1,8 +1,8 @@
 #include "fbs_to_quantra.h"
 
-structs::NPVResponse npv_response_to_quantra(const quantra::NPVResponse *response)
+structs::PriceFixedRateBondResponse price_fixed_rate_bond_response_to_quantra(const quantra::PriceFixedRateBondResponse *response)
 {
-    structs::NPVResponse npv_response;
+    structs::PriceFixedRateBondResponse npv_response;
     npv_response.npv = response->npv();
     return npv_response;
 }

@@ -21,18 +21,18 @@ public:
     void PriceFixedRateBondRequestCall(structs::PriceFixedRateBondRequest &request, int request_tag);
     void PriceFixedRateBondRequest(std::vector<structs::PriceFixedRateBondRequest> request);
     void AsyncCompleteRpc(int request_size);
-    std::vector<structs::NPVResponse> responses;
+    std::vector<structs::PriceFixedRateBondResponse> responses;
 
 private:
     struct AsyncClientCall
     {
 
-        flatbuffers::grpc::Message<quantra::NPVResponse> reply;
+        flatbuffers::grpc::Message<quantra::PriceFixedRateBondResponse> reply;
         flatbuffers::grpc::Message<quantra::Error> error_details;
         grpc::ClientContext context;
         grpc::Status status;
         int request_pos;
-        std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<quantra::NPVResponse>>> response_reader;
+        std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<quantra::PriceFixedRateBondResponse>>> response_reader;
     };
 
     std::unique_ptr<quantra::QuantraServer::Stub> stub_;

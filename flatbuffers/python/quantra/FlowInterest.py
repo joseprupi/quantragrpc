@@ -25,83 +25,72 @@ class FlowInterest(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # FlowInterest
-    def FlowType(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
-        return 0
-
-    # FlowInterest
     def Amount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # FlowInterest
     def AccrualStartDate(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
     # FlowInterest
     def AccrualEndDate(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
     # FlowInterest
     def Discount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
     # FlowInterest
     def Rate(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
     # FlowInterest
     def Price(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
-def Start(builder): builder.StartObject(7)
+def Start(builder): builder.StartObject(6)
 def FlowInterestStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddFlowType(builder, flowType): builder.PrependInt8Slot(0, flowType, 0)
-def FlowInterestAddFlowType(builder, flowType):
-    """This method is deprecated. Please switch to AddFlowType."""
-    return AddFlowType(builder, flowType)
-def AddAmount(builder, amount): builder.PrependFloat64Slot(1, amount, 0.0)
+def AddAmount(builder, amount): builder.PrependFloat64Slot(0, amount, 0.0)
 def FlowInterestAddAmount(builder, amount):
     """This method is deprecated. Please switch to AddAmount."""
     return AddAmount(builder, amount)
-def AddAccrualStartDate(builder, accrualStartDate): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(accrualStartDate), 0)
+def AddAccrualStartDate(builder, accrualStartDate): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(accrualStartDate), 0)
 def FlowInterestAddAccrualStartDate(builder, accrualStartDate):
     """This method is deprecated. Please switch to AddAccrualStartDate."""
     return AddAccrualStartDate(builder, accrualStartDate)
-def AddAccrualEndDate(builder, accrualEndDate): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(accrualEndDate), 0)
+def AddAccrualEndDate(builder, accrualEndDate): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(accrualEndDate), 0)
 def FlowInterestAddAccrualEndDate(builder, accrualEndDate):
     """This method is deprecated. Please switch to AddAccrualEndDate."""
     return AddAccrualEndDate(builder, accrualEndDate)
-def AddDiscount(builder, discount): builder.PrependFloat32Slot(4, discount, 0.0)
+def AddDiscount(builder, discount): builder.PrependFloat32Slot(3, discount, 0.0)
 def FlowInterestAddDiscount(builder, discount):
     """This method is deprecated. Please switch to AddDiscount."""
     return AddDiscount(builder, discount)
-def AddRate(builder, rate): builder.PrependFloat32Slot(5, rate, 0.0)
+def AddRate(builder, rate): builder.PrependFloat32Slot(4, rate, 0.0)
 def FlowInterestAddRate(builder, rate):
     """This method is deprecated. Please switch to AddRate."""
     return AddRate(builder, rate)
-def AddPrice(builder, price): builder.PrependFloat32Slot(6, price, 0.0)
+def AddPrice(builder, price): builder.PrependFloat32Slot(5, price, 0.0)
 def FlowInterestAddPrice(builder, price):
     """This method is deprecated. Please switch to AddPrice."""
     return AddPrice(builder, price)

@@ -1,13 +1,6 @@
 namespace quantra;
 
-/*enum FlowType : byte { 
-    Interest,
-    PastInterest,
-    Notional
-}*/
-
 table FlowInterest{
-    //flow_type:FlowType;
     amount:double;
     accrual_start_date:string;
     accrual_end_date:string;
@@ -17,7 +10,6 @@ table FlowInterest{
 }
 
 table FlowPastInterest{
-    //flow_type:FlowType;
     amount:double;
     accrual_start_date:string;
     accrual_end_date:string;
@@ -25,7 +17,6 @@ table FlowPastInterest{
 }
 
 table FlowNotional{
-    //flow_type:FlowType;
     date:string;
     amount:double;
     discount:float;
@@ -51,7 +42,3 @@ table PriceFixedRateBondResponse{
     bps:float;
     flows:[FlowsWrapper];
 }
-
-table NPVResponse{
-    npv:float;
-} 
