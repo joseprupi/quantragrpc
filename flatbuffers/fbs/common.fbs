@@ -12,8 +12,8 @@ table Yield{
 table Pricing{
     as_of_date: string;
     curves:[TermStructure];
-    bond_pricing_details:bool;
-    bond_pricing_flows:bool;
+    bond_pricing_details:bool = false;
+    bond_pricing_flows:bool = false;
 }
 
 table Error{

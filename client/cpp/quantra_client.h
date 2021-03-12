@@ -18,8 +18,8 @@ class QuantraClient
 public:
     explicit QuantraClient(std::string addr);
 
-    void PriceFixedRateBondRequestCall(structs::PriceFixedRateBondRequest &request, int request_tag);
-    void PriceFixedRateBondRequest(std::vector<structs::PriceFixedRateBondRequest> request);
+    void PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
+    void PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
     void AsyncCompleteRpc(int request_size);
     std::vector<structs::PriceFixedRateBondResponse> responses;
 

@@ -2,6 +2,8 @@
 
 std::shared_ptr<QuantLib::FixedRateBond> FixedRateBondParser::parse(const quantra::FixedRateBond *bond)
 {
+    if (bond == NULL)
+        QUANTRA_ERROR("Fixed Rate Bond not found");
 
     ScheduleParser schedule_parser = ScheduleParser();
 

@@ -32,6 +32,14 @@ struct YieldStruct
     QuantLib::Frequency frequency;
 };
 
+struct PricingStruct
+{
+    std::string as_of_date;
+    const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves;
+    bool bond_pricing_details;
+    bool bond_pricing_flows;
+};
+
 class ScheduleParser
 {
 
@@ -46,6 +54,14 @@ class YieldParser
 private:
 public:
     std::shared_ptr<YieldStruct> parse(const quantra::Yield *yield);
+};
+
+class PricingParser
+{
+
+private:
+public:
+    std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
 };
 
 #endif //QUANTRASERVER_COMMONPARSER_H

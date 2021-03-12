@@ -1,18 +1,18 @@
 #include "fixed_rate_bond_pricing_request.h"
-#include <map>
 
-flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request)
+flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request) const
 {
 
+    PricingParser pricing_parser = PricingParser();
     FixedRateBondParser bond_parser = FixedRateBondParser();
     TermStructureParser term_structure_parser = TermStructureParser();
 
-    auto pricing = request->pricing();
+    auto pricing = pricing_parser.parse(request->pricing());
 
-    Date as_of_date = DateToQL(pricing->as_of_date()->c_str());
+    Date as_of_date = DateToQL(pricing->as_of_date);
     Settings::instance().evaluationDate() = as_of_date;
 
-    auto curves = pricing->curves();
+    auto curves = pricing->curves;
 
     std::map<std::string, std::shared_ptr<PricingEngine>> pricing_engines;
     std::map<std::string, std::shared_ptr<RelinkableHandle<YieldTermStructure>>> term_structures;
@@ -30,8 +30,6 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
     auto bond_pricings = request->bonds();
 
-    PriceFixedRateBondResponseBuilder response_builder(*builder);
-
     for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
     {
 
@@ -40,42 +38,18 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
         if (engine == pricing_engines.end())
         {
-            //handle error
+            PriceFixedRateBondResponseBuilder response_builder(*builder);
+            return response_builder.Finish();
         }
         else
         {
             std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
+            std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> flows_vector;
             bond->setPricingEngine(engine->second);
-            response_builder.add_npv(bond->NPV());
 
-            if (pricing->bond_pricing_details())
-            {
-                auto yield = bond->yield(DayCounterToQL(it->yield()->day_counter()),
-                                         CompoundingToQL(it->yield()->compounding()),
-                                         FrequencyToQL(it->yield()->frequency()));
-
-                response_builder.add_clean_price(bond->cleanPrice());
-                response_builder.add_dirty_price(bond->dirtyPrice());
-                response_builder.add_accrued_amount(bond->accruedAmount());
-                response_builder.add_yield(yield);
-                response_builder.add_accrued_days(BondFunctions::accruedDays(*bond));
-
-                InterestRate interest_rate(yield, DayCounterToQL(it->yield()->day_counter()),
-                                           CompoundingToQL(it->yield()->compounding()),
-                                           FrequencyToQL(it->yield()->frequency()));
-
-                response_builder.add_modified_duration(BondFunctions::duration(*bond, interest_rate,
-                                                                               Duration::Modified, Settings::instance().evaluationDate()));
-                response_builder.add_macaulay_duration(BondFunctions::duration(*bond, interest_rate,
-                                                                               Duration::Macaulay, Settings::instance().evaluationDate()));
-                response_builder.add_macaulay_duration(BondFunctions::convexity(*bond, interest_rate, Settings::instance().evaluationDate()));
-                //response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
-            }
-
-            if (pricing->bond_pricing_flows())
+            if (pricing->bond_pricing_flows)
             {
                 const Leg &cashflows = bond->cashflows();
-                std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> flows_vector;
 
                 for (auto it = cashflows.begin(); it != cashflows.end(); ++it)
                 {
@@ -155,11 +129,38 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                         }
                     }
                 }
-                auto flows = builder->CreateVector(flows_vector);
-                response_builder.add_flows(flows);
             }
+            auto flows = builder->CreateVector(flows_vector);
+            PriceFixedRateBondResponseBuilder response_builder(*builder);
+            response_builder.add_flows(flows);
+            response_builder.add_npv(bond->NPV());
+
+            if (pricing->bond_pricing_details)
+            {
+                YieldParser yield_parser = YieldParser();
+                auto yield_struct = yield_parser.parse(it->yield());
+
+                auto yield = bond->yield(yield_struct->day_counter, yield_struct->compounding,
+                                         yield_struct->frequency);
+
+                response_builder.add_clean_price(bond->cleanPrice());
+                response_builder.add_dirty_price(bond->dirtyPrice());
+                response_builder.add_accrued_amount(bond->accruedAmount());
+                response_builder.add_yield(yield);
+                response_builder.add_accrued_days(BondFunctions::accruedDays(*bond));
+
+                InterestRate interest_rate(yield, DayCounterToQL(it->yield()->day_counter()),
+                                           CompoundingToQL(it->yield()->compounding()),
+                                           FrequencyToQL(it->yield()->frequency()));
+
+                response_builder.add_modified_duration(BondFunctions::duration(*bond, interest_rate,
+                                                                               Duration::Modified, Settings::instance().evaluationDate()));
+                response_builder.add_macaulay_duration(BondFunctions::duration(*bond, interest_rate,
+                                                                               Duration::Macaulay, Settings::instance().evaluationDate()));
+                response_builder.add_convexity(BondFunctions::convexity(*bond, interest_rate, Settings::instance().evaluationDate()));
+                response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
+            }
+            return response_builder.Finish();
         }
     }
-
-    return response_builder.Finish();
 }

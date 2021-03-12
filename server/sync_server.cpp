@@ -84,10 +84,29 @@ private:
                     auto status = grpc::Status(grpc::StatusCode::ABORTED, "QuantLib error", error_msg);
                     responder_.Finish(reply_, status, this);
                 }
+                catch (QuantraError &e)
+                {
+
+                    std::string error_msg = "Quantra error: ";
+                    error_msg.append(e.what());
+                    std::cout << "Quantra error:  " << error_msg << std::endl;
+
+                    builder->Reset();
+                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    builder->Finish(empty_pricing.Finish());
+
+                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
+                    assert(reply_.Verify());
+
+                    status_ = FINISH;
+                    auto status = grpc::Status(grpc::StatusCode::ABORTED, "Quantra error", error_msg);
+                    responder_.Finish(reply_, status, this);
+                }
                 catch (std::exception e)
                 {
                     std::string error_msg = "Unknown error: ";
                     error_msg.append(e.what());
+                    std::cout << "Unknown error:  " << error_msg << std::endl;
 
                     builder->Reset();
                     PriceFixedRateBondResponseBuilder empty_pricing(*builder);
@@ -99,6 +118,11 @@ private:
                     status_ = FINISH;
                     auto status = grpc::Status(grpc::StatusCode::ABORTED, "Unknown error", error_msg);
                     responder_.Finish(reply_, status, this);
+                }
+                catch (...)
+                {
+
+                    std::cout << "Unknown error exception:  " << std::endl;
                 }
             }
             else

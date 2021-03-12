@@ -30,15 +30,15 @@ table FlowsWrapper{
 }
 
 table PriceFixedRateBondResponse{
-    npv:float;
-    clean_price:float;
-    dirty_price:float;
-    accrued_amount:float;
-    yield:float;
-    accrued_days:int;
-    macaulay_duration:float;
-    modified_duration:float;
-    convexity:float;
-    bps:float;
+    npv:double;
+    clean_price:double;
+    dirty_price:double;
+    accrued_amount:double;
+    yield:double;
+    accrued_days:double;
+    macaulay_duration:double;
+    modified_duration:double;
+    convexity:double;
+    bps:double;
     flows:[FlowsWrapper];
 }

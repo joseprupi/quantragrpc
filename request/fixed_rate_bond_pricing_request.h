@@ -2,6 +2,8 @@
 #define QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
 
 #include <map>
+#include <string>
+#include <vector>
 
 #include <ql/qldefines.hpp>
 #include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
@@ -21,16 +23,20 @@
 
 #include "flatbuffers/grpc.h"
 
+#include "quantra_request.h"
+
 #include "responses_generated.h"
 #include "price_fixed_rate_bond_request_generated.h"
 #include "common_parser.h"
 #include "fixed_rate_bond_parser.h"
 #include "term_structure_parser.h"
 
-class FixedRateBondPricingRequest
+class FixedRateBondPricingRequest : QuantraRequest<quantra::PriceFixedRateBondRequest,
+                                                   quantra::PriceFixedRateBondResponse>
 {
 public:
-    flatbuffers::Offset<quantra::PriceFixedRateBondResponse> request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request);
+    //std::vector<std::shared_ptr<std::string>> verify(const quantra::PriceFixedRateBondRequest *request);
+    flatbuffers::Offset<quantra::PriceFixedRateBondResponse> request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request) const;
 };
 
 #endif //QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H

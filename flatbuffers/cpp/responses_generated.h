@@ -456,51 +456,51 @@ struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers:
     VT_BPS = 22,
     VT_FLOWS = 24
   };
-  float npv() const {
-    return GetField<float>(VT_NPV, 0.0f);
+  double npv() const {
+    return GetField<double>(VT_NPV, 0.0);
   }
-  float clean_price() const {
-    return GetField<float>(VT_CLEAN_PRICE, 0.0f);
+  double clean_price() const {
+    return GetField<double>(VT_CLEAN_PRICE, 0.0);
   }
-  float dirty_price() const {
-    return GetField<float>(VT_DIRTY_PRICE, 0.0f);
+  double dirty_price() const {
+    return GetField<double>(VT_DIRTY_PRICE, 0.0);
   }
-  float accrued_amount() const {
-    return GetField<float>(VT_ACCRUED_AMOUNT, 0.0f);
+  double accrued_amount() const {
+    return GetField<double>(VT_ACCRUED_AMOUNT, 0.0);
   }
-  float yield() const {
-    return GetField<float>(VT_YIELD, 0.0f);
+  double yield() const {
+    return GetField<double>(VT_YIELD, 0.0);
   }
-  int32_t accrued_days() const {
-    return GetField<int32_t>(VT_ACCRUED_DAYS, 0);
+  double accrued_days() const {
+    return GetField<double>(VT_ACCRUED_DAYS, 0.0);
   }
-  float macaulay_duration() const {
-    return GetField<float>(VT_MACAULAY_DURATION, 0.0f);
+  double macaulay_duration() const {
+    return GetField<double>(VT_MACAULAY_DURATION, 0.0);
   }
-  float modified_duration() const {
-    return GetField<float>(VT_MODIFIED_DURATION, 0.0f);
+  double modified_duration() const {
+    return GetField<double>(VT_MODIFIED_DURATION, 0.0);
   }
-  float convexity() const {
-    return GetField<float>(VT_CONVEXITY, 0.0f);
+  double convexity() const {
+    return GetField<double>(VT_CONVEXITY, 0.0);
   }
-  float bps() const {
-    return GetField<float>(VT_BPS, 0.0f);
+  double bps() const {
+    return GetField<double>(VT_BPS, 0.0);
   }
   const flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>> *flows() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>> *>(VT_FLOWS);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_NPV) &&
-           VerifyField<float>(verifier, VT_CLEAN_PRICE) &&
-           VerifyField<float>(verifier, VT_DIRTY_PRICE) &&
-           VerifyField<float>(verifier, VT_ACCRUED_AMOUNT) &&
-           VerifyField<float>(verifier, VT_YIELD) &&
-           VerifyField<int32_t>(verifier, VT_ACCRUED_DAYS) &&
-           VerifyField<float>(verifier, VT_MACAULAY_DURATION) &&
-           VerifyField<float>(verifier, VT_MODIFIED_DURATION) &&
-           VerifyField<float>(verifier, VT_CONVEXITY) &&
-           VerifyField<float>(verifier, VT_BPS) &&
+           VerifyField<double>(verifier, VT_NPV) &&
+           VerifyField<double>(verifier, VT_CLEAN_PRICE) &&
+           VerifyField<double>(verifier, VT_DIRTY_PRICE) &&
+           VerifyField<double>(verifier, VT_ACCRUED_AMOUNT) &&
+           VerifyField<double>(verifier, VT_YIELD) &&
+           VerifyField<double>(verifier, VT_ACCRUED_DAYS) &&
+           VerifyField<double>(verifier, VT_MACAULAY_DURATION) &&
+           VerifyField<double>(verifier, VT_MODIFIED_DURATION) &&
+           VerifyField<double>(verifier, VT_CONVEXITY) &&
+           VerifyField<double>(verifier, VT_BPS) &&
            VerifyOffset(verifier, VT_FLOWS) &&
            verifier.VerifyVector(flows()) &&
            verifier.VerifyVectorOfTables(flows()) &&
@@ -512,35 +512,35 @@ struct PriceFixedRateBondResponseBuilder {
   typedef PriceFixedRateBondResponse Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_npv(float npv) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_NPV, npv, 0.0f);
+  void add_npv(double npv) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_NPV, npv, 0.0);
   }
-  void add_clean_price(float clean_price) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_CLEAN_PRICE, clean_price, 0.0f);
+  void add_clean_price(double clean_price) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_CLEAN_PRICE, clean_price, 0.0);
   }
-  void add_dirty_price(float dirty_price) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_DIRTY_PRICE, dirty_price, 0.0f);
+  void add_dirty_price(double dirty_price) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_DIRTY_PRICE, dirty_price, 0.0);
   }
-  void add_accrued_amount(float accrued_amount) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_ACCRUED_AMOUNT, accrued_amount, 0.0f);
+  void add_accrued_amount(double accrued_amount) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_ACCRUED_AMOUNT, accrued_amount, 0.0);
   }
-  void add_yield(float yield) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_YIELD, yield, 0.0f);
+  void add_yield(double yield) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_YIELD, yield, 0.0);
   }
-  void add_accrued_days(int32_t accrued_days) {
-    fbb_.AddElement<int32_t>(PriceFixedRateBondResponse::VT_ACCRUED_DAYS, accrued_days, 0);
+  void add_accrued_days(double accrued_days) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_ACCRUED_DAYS, accrued_days, 0.0);
   }
-  void add_macaulay_duration(float macaulay_duration) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_MACAULAY_DURATION, macaulay_duration, 0.0f);
+  void add_macaulay_duration(double macaulay_duration) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_MACAULAY_DURATION, macaulay_duration, 0.0);
   }
-  void add_modified_duration(float modified_duration) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_MODIFIED_DURATION, modified_duration, 0.0f);
+  void add_modified_duration(double modified_duration) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_MODIFIED_DURATION, modified_duration, 0.0);
   }
-  void add_convexity(float convexity) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_CONVEXITY, convexity, 0.0f);
+  void add_convexity(double convexity) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_CONVEXITY, convexity, 0.0);
   }
-  void add_bps(float bps) {
-    fbb_.AddElement<float>(PriceFixedRateBondResponse::VT_BPS, bps, 0.0f);
+  void add_bps(double bps) {
+    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_BPS, bps, 0.0);
   }
   void add_flows(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows) {
     fbb_.AddOffset(PriceFixedRateBondResponse::VT_FLOWS, flows);
@@ -558,19 +558,18 @@ struct PriceFixedRateBondResponseBuilder {
 
 inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponse(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float npv = 0.0f,
-    float clean_price = 0.0f,
-    float dirty_price = 0.0f,
-    float accrued_amount = 0.0f,
-    float yield = 0.0f,
-    int32_t accrued_days = 0,
-    float macaulay_duration = 0.0f,
-    float modified_duration = 0.0f,
-    float convexity = 0.0f,
-    float bps = 0.0f,
+    double npv = 0.0,
+    double clean_price = 0.0,
+    double dirty_price = 0.0,
+    double accrued_amount = 0.0,
+    double yield = 0.0,
+    double accrued_days = 0.0,
+    double macaulay_duration = 0.0,
+    double modified_duration = 0.0,
+    double convexity = 0.0,
+    double bps = 0.0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows = 0) {
   PriceFixedRateBondResponseBuilder builder_(_fbb);
-  builder_.add_flows(flows);
   builder_.add_bps(bps);
   builder_.add_convexity(convexity);
   builder_.add_modified_duration(modified_duration);
@@ -581,21 +580,22 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
   builder_.add_dirty_price(dirty_price);
   builder_.add_clean_price(clean_price);
   builder_.add_npv(npv);
+  builder_.add_flows(flows);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponseDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float npv = 0.0f,
-    float clean_price = 0.0f,
-    float dirty_price = 0.0f,
-    float accrued_amount = 0.0f,
-    float yield = 0.0f,
-    int32_t accrued_days = 0,
-    float macaulay_duration = 0.0f,
-    float modified_duration = 0.0f,
-    float convexity = 0.0f,
-    float bps = 0.0f,
+    double npv = 0.0,
+    double clean_price = 0.0,
+    double dirty_price = 0.0,
+    double accrued_amount = 0.0,
+    double yield = 0.0,
+    double accrued_days = 0.0,
+    double macaulay_duration = 0.0,
+    double modified_duration = 0.0,
+    double convexity = 0.0,
+    double bps = 0.0,
     const std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> *flows = nullptr) {
   auto flows__ = flows ? _fbb.CreateVector<flatbuffers::Offset<quantra::FlowsWrapper>>(*flows) : 0;
   return quantra::CreatePriceFixedRateBondResponse(

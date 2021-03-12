@@ -1,4 +1,5 @@
 #include <ql/quantlib.hpp>
+#include "error.h"
 
 #ifndef COMMON_H
 #define COMMON_H

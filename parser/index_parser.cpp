@@ -2,6 +2,9 @@
 
 std::shared_ptr<QuantLib::IborIndex> IndexParser::parse(const quantra::Index *index)
 {
+    if (index == NULL)
+        QUANTRA_ERROR("Index not found");
+
     QuantLib::IndexManager::instance().clearHistories();
 
     std::shared_ptr<QuantLib::IborIndex> ibor_index(

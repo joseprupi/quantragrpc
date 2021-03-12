@@ -1,12 +1,11 @@
 #set(CMAKE_BUILD_TYPE Debug)
 include_directories("../grpc" 
                     "../parser" 
-                    "../flatbuffers/fbs" 
                     "../request" 
                     "../common")
  
 file(GLOB SYNC_SOURCES   "../parser/*.cpp" 
-                    "../common/*.cpp" 
+                    "../common/*.cpp"  
                     "../request/*.cpp"  
                     "./sync_server.cpp")
 

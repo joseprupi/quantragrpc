@@ -13,7 +13,7 @@ QuantraClient::QuantraClient(std::string addr)
     this->stub_ = std::make_unique<quantra::QuantraServer::Stub>(channel);
 }
 
-void QuantraClient::PriceFixedRateBondRequestCall(structs::PriceFixedRateBondRequest &request, int request_tag)
+void QuantraClient::PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag)
 {
     std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
 
@@ -33,7 +33,7 @@ void QuantraClient::PriceFixedRateBondRequestCall(structs::PriceFixedRateBondReq
     call->response_reader->Finish(&call->reply, &call->status, (void *)call);
 }
 
-void QuantraClient::PriceFixedRateBondRequest(std::vector<structs::PriceFixedRateBondRequest> request)
+void QuantraClient::PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request)
 {
     this->responses.resize(request.size());
     std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, request.size());

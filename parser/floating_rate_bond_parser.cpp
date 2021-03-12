@@ -2,6 +2,8 @@
 
 std::shared_ptr<QuantLib::FloatingRateBond> FixedRateBondParser::parse(const quantra::FloatingRateBond *bond)
 {
+    if (bond == NULL)
+        QUANTRA_ERROR("Floating Rate Bond not found");
 
     ScheduleParser schedule_parser = ScheduleParser();
     IndexParser index_parser = IndexParser();

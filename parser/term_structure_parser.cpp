@@ -4,7 +4,14 @@ using namespace quantra;
 
 std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::TermStructure *ts)
 {
+
+    if (ts == NULL)
+        QUANTRA_ERROR("Fixed Rate Bond not found");
+
     auto points = ts->points();
+
+    if (points->size() == 0)
+        QUANTRA_ERROR("Empty list of points for term structure");
 
     TermStructurePointParser tsparser = TermStructurePointParser();
     std::vector<std::shared_ptr<RateHelper>> instruments;

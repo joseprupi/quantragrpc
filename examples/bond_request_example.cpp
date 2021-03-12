@@ -8,9 +8,9 @@ int main()
 
     QuantraClient client("localhost:50051");
 
-    structs::PriceFixedRateBondRequest bond_pricing_request = request_bond();
+    std::shared_ptr<structs::PriceFixedRateBondRequest> bond_pricing_request = request_bond();
 
-    std::vector<structs::PriceFixedRateBondRequest> requests;
+    std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> requests;
     requests.push_back(bond_pricing_request);
 
     client.PriceFixedRateBondRequest(requests);

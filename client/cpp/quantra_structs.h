@@ -35,7 +35,7 @@ namespace structs
     struct Pricing
     {
         char as_of_date[11];
-        std::vector<TermStructure> curves;
+        std::vector<std::shared_ptr<TermStructure>> curves;
         bool bond_pricing_details;
         bool bond_pricing_flows;
     };
@@ -118,10 +118,14 @@ namespace structs
 
     struct BondHelper
     {
+        BondHelper()
+        {
+            schedule = NULL;
+        }
         float rate;
         int settlement_days;
         float face_amount;
-        Schedule schedule;
+        std::shared_ptr<Schedule> schedule;
         float coupon_rate;
         quantra::enums::DayCounter day_counter;
         quantra::enums::BusinessDayConvention business_day_convention;
@@ -140,14 +144,16 @@ namespace structs
 
     struct Point
     {
+        Point() {}
+        ~Point() {}
         PointType point_type;
         union
         {
-            DepositHelper deposit_helper;
-            FRAHelper FRA_helper;
-            FutureHelper future_helper;
-            SwapHelper swap_helper;
-            BondHelper bond_helper;
+            std::shared_ptr<DepositHelper> deposit_helper;
+            std::shared_ptr<FRAHelper> FRA_helper;
+            std::shared_ptr<FutureHelper> future_helper;
+            std::shared_ptr<SwapHelper> swap_helper;
+            std::shared_ptr<BondHelper> bond_helper;
         };
     };
 
@@ -158,7 +164,7 @@ namespace structs
         quantra::enums::Interpolator interpolator;
         quantra::enums::BootstrapTrait bootstrap_trait;
         char as_of_date[11];
-        std::vector<Point> points;
+        std::vector<std::shared_ptr<structs::Point>> points;
     };
 
     struct FixedRateBond
@@ -170,15 +176,15 @@ namespace structs
         quantra::enums::BusinessDayConvention payment_convention;
         double redemption;
         char issue_date[11];
-        Schedule schedule;
+        std::shared_ptr<Schedule> schedule;
     };
 
     struct FloatingRateBond
     {
         int settlement_days;
         double face_amount;
-        Schedule schedule;
-        Index index;
+        std::shared_ptr<Schedule> schedule;
+        std::shared_ptr<Index> index;
         quantra::enums::DayCounter accrual_day_counter;
         quantra::enums::BusinessDayConvention payment_convention;
         int fixing_days;
@@ -190,28 +196,28 @@ namespace structs
 
     struct PriceFixedRateBond
     {
-        FixedRateBond fixed_rate_bond;
+        std::shared_ptr<FixedRateBond> fixed_rate_bond;
         char discounting_curve[11];
-        Yield yield;
+        std::shared_ptr<Yield> yield;
     };
 
     struct PriceFixedRateBondRequest
     {
-        Pricing pricing;
-        std::vector<PriceFixedRateBond> bonds;
+        std::shared_ptr<Pricing> pricing;
+        std::vector<std::shared_ptr<structs::PriceFixedRateBond>> bonds;
     };
 
     struct PriceFloatingRateBond
     {
-        FloatingRateBond floating_rate_bond;
+        std::shared_ptr<FloatingRateBond> floating_rate_bond;
         char discounting_curve[11];
         char forecasting_curve[11];
-        Yield yield;
+        std::shared_ptr<Yield> yield;
     };
 
     struct PriceFloatingRateBondRequest
     {
-        Pricing pricing;
+        std::shared_ptr<Pricing> pricing;
         std::vector<PriceFloatingRateBond> bonds;
     };
 
