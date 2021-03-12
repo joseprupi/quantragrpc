@@ -159,8 +159,8 @@ std::shared_ptr<structs::PriceFixedRateBondRequest> request_bond()
     auto pricing = std::make_shared<structs::Pricing>();
     strcpy(pricing->as_of_date, "2008/09/16");
     pricing->curves = term_structures;
-    pricing->bond_pricing_details = true;
-    pricing->bond_pricing_flows = true;
+    pricing->bond_pricing_details = false;
+    pricing->bond_pricing_flows = false;
 
     auto request = std::make_shared<structs::PriceFixedRateBondRequest>();
     request->pricing = pricing;
