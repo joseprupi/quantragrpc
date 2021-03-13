@@ -64,14 +64,48 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ## Examples
 
+The example below loads a request from Quantra structs and creates a vector with 1000 of them that will be requested to the server. 
+
+```c++
+#include <vector>
+
+#include "quantra_client.h"
+#include "data/fixed_rate_bond_request_quantra.h"
+
+int main(int argc, char **argv)
+{
+
+    int n = 1000;
+
+    QuantraClient client("localhost:50051");
+
+    std::shared_ptr<structs::PriceFixedRateBondRequest> bond_pricing_request = request_bond();
+
+    std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> requests;
+
+    for (int i = 0; i < n; i++)
+        requests.push_back(bond_pricing_request);
+
+    client.PriceFixedRateBondRequest(requests);
+
+    return 0;
+}
+```
 ## Install
+
+This has just been tested with:
+* Debian
+* gcc 8.3
+* QuantLib 1.21
+* gRPC 1.35.0
+* Flatbuffers 1.11.0
 
 ### Requirements
 * gRPC and Flatbuffers. Follow the instructions from Flatbuffers at https://github.com/google/flatbuffers/tree/master/grpc. 
   * Build gRPC with -DBUILD_SHARED_LIBS=ON for shared libraries.
   * When writing this Flatbuffers does not support gRPC, it used to but at some point gRPC broke its compatibility but hopefully it will be solved soon. Apply this manually to solve it https://github.com/google/flatbuffers/pull/6338 
 * QuantLib. See https://www.quantlib.org/install.shtml
-* CMake
+* C++ build tools and CMake
 
 ### Build Quantra
 
@@ -89,9 +123,7 @@ make -j
 
 ## Try it
 
-Once installed execute **start.sh** providing the number of processes you want for the backend.
-
-Execute below in separate terminals to price 1000 bonds using 10 different processes.
+Once installed execute **start.sh** providing the number of processes you want for the backend. Execute below in separate terminals to price 1000 bonds using 10 different processes.
 
 ```console
 ./scripts/start.sh 10
