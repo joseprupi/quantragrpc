@@ -87,7 +87,19 @@ cmake ..
 make -j
 ```
 
-## Usage
+## Try it
+
+Once installed execute **start.sh** providing the number of processes you want for the backend.
+
+Execute below in separate terminals to price 1000 bonds using 10 different processes.
+
+```console
+./scripts/start.sh 10
+```
+
+```console
+./build/examples/bond_request 1000
+```
 
 
 
