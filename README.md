@@ -23,18 +23,35 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 The main format of quantra is Flatbuffers which is used to communicate with the server. As the serialization to Flatbuffers can be tedious part of the client implementation translates from quantra defined C++ structs to Flatbuffers. 
 
-See https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h for a complete example on how to build a request to price a fixed rate bond. The snippet below shows the fixed rate bond part.
+See https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h for a complete example on how to build a request to price a fixed rate bond. The snippet below shows how to create a deposit pillar to create a curve in C++ and JSON formats.
 
 ```c++
-auto bond = std::make_shared<structs::FixedRateBond>();
-bond->settlement_days = 3;
-bond->face_amount = 100.0;
-bond->rate = 0.045;
-bond->accrual_day_counter = DayCounter_ActualActualBond;
-bond->payment_convention = BusinessDayConvention_ModifiedFollowing;
-bond->redemption = 100.0;
-strcpy(bond->issue_date, "2007/05/15");
-bond->schedule = schedule;
+auto deposit_zc3m = std::make_shared<structs::DepositHelper>();
+deposit_zc3m->rate = 0.0096;
+deposit_zc3m->tenor_time_unit = TimeUnit_Months;
+deposit_zc3m->tenor_number = 3;
+deposit_zc3m->fixing_days = 3;
+deposit_zc3m->calendar = Calendar_TARGET;
+deposit_zc3m->business_day_convention = BusinessDayConvention_ModifiedFollowing;
+deposit_zc3m->day_counter = DayCounter_Actual365Fixed;
+
+auto deposit_zc3m_point = std::make_shared<structs::Point>();
+deposit_zc3m_point->point_type = Deposit;
+deposit_zc3m_point->deposit_helper = deposit_zc3m;
+```
+
+``` json
+{
+"point_wrapper_type": "DepositHelper",
+"point_wrapper": {
+  "tenor_time_unit": "Months",
+  "tenor_number": 3,
+  "fixing_days": 3,
+  "calendar": "TARGET",
+  "business_day_convention": "ModifiedFollowing",
+  "day_counter": "Actual365Fixed"
+}
+}
 ```
 
 Once the data has been serialized this can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
