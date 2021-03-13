@@ -23,7 +23,11 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 The main format of quantra is Flatbuffers which is used to communicate with the server. As the serialization to Flatbuffers can be tedious part of the client implementation translates from quantra defined C++ structs to Flatbuffers. 
 
-See https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h for a complete example on how to build a request to price a fixed rate bond. The snippet below shows how to create a deposit pillar to create a curve in C++ and JSON formats.
+See https://github.com/joseprupi/quantragrpc/tree/master/examples/data folder that contains examples with the different supported formats. 
+
+https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h contains a complete example on how to build a request to price a fixed rate bond using the C++ structs. 
+
+The snippet below shows how to create a deposit pillar for a curve in C++ and JSON formats.
 
 ```c++
 auto deposit_zc3m = std::make_shared<structs::DepositHelper>();
@@ -44,13 +48,13 @@ deposit_zc3m_point->deposit_helper = deposit_zc3m;
 {
 "point_wrapper_type": "DepositHelper",
 "point_wrapper": {
-  "tenor_time_unit": "Months",
-  "tenor_number": 3,
-  "fixing_days": 3,
-  "calendar": "TARGET",
-  "business_day_convention": "ModifiedFollowing",
-  "day_counter": "Actual365Fixed"
-}
+    "tenor_time_unit": "Months",
+    "tenor_number": 3,
+    "fixing_days": 3,
+    "calendar": "TARGET",
+    "business_day_convention": "ModifiedFollowing",
+    "day_counter": "Actual365Fixed"
+  }
 }
 ```
 
