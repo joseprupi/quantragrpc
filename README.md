@@ -33,12 +33,26 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ## Install
 
-Requirements:
+### Requirements
 * gRPC and Flatbuffers. Follow the instructions from Flatbuffers at https://github.com/google/flatbuffers/tree/master/grpc. 
   * Build gRPC with -DBUILD_SHARED_LIBS=ON for shared libraries.
   * When writing this, Flatbuffers does not support gRPC (it used to be but at some point gRPC broke its compatibility), apply this manually to solve it https://github.com/google/flatbuffers/pull/6338 
 * QuantLib. See https://www.quantlib.org/install.shtml
-* Compile Quantragrpc
+* CMake
+
+### Build Quantra
+
+After cloning the repository wet the variables inside config_vars.sh.
+
+```console
+git clone https://github.com/joseprupi/quantragrpc
+cd quantragrpc
+. ./scripts/config_vars.sh
+mkdir build
+cd build
+cmake ..
+make -j
+```
 
 ## Usage
 
