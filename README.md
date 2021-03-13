@@ -29,9 +29,20 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ![Data](docs/data.jpg?raw=true "Data")
 
-# Examples
+## Examples
 
-## C++
+## Install
+
+Requirements:
+* gRPC and Flatbuffers. Follow the instructions from Flatbuffers at https://github.com/google/flatbuffers/tree/master/grpc. 
+  * Build gRPC with -DBUILD_SHARED_LIBS=ON for shared libraries.
+  * When writing this, Flatbuffers does not support gRPC (it used to be but at some point gRPC broke its compatibility), apply this manually to solve it https://github.com/google/flatbuffers/pull/6338 
+* QuantLib. See https://www.quantlib.org/install.shtml
+* Compile Quantragrpc
+
+## Usage
+
+
 
 ## Formating data
 
@@ -39,14 +50,14 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 ### Architecture
 
-* It would be nice to have a Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). 
-* Having a cache for interprocess communications for things such as bootstrapped curves and avoid recalculation (I am currently working on this)
+* A Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). 
+* Having a shared cache for interprocess communications to avoid calculations such as curve bootstrapping (I am currently working on this)
 
 ![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
 
 ### Data
 
-It would be nice to have an implementation to translate from QuantLib native objects to Flatbuffers. This way translating to Quantra the already existing implementation using QuantLib would be easier. Also, with something like this, and without the server, it would be possible to store QuantLib objects in Flatbuffers and JSON format.
+An implementation to translate from QuantLib native objects to Flatbuffers, this would make easy adapting to Quantra already existing developments in QuantLib. Also it would be possible to store QuantLib objects in Flatbuffers and JSON format (just the client library would be needed).
 
 ![Data](docs/data2.jpg?raw=true "Data")
 
