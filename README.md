@@ -66,13 +66,17 @@ Once the data has been serialized this can be stored in binary or JSON format, t
 
 The example below loads a request from Quantra structs and creates a vector with 1000 of them that will be requested to the server. 
 
+With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, the server will boostrap each curve once and be reused for each of the bonds that use it.
+
+There is a lot of work to do with the client and also provide more (any :) ) documentation to clarify this.
+
 ```c++
 #include <vector>
 
 #include "quantra_client.h"
 #include "data/fixed_rate_bond_request_quantra.h"
 
-int main(int argc, char **argv)
+int main()
 {
 
     int n = 1000;
