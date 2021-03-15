@@ -5,7 +5,7 @@ Quantra is a pricing engine based on QuantLib. It allows distributed compuations
 QuantLib is a quantitative finance library implemented in C++ and a standard in the industry. Although it provides a complete set of tools for quantitative finance it can also be seen as a "low level" library that brings some drawbacks in terms of usability such as:
 
 * Written in C++
-* Not able to be executed in multithreading fashion to parallelize computations because of its design (see [this](https://stackoverflow.com/questions/46934259/what-is-the-right-way-to-use-quantlib-from-multiple-threads))
+* Not easy to be executed in multithreading fashion to parallelize computations because of its design (see [this](https://stackoverflow.com/questions/46934259/what-is-the-right-way-to-use-quantlib-from-multiple-threads))
 
 ## How
 
@@ -93,6 +93,12 @@ int main()
     return 0;
 }
 ```
+## Performance
+
+All these tests have been run executing all processes (client, proxy and background gRPC services) using a single machine with AMD Ryzen 9 3900X 12-Core CPU.
+
+Flatbuffers is fast for serialization/deserialization.
+
 ## Install
 
 This has just been tested with:
