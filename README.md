@@ -5,7 +5,7 @@ Quantra is a pricing engine based on QuantLib. It allows distributed compuations
 QuantLib is a quantitative finance library implemented in C++ and a standard in the industry. Although it provides a complete set of tools for quantitative finance it can also be seen as a "low level" library that brings some drawbacks in terms of usability such as:
 
 * Written in C++
-* Not able to be executed in multithreading fashion to parallelize computations because of its design
+* Not able to be executed in multithreading fashion to parallelize computations because of its design (see [this](https://stackoverflow.com/questions/46934259/what-is-the-right-way-to-use-quantlib-from-multiple-threads))
 
 ## How
 
@@ -23,7 +23,7 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 The main format of quantra is Flatbuffers which is used to communicate with the server. As the serialization to Flatbuffers can be tedious part of the client implementation translates from quantra defined C++ structs to Flatbuffers. 
 
-https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h contains a complete example on how to build a request to price a fixed rate bond using the C++ structs. 
+https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h contains a complete example on how to build a request to price a fixed rate bond using the client structs. 
 
 Once the data has been serialized it can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
 
@@ -64,9 +64,9 @@ deposit_zc3m_point->deposit_helper = deposit_zc3m;
 
 The example below first loads a request to price a fixed rate bond from Quantra structs and creates a vector with 1000 of these requests that will be sent to the server. 
 
-With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, the server will boostrap each curve once per request and this be reused for each of the bonds that use the same curve.
+With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, each of the backend processes will boostrap each of the curves of the request once and this be reused for each of the bonds that use the same curve.
 
-There is a lot of work to do with the client and also provide more (any :) ) documentation to clarify this.
+There is a lot of work to do with the client logic and also provide more (any :) ) documentation to clarify this.
 
 ```c++
 #include <vector>
