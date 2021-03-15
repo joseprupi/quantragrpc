@@ -1,10 +1,10 @@
-Quantra is a pricing engine based on QuantLib that allows distributed compuations and serializing quantra objects to JSON and Flatbuffers binary format.
+Quantra is a pricing engine based on QuantLib. It allows distributed compuations and serializing quantra objects to JSON and Flatbuffers binary format.
 
 ## Why
 
-QuantLib is a quantitative finance library written in C++ and a standard in the industry. It can also be seen as a "low level" library that brings some drawbacks in terms of usability such as:
+QuantLib is a quantitative finance library implemented in C++ and a standard in the industry. Although it provides a complete set of tools for quantitative finance it can also be seen as a "low level" library that brings some drawbacks in terms of usability such as:
 
-* Written in C++ (a Python extension exists that solves this problem)
+* Written in C++
 * Not able to be executed in multithreading fashion to parallelize computations because of its design
 
 ## How
@@ -23,11 +23,13 @@ These requests are being processed by an Envoy proxy that forwards them to each 
 
 The main format of quantra is Flatbuffers which is used to communicate with the server. As the serialization to Flatbuffers can be tedious part of the client implementation translates from quantra defined C++ structs to Flatbuffers. 
 
-See https://github.com/joseprupi/quantragrpc/tree/master/examples/data folder that contains examples with the different supported formats. 
-
 https://github.com/joseprupi/quantragrpc/blob/master/examples/data/fixed_rate_bond_request_quantra.h contains a complete example on how to build a request to price a fixed rate bond using the C++ structs. 
 
-The snippet below shows how to create a deposit pillar for a curve in C++ and JSON formats.
+Once the data has been serialized it can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
+
+![Data](docs/data.jpg?raw=true "Data")
+
+See https://github.com/joseprupi/quantragrpc/tree/master/examples/data folder that contains examples with the different supported formats, the snippets below show how to create a deposit pillar for a curve in C++ and JSON formats.
 
 ```c++
 auto deposit_zc3m = std::make_shared<structs::DepositHelper>();
@@ -58,15 +60,11 @@ deposit_zc3m_point->deposit_helper = deposit_zc3m;
 }
 ```
 
-Once the data has been serialized this can be stored in binary or JSON format, this is part of Flatbuffers core functionalities.
-
-![Data](docs/data.jpg?raw=true "Data")
-
 ## Examples
 
-The example below loads a request from Quantra structs and creates a vector with 1000 of them that will be requested to the server. 
+The example below first loads a request to price a fixed rate bond from Quantra structs and creates a vector with 1000 of these requests that will be sent to the server. 
 
-With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, the server will boostrap each curve once and be reused for each of the bonds that use it.
+With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, the server will boostrap each curve once per request and this be reused for each of the bonds that use the same curve.
 
 There is a lot of work to do with the client and also provide more (any :) ) documentation to clarify this.
 
@@ -83,9 +81,9 @@ int main()
 
     QuantraClient client("localhost:50051");
 
-    std::shared_ptr<structs::PriceFixedRateBondRequest> bond_pricing_request = request_bond();
-
     std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> requests;
+
+    auto bond_pricing_request = request_bond();
 
     for (int i = 0; i < n; i++)
         requests.push_back(bond_pricing_request);
