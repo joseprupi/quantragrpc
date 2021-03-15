@@ -64,7 +64,7 @@ deposit_zc3m_point->deposit_helper = deposit_zc3m;
 
 The example below first loads a request to price a fixed rate bond from Quantra structs and creates a vector with 1000 of these requests that will be sent to the server. 
 
-With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, each of the backend processes will boostrap each of the curves of the request once and this be reused for each of the bonds that use the same curve.
+With this example the client will send 1000 times the same request, meaning the same curve will be bootstrapped 1000 times. This is not realistic as you would probably want to create as many requests as curves to be boostrapped, each of the backend processes will boostrap each of the curves of the request once and it will be reused for each of the bonds that use the same curve.
 
 There is a lot of work to do with the client logic and also provide more (any :) ) documentation to clarify this.
 
@@ -105,7 +105,7 @@ This has just been tested with:
 ### Requirements
 * gRPC and Flatbuffers. Follow the instructions from Flatbuffers at https://github.com/google/flatbuffers/tree/master/grpc. 
   * Build gRPC with -DBUILD_SHARED_LIBS=ON for shared libraries.
-  * When writing this Flatbuffers does not support gRPC, it used to but at some point gRPC broke its compatibility but hopefully it will be solved soon. Apply this manually to solve it https://github.com/google/flatbuffers/pull/6338 
+  * When writing this Flatbuffers does not support gRPC. It used to but at some point gRPC broke its compatibility, hopefully it will be solved soon. Apply this manually to solve it https://github.com/google/flatbuffers/pull/6338 
 * QuantLib. See https://www.quantlib.org/install.shtml
 * C++ build tools and CMake
 
@@ -139,18 +139,22 @@ Once installed execute **start.sh** providing the number of processes you want f
 
 ## Formating data
 
-## Nice to have
+## Current status anb nice to have
+
+Currently Quantra just supports pricing fixed rate bonds. Although this is not much, it is pretty straight forward to add new functionalities to it.
+
+For me working in other things such as adding a cache or a Python client it is more 
 
 ### Architecture
 
-* A Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). 
+* A Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). Also considering SWIG or some other low level interfaces like the [Python C API](https://docs.python.org/3/c-api/)
 * Having a shared cache for interprocess communications to avoid repeated calculations such as curve bootstrapping (currently working on this)
 
 ![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
 
 ### Data
 
-An implementation to translate from QuantLib native objects to Flatbuffers, this would make easy adapting to Quantra already existing developments in QuantLib. Also it would be possible to store QuantLib objects in Flatbuffers and JSON format (just the client library would be needed).
+An implementation to translate from QuantLib native objects to Quantra structs, this would make easy adapting to Quantra already existing developments in QuantLib. Also it would be possible to store QuantLib objects in Flatbuffers and JSON format (just the client library would be needed).
 
-![Data](docs/data2.jpg?raw=true "Data")
+![Data](docs/data3.jpg?raw=true "Data")
 
