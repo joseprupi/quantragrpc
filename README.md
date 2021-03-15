@@ -139,6 +139,10 @@ Once installed execute **start.sh** providing the number of processes you want f
 
 ## Formating data
 
+Flatbuffers is the format used by Quantra to communicate with the server and using it provides some extra advantages as the project supports things such as translating to and from JSON.
+
+The library provides and API and also commmand line tools to do so. This should probably be added to the client libraries but for now take a look to [Flatbuffers documentation](https://google.github.io/flatbuffers/flatbuffers_guide_tutorial.html) and the example at https://github.com/joseprupi/quantragrpc/blob/master/examples/bond_request_to_json.cpp on how to use the API. 
+
 ## Current and possible future situation
 
 ### Currently
@@ -150,7 +154,7 @@ For me working in other things such as adding a cache or a Python client it is m
 ### Must
 
 * Create documentation 
-* Addtests to assert the results are equal to QuantLib
+* Add tests to assert the results are equal to QuantLib
 
 ### Nice to have
 
