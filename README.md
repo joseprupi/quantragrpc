@@ -139,7 +139,7 @@ Once installed execute **start.sh** providing the number of processes you want f
 
 ## Formating data
 
-## Current status anb nice to have
+## Current status and nice to have
 
 Currently Quantra just supports pricing fixed rate bonds. Although this is not much, it is pretty straight forward to add new functionalities to it.
 
@@ -147,7 +147,7 @@ For me working in other things such as adding a cache or a Python client it is m
 
 ### Architecture
 
-* A Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). Also considering SWIG or some other low level interfaces like the [Python C API](https://docs.python.org/3/c-api/)
+* A Python client for quantra. This is pending from Flatbuffers project to support gRPC for Python, [see this](https://github.com/google/flatbuffers/issues/4109). Also considering to use the Flatbuffers Python implementation to serialize/deserialize and SWIG or some other low level interfaces like the [Python C API](https://docs.python.org/3/c-api/) and use the C++ client for the comunication with the server.
 * Having a shared cache for interprocess communications to avoid repeated calculations such as curve bootstrapping (currently working on this)
 
 ![Arqchitecture](docs/architecture2.jpg?raw=true "Arqchitecture")
