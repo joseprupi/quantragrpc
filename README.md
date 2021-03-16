@@ -142,6 +142,8 @@ It will repeatedly boostrap the same curve an price the same bond with it using 
 | 10                                                 | 1000                                      | 10000       | 213                | 176                 |
 | 10                                                 | 10000                                     | 100000      | 1618               | 1675                |
 
+Although the performance is not impressive is not bad when things start to take some time. To parallelize computations it would probably make more sense for more costly operations such as more complex derivatives, but I think it still shows is possible to have a pricing engine based on QuantLib for some other systems.
+
 ## Install
 
 This has just been tested with:
