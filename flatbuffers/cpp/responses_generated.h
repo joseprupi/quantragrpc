@@ -20,6 +20,9 @@ struct FlowNotionalBuilder;
 struct FlowsWrapper;
 struct FlowsWrapperBuilder;
 
+struct FixedRateBondResponse;
+struct FixedRateBondResponseBuilder;
+
 struct PriceFixedRateBondResponse;
 struct PriceFixedRateBondResponseBuilder;
 
@@ -441,8 +444,8 @@ inline flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(
   return builder_.Finish();
 }
 
-struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef PriceFixedRateBondResponseBuilder Builder;
+struct FixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FixedRateBondResponseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NPV = 4,
     VT_CLEAN_PRICE = 6,
@@ -508,55 +511,55 @@ struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers:
   }
 };
 
-struct PriceFixedRateBondResponseBuilder {
-  typedef PriceFixedRateBondResponse Table;
+struct FixedRateBondResponseBuilder {
+  typedef FixedRateBondResponse Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_npv(double npv) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_NPV, npv, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_NPV, npv, 0.0);
   }
   void add_clean_price(double clean_price) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_CLEAN_PRICE, clean_price, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_CLEAN_PRICE, clean_price, 0.0);
   }
   void add_dirty_price(double dirty_price) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_DIRTY_PRICE, dirty_price, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_DIRTY_PRICE, dirty_price, 0.0);
   }
   void add_accrued_amount(double accrued_amount) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_ACCRUED_AMOUNT, accrued_amount, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_ACCRUED_AMOUNT, accrued_amount, 0.0);
   }
   void add_yield(double yield) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_YIELD, yield, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_YIELD, yield, 0.0);
   }
   void add_accrued_days(double accrued_days) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_ACCRUED_DAYS, accrued_days, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_ACCRUED_DAYS, accrued_days, 0.0);
   }
   void add_macaulay_duration(double macaulay_duration) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_MACAULAY_DURATION, macaulay_duration, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_MACAULAY_DURATION, macaulay_duration, 0.0);
   }
   void add_modified_duration(double modified_duration) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_MODIFIED_DURATION, modified_duration, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_MODIFIED_DURATION, modified_duration, 0.0);
   }
   void add_convexity(double convexity) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_CONVEXITY, convexity, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_CONVEXITY, convexity, 0.0);
   }
   void add_bps(double bps) {
-    fbb_.AddElement<double>(PriceFixedRateBondResponse::VT_BPS, bps, 0.0);
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_BPS, bps, 0.0);
   }
   void add_flows(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows) {
-    fbb_.AddOffset(PriceFixedRateBondResponse::VT_FLOWS, flows);
+    fbb_.AddOffset(FixedRateBondResponse::VT_FLOWS, flows);
   }
-  explicit PriceFixedRateBondResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit FixedRateBondResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<PriceFixedRateBondResponse> Finish() {
+  flatbuffers::Offset<FixedRateBondResponse> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<PriceFixedRateBondResponse>(end);
+    auto o = flatbuffers::Offset<FixedRateBondResponse>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponse(
+inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponse(
     flatbuffers::FlatBufferBuilder &_fbb,
     double npv = 0.0,
     double clean_price = 0.0,
@@ -569,7 +572,7 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
     double convexity = 0.0,
     double bps = 0.0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FlowsWrapper>>> flows = 0) {
-  PriceFixedRateBondResponseBuilder builder_(_fbb);
+  FixedRateBondResponseBuilder builder_(_fbb);
   builder_.add_bps(bps);
   builder_.add_convexity(convexity);
   builder_.add_modified_duration(modified_duration);
@@ -584,7 +587,7 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
   return builder_.Finish();
 }
 
-inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponseDirect(
+inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponseDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     double npv = 0.0,
     double clean_price = 0.0,
@@ -598,7 +601,7 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
     double bps = 0.0,
     const std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> *flows = nullptr) {
   auto flows__ = flows ? _fbb.CreateVector<flatbuffers::Offset<quantra::FlowsWrapper>>(*flows) : 0;
-  return quantra::CreatePriceFixedRateBondResponse(
+  return quantra::CreateFixedRateBondResponse(
       _fbb,
       npv,
       clean_price,
@@ -611,6 +614,58 @@ inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondR
       convexity,
       bps,
       flows__);
+}
+
+struct PriceFixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PriceFixedRateBondResponseBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_BONDS = 4
+  };
+  const flatbuffers::Vector<flatbuffers::Offset<quantra::FixedRateBondResponse>> *bonds() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::FixedRateBondResponse>> *>(VT_BONDS);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_BONDS) &&
+           verifier.VerifyVector(bonds()) &&
+           verifier.VerifyVectorOfTables(bonds()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PriceFixedRateBondResponseBuilder {
+  typedef PriceFixedRateBondResponse Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_bonds(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FixedRateBondResponse>>> bonds) {
+    fbb_.AddOffset(PriceFixedRateBondResponse::VT_BONDS, bonds);
+  }
+  explicit PriceFixedRateBondResponseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<PriceFixedRateBondResponse> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<PriceFixedRateBondResponse>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponse(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::FixedRateBondResponse>>> bonds = 0) {
+  PriceFixedRateBondResponseBuilder builder_(_fbb);
+  builder_.add_bonds(bonds);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<PriceFixedRateBondResponse> CreatePriceFixedRateBondResponseDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<flatbuffers::Offset<quantra::FixedRateBondResponse>> *bonds = nullptr) {
+  auto bonds__ = bonds ? _fbb.CreateVector<flatbuffers::Offset<quantra::FixedRateBondResponse>>(*bonds) : 0;
+  return quantra::CreatePriceFixedRateBondResponse(
+      _fbb,
+      bonds__);
 }
 
 inline bool VerifyFlow(flatbuffers::Verifier &verifier, const void *obj, Flow type) {

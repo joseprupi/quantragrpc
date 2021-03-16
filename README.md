@@ -95,8 +95,8 @@ int main()
 ```
 ## Performance
 
-All these tests have been run executing all processes (client, proxy and background gRPC services) using a single machine with AMD Ryzen 9 3900X 12-Core CPU.
-
+These tests have been run executing all processes (client, proxy and background gRPC services) using a single machine with AMD Ryzen 9 3900X 12-Core CPU.
+ 
 Flatbuffers is fast for serialization/deserialization.
 
 ## Install

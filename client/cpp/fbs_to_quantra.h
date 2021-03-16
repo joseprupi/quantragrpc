@@ -3,4 +3,4 @@
 #include "quantra_structs.h"
 #include "responses_generated.h"
 
-structs::PriceFixedRateBondResponse npv_response_to_quantra(const quantra::PriceFixedRateBondResponse *response);
+std::shared_ptr<structs::PriceFixedRateBondResponse> price_fixed_rate_bond_response_to_quantra(const quantra::PriceFixedRateBondResponse *response);

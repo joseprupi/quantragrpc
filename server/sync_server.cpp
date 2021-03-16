@@ -25,6 +25,8 @@ public:
         std::string server_address("127.0.0.1:" + port);
 
         grpc::ServerBuilder builder;
+        builder.SetMaxMessageSize(INT_MAX);
+        builder.SetMaxReceiveMessageSize(INT_MAX);
         builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
         builder.RegisterService(&service_);
         cq_ = builder.AddCompletionQueue();

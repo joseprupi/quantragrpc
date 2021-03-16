@@ -30,6 +30,8 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
     auto bond_pricings = request->bonds();
 
+    std::vector<flatbuffers::Offset<quantra::FixedRateBondResponse>> bonds_vector;
+
     for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
     {
 
@@ -130,10 +132,16 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                     }
                 }
             }
+
             auto flows = builder->CreateVector(flows_vector);
-            PriceFixedRateBondResponseBuilder response_builder(*builder);
+
+            FixedRateBondResponseBuilder response_builder(*builder);
+
             response_builder.add_flows(flows);
+
             response_builder.add_npv(bond->NPV());
+
+            //std::cout << "NPV: " << bond->NPV() << std::endl;
 
             if (pricing->bond_pricing_details)
             {
@@ -160,7 +168,13 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                 response_builder.add_convexity(BondFunctions::convexity(*bond, interest_rate, Settings::instance().evaluationDate()));
                 response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
             }
-            return response_builder.Finish();
+
+            auto bond_response = response_builder.Finish();
+            bonds_vector.push_back(bond_response);
         }
     }
+    auto bonds = builder->CreateVector(bonds_vector);
+    PriceFixedRateBondResponseBuilder response_builder(*builder);
+    response_builder.add_bonds(bonds);
+    return response_builder.Finish();
 }

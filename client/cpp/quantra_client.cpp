@@ -8,8 +8,10 @@ using grpc::Status;
 
 QuantraClient::QuantraClient(std::string addr)
 {
-    std::shared_ptr<grpc::Channel> channel = grpc::CreateChannel(
-        addr, grpc::InsecureChannelCredentials());
+    grpc::ChannelArguments ch_args;
+    ch_args.SetMaxReceiveMessageSize(INT_MAX);
+    std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(
+        addr, grpc::InsecureChannelCredentials(), ch_args);
     this->stub_ = std::make_unique<quantra::QuantraServer::Stub>(channel);
 }
 
@@ -35,7 +37,7 @@ void QuantraClient::PriceFixedRateBondRequestCall(std::shared_ptr<structs::Price
 
 void QuantraClient::PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request)
 {
-    this->responses.resize(request.size());
+    this->responses.reserve(request.size());
     std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, request.size());
 
     int request_tag = 0;
@@ -64,6 +66,16 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
         if (call->status.ok())
         {
             const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
+            response->bonds()->begin();
+
+            for (auto it = response->bonds()->begin(); it != response->bonds()->end(); it++)
+            {
+                //std::cout << "NPV: " << it->npv() << std::endl;
+            }
+
+            //auto npv_response = price_fixed_rate_bond_response_to_quantra(response);
+            //int position = call->request_pos;
+            //this->responses.insert(this->responses.begin() + position, npv_response);
         }
         else
         {

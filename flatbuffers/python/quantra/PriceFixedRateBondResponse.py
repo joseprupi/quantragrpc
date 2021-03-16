@@ -25,152 +25,42 @@ class PriceFixedRateBondResponse(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # PriceFixedRateBondResponse
-    def Npv(self):
+    def Bonds(self, j):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def CleanPrice(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def DirtyPrice(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def AccruedAmount(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def Yield_(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def AccruedDays(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def MacaulayDuration(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def ModifiedDuration(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def Convexity(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def Bps(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
-        return 0.0
-
-    # PriceFixedRateBondResponse
-    def Flows(self, j):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             x = self._tab.Vector(o)
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
             x = self._tab.Indirect(x)
-            from quantra.FlowsWrapper import FlowsWrapper
-            obj = FlowsWrapper()
+            from quantra.FixedRateBondResponse import FixedRateBondResponse
+            obj = FixedRateBondResponse()
             obj.Init(self._tab.Bytes, x)
             return obj
         return None
 
     # PriceFixedRateBondResponse
-    def FlowsLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+    def BondsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # PriceFixedRateBondResponse
-    def FlowsIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+    def BondsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-def Start(builder): builder.StartObject(11)
+def Start(builder): builder.StartObject(1)
 def PriceFixedRateBondResponseStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddNpv(builder, npv): builder.PrependFloat64Slot(0, npv, 0.0)
-def PriceFixedRateBondResponseAddNpv(builder, npv):
-    """This method is deprecated. Please switch to AddNpv."""
-    return AddNpv(builder, npv)
-def AddCleanPrice(builder, cleanPrice): builder.PrependFloat64Slot(1, cleanPrice, 0.0)
-def PriceFixedRateBondResponseAddCleanPrice(builder, cleanPrice):
-    """This method is deprecated. Please switch to AddCleanPrice."""
-    return AddCleanPrice(builder, cleanPrice)
-def AddDirtyPrice(builder, dirtyPrice): builder.PrependFloat64Slot(2, dirtyPrice, 0.0)
-def PriceFixedRateBondResponseAddDirtyPrice(builder, dirtyPrice):
-    """This method is deprecated. Please switch to AddDirtyPrice."""
-    return AddDirtyPrice(builder, dirtyPrice)
-def AddAccruedAmount(builder, accruedAmount): builder.PrependFloat64Slot(3, accruedAmount, 0.0)
-def PriceFixedRateBondResponseAddAccruedAmount(builder, accruedAmount):
-    """This method is deprecated. Please switch to AddAccruedAmount."""
-    return AddAccruedAmount(builder, accruedAmount)
-def AddYield_(builder, yield_): builder.PrependFloat64Slot(4, yield_, 0.0)
-def PriceFixedRateBondResponseAddYield_(builder, yield_):
-    """This method is deprecated. Please switch to AddYield_."""
-    return AddYield_(builder, yield_)
-def AddAccruedDays(builder, accruedDays): builder.PrependFloat64Slot(5, accruedDays, 0.0)
-def PriceFixedRateBondResponseAddAccruedDays(builder, accruedDays):
-    """This method is deprecated. Please switch to AddAccruedDays."""
-    return AddAccruedDays(builder, accruedDays)
-def AddMacaulayDuration(builder, macaulayDuration): builder.PrependFloat64Slot(6, macaulayDuration, 0.0)
-def PriceFixedRateBondResponseAddMacaulayDuration(builder, macaulayDuration):
-    """This method is deprecated. Please switch to AddMacaulayDuration."""
-    return AddMacaulayDuration(builder, macaulayDuration)
-def AddModifiedDuration(builder, modifiedDuration): builder.PrependFloat64Slot(7, modifiedDuration, 0.0)
-def PriceFixedRateBondResponseAddModifiedDuration(builder, modifiedDuration):
-    """This method is deprecated. Please switch to AddModifiedDuration."""
-    return AddModifiedDuration(builder, modifiedDuration)
-def AddConvexity(builder, convexity): builder.PrependFloat64Slot(8, convexity, 0.0)
-def PriceFixedRateBondResponseAddConvexity(builder, convexity):
-    """This method is deprecated. Please switch to AddConvexity."""
-    return AddConvexity(builder, convexity)
-def AddBps(builder, bps): builder.PrependFloat64Slot(9, bps, 0.0)
-def PriceFixedRateBondResponseAddBps(builder, bps):
-    """This method is deprecated. Please switch to AddBps."""
-    return AddBps(builder, bps)
-def AddFlows(builder, flows): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(flows), 0)
-def PriceFixedRateBondResponseAddFlows(builder, flows):
-    """This method is deprecated. Please switch to AddFlows."""
-    return AddFlows(builder, flows)
-def StartFlowsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def PriceFixedRateBondResponseStartFlowsVector(builder, numElems):
+def AddBonds(builder, bonds): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(bonds), 0)
+def PriceFixedRateBondResponseAddBonds(builder, bonds):
+    """This method is deprecated. Please switch to AddBonds."""
+    return AddBonds(builder, bonds)
+def StartBondsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def PriceFixedRateBondResponseStartBondsVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
-    return StartFlowsVector(builder, numElems)
+    return StartBondsVector(builder, numElems)
 def End(builder): return builder.EndObject()
 def PriceFixedRateBondResponseEnd(builder):
     """This method is deprecated. Please switch to End."""

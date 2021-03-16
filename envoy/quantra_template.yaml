@@ -43,6 +43,12 @@ static_resources:
   clusters:
   - name: greeter_service
     connect_timeout: 0.25s 
+    circuit_breakers:
+      thresholds:
+        - priority: DEFAULT
+          max_connections: 10000
+          max_requests: 10000
+          max_pending_requests: 10000
     type: STATIC
     http2_protocol_options: {}
     lb_policy: round_robin

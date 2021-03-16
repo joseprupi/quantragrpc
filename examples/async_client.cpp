@@ -56,8 +56,8 @@ public:
             if (call->status.ok())
             {
                 const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
-                auto npv = response->npv();
-                std::cout << "NPV: " << npv << std::endl;
+                //auto npv = response->npv();
+                //std::cout << "NPV: " << npv << std::endl;
             }
             else
                 std::cout << "RPC failed" << call->status.error_code() << std::endl;
