@@ -2,6 +2,7 @@
 
 flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingRequest::request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request) const
 {
+    //std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     PricingParser pricing_parser = PricingParser();
     FixedRateBondParser bond_parser = FixedRateBondParser();
@@ -141,8 +142,6 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
             response_builder.add_npv(bond->NPV());
 
-            //std::cout << "NPV: " << bond->NPV() << std::endl;
-
             if (pricing->bond_pricing_details)
             {
                 YieldParser yield_parser = YieldParser();
@@ -176,5 +175,9 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
     auto bonds = builder->CreateVector(bonds_vector);
     PriceFixedRateBondResponseBuilder response_builder(*builder);
     response_builder.add_bonds(bonds);
+
+    //std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    //std::cout << "Quantra Server Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
     return response_builder.Finish();
 }

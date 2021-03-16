@@ -21,7 +21,7 @@ flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers
 
     auto term_structures = builder->CreateVector(term_structures_vector);
 
-    auto as_of_date = builder->CreateString("2008/09/16");
+    auto as_of_date = builder->CreateString(pricing->as_of_date);
     auto pricing_builder = quantra::PricingBuilder(*builder);
     pricing_builder.add_as_of_date(as_of_date);
     pricing_builder.add_curves(term_structures);

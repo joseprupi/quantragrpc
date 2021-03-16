@@ -44,8 +44,6 @@ int main(int argc, char **argv)
 
     int total_bonds = n_bonds_x_request * n_requests;
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-
     QuantraClient client("localhost:50051");
 
     auto term_structure = term_structure_example();
@@ -79,6 +77,8 @@ int main(int argc, char **argv)
     {
         requests.push_back(request);
     }
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     client.PriceFixedRateBondRequest(requests);
 

@@ -221,9 +221,14 @@ namespace structs
         std::vector<PriceFloatingRateBond> bonds;
     };
 
-    struct PriceFixedRateBondResponse
+    struct PriceFixedRateBondValues
     {
         float npv;
+    };
+
+    struct PriceFixedRateBondResponse
+    {
+        std::vector<std::shared_ptr<PriceFixedRateBondValues>> price;
     };
 
 }

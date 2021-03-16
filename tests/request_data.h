@@ -156,7 +156,7 @@ std::shared_ptr<structs::PriceFixedRateBondRequest> pricing_request_example()
     auto yield = std::make_shared<structs::Yield>();
 
     auto pricing = std::make_shared<structs::Pricing>();
-    strcpy(pricing->as_of_date, "2008/09/16");
+    strcpy(pricing->as_of_date, "2008/09/18");
     pricing->bond_pricing_details = false;
     pricing->bond_pricing_flows = false;
 

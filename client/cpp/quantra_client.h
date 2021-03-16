@@ -21,7 +21,7 @@ public:
     void PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
     void PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
     void AsyncCompleteRpc(int request_size);
-    std::vector<std::shared_ptr<structs::PriceFixedRateBondResponse>> responses;
+    std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>> responses;
 
 private:
     struct AsyncClientCall
