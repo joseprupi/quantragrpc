@@ -144,7 +144,7 @@ It will repeatedly boostrap the same curve an price the same bond with it using 
 
 Although the performance is not impressive is not bad when things start to take some time. To parallelize computations it would probably make more sense for more costly operations such as more complex derivatives and for some risk tasks such as simulations and a shared cache storing the scenarios. 
 
-I think it still shows is possible to have a pricing engine based on a trusted and open source library like QuantLib with decent performance for some other systems.
+I think it still shows it is possible to have a pricing engine based on a trusted and open source library like QuantLib with decent performance for some other systems.
 
 ## Install
 
