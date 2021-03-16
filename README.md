@@ -97,14 +97,17 @@ int main()
 
 These tests have been run executing all processes (client, proxy and background gRPC services) using a single machine with AMD Ryzen 9 3900X 12-Core CPU.
 
-The test measures the time it takes to price bonds. The code for the test can be found here https://github.com/joseprupi/quantragrpc/blob/master/tests/test.cpp.
+The test measures the time it takes to price n bonds. The code for the test can be found here https://github.com/joseprupi/quantragrpc/blob/master/tests/test.cpp.
 
-the binary accepts three parameters:
+The test accepts three parameters:
 * Number of bonds per request
 * Number of requests
-* A flag that is 0 or 1 if just one curve should be created and reused to price all the bonds, for both Quantra and Quantlib. Quantra will boostrap one curve per process.
+* A flag that is 0 or 1 if just one curve should be bootstrapped and reused to price all the bonds. This is for both Quantra and Quantlib, Quantra will boostrap one curve per process.
 
 It will repeatedly boostrap the same curve an price the same bond with it using both Quantra and QuantLib, this is just for testing purposes. Quantlib will price the total number of bonds (number of bonds per request x number of requests)
+
+### The table below bootstraps as much curves as bonds
+
 
 | Number of requests (parallel processes in Quantra) | Number of bonds per request (for Quantra) | Total bonds | Quantra time in ms | Quantlib time in ms |
 | -------------------------------------------------- | ----------------------------------------- | ----------- | ------------------ | ------------------- |
@@ -129,7 +132,7 @@ It will repeatedly boostrap the same curve an price the same bond with it using 
 | 10                                                 | 1000                                      | 10000       | 1057               | 5578                |
 | 10                                                 | 10000                                     | 100000      | 10544              | 56324               |
  
-Flatbuffers is fast for serialization/deserialization.
+#### The table below bootstraps one curve per request and one for Quantlib
 
 ## Install
 
