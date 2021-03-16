@@ -106,7 +106,7 @@ The test accepts three parameters:
 
 It will repeatedly boostrap the same curve an price the same bond with it using both Quantra and QuantLib, this is just for testing purposes. Quantlib will price the total number of bonds (number of bonds per request x number of requests)
 
-### The table below bootstraps as much curves as bonds
+#### The table below bootstraps as many curves as bonds
 
 
 | Number of requests (parallel processes in Quantra) | Number of bonds per request (for Quantra) | Total bonds | Quantra time in ms | Quantlib time in ms |
@@ -133,6 +133,29 @@ It will repeatedly boostrap the same curve an price the same bond with it using 
 | 10                                                 | 10000                                     | 100000      | 10544              | 56324               |
  
 #### The table below bootstraps one curve per request and one for Quantlib
+
+| Number of requests (parallel processes in Quantra) | Number of bonds per request (for Quantra) | Total bonds | Quantra time in ms | Quantlib time in ms |
+| -------------------------------------------------- | ----------------------------------------- | ----------- | ------------------ | ------------------- |
+| 1                                                  | 1                                         | 1           | 9                  | 1                   |
+| 1                                                  | 10                                        | 10          | 21                 | 10                  |
+| 1                                                  | 100                                       | 100         | 106                | 62                  |
+| 1                                                  | 1000                                      | 1000        | 941                | 556                 |
+| 1                                                  | 10000                                     | 10000       | 9739               | 5832                |
+| 2                                                  | 1                                         | 2           | 10                 | 1                   |
+| 2                                                  | 10                                        | 20          | 24                 | 16                  |
+| 2                                                  | 100                                       | 200         | 109                | 115                 |
+| 2                                                  | 1000                                      | 2000        | 993                | 1147                |
+| 2                                                  | 10000                                     | 20000       | 9749               | 11627               |
+| 5                                                  | 1                                         | 5           | 10                 | 3                   |
+| 5                                                  | 10                                        | 50          | 26                 | 36                  |
+| 5                                                  | 100                                       | 500         | 137                | 294                 |
+| 5                                                  | 1000                                      | 5000        | 1017               | 2759                |
+| 5                                                  | 10000                                     | 50000       | 10167              | 29240               |
+| 10                                                 | 1                                         | 10          | 12                 | 8                   |
+| 10                                                 | 10                                        | 100         | 27                 | 63                  |
+| 10                                                 | 100                                       | 1000        | 130                | 554                 |
+| 10                                                 | 1000                                      | 10000       | 1057               | 5578                |
+| 10                                                 | 10000                                     | 100000      | 10544              | 56324               |
 
 ## Install
 
