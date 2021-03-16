@@ -97,6 +97,15 @@ int main()
 
 These tests have been run executing all processes (client, proxy and background gRPC services) using a single machine with AMD Ryzen 9 3900X 12-Core CPU.
 
+The test measures the time it takes to price bonds. The code for the test can be found here https://github.com/joseprupi/quantragrpc/blob/master/tests/test.cpp.
+
+the binary accepts three parameters:
+* Number of bonds per request
+* Number of requests
+* A flag that is 0 or 1 if just one curve should be created and reused to price all the bonds, for both Quantra and Quantlib. Quantra will boostrap one curve per process.
+
+It will repeatedly boostrap the same curve an price the same bond with it using both Quantra and QuantLib, this is just for testing purposes. Quantlib will price the total number of bonds (number of bonds per request x number of requests)
+
 | Number of requests (parallel processes in Quantra) | Number of bonds per request (for Quantra) | Total bonds | Quantra time in ms | Quantlib time in ms |
 | -------------------------------------------------- | ----------------------------------------- | ----------- | ------------------ | ------------------- |
 | 1                                                  | 1                                         | 1           | 9                  | 1                   |
