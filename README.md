@@ -114,6 +114,11 @@ These tests have been run executing all processes (client, proxy and background 
 | 5                                                  | 100                                       | 500         | 137                | 294                 |
 | 5                                                  | 1000                                      | 5000        | 1017               | 2759                |
 | 5                                                  | 10000                                     | 50000       | 10167              | 29240               |
+| 10                                                 | 1                                         | 10          | 12                 | 8                   |
+| 10                                                 | 10                                        | 100         | 27                 | 63                  |
+| 10                                                 | 100                                       | 1000        | 130                | 554                 |
+| 10                                                 | 1000                                      | 10000       | 1057               | 5578                |
+| 10                                                 | 10000                                     | 100000      | 10544              | 56324               |
  
 Flatbuffers is fast for serialization/deserialization.
 
