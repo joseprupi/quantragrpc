@@ -144,7 +144,7 @@ It will repeatedly boostrap the same curve an price the same bond with it using 
 
 Although the performance is not impressive is not bad when things start to take some time. To parallelize computations it would probably make more sense for more costly operations such as more complex derivatives and for some risk tasks such as simulations and a shared cache storing the scenarios. 
 
-I think it still shows it is possible to have a pricing engine based on a trusted and open source library like QuantLib with decent performance for some other systems.
+I think it still shows it is possible to have a pricing engine for other systems based on a trusted and open source library like QuantLib with decent performance.
 
 ## Install
 
@@ -192,9 +192,9 @@ Once installed execute **start.sh** providing the number of processes you want f
 
 ## Formating data
 
-Flatbuffers is the format used by Quantra to communicate with the server and using it provides some extra advantages as the project supports things such as translating to and from JSON.
+Flatbuffers is the format used by Quantra to communicate with the server and using it provides some extra advantages as the project supports  translating to and from JSON and binary formats.
 
-Flabuffers provides and API and also commmand line tools to do so. This should probably be added to the Quantra client libraries but for now take a look to [Flatbuffers documentation](https://google.github.io/flatbuffers/flatbuffers_guide_tutorial.html) and the example at https://github.com/joseprupi/quantragrpc/blob/master/examples/bond_request_to_json.cpp on how to use the API. 
+Flabuffers provides and API and also commmand line tools to do so. This should probably be added to the Quantra client libraries but for now take a look to [Flatbuffers documentation](https://google.github.io/flatbuffers/flatbuffers_guide_tutorial.html) and the example at https://github.com/joseprupi/quantragrpc/blob/master/examples/bond_request_to_json.cpp to generate a json file from a request to price a bond. 
 
 ## Current and possible future situation
 

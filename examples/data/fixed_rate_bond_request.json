@@ -10,6 +10,7 @@
           {
             "point_wrapper_type": "DepositHelper",
             "point_wrapper": {
+              "rate": 0.0096,
               "tenor_time_unit": "Months",
               "tenor_number": 3,
               "fixing_days": 3,
@@ -158,8 +159,8 @@
         "settlement_days": 3,
         "face_amount": 100.0,
         "rate": 0.045,
-        "day_counter": "ActualActualBond",
-        "business_day_convention": "ModifiedFollowing",
+        "accrual_day_counter": "ActualActualBond",
+        "payment_convention": "ModifiedFollowing",
         "redemption": 100.0,
         "issue_date": "2007/05/15",
         "schedule": {
@@ -172,8 +173,7 @@
         }
       },
       "discounting_curve": "depos_curve",
-      "yield": {
-      }
+      "yield": {}
     }
   ]
 }

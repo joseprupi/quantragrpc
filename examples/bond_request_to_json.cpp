@@ -12,7 +12,7 @@ std::string bond_to_json(std::shared_ptr<flatbuffers::grpc::MessageBuilder> buil
 {
     std::string schemafile;
     auto root = flatbuffers::GetRoot<PriceFixedRateBondRequest>(builder->GetBufferPointer());
-    bool ok = flatbuffers::LoadFile("../flatbuffers/fbs/requests.fbs", false, &schemafile);
+    bool ok = flatbuffers::LoadFile("../flatbuffers/fbs/price_fixed_rate_bond_request.fbs", false, &schemafile);
     if (!ok)
     {
         printf("couldn't load files!\n");
@@ -20,6 +20,7 @@ std::string bond_to_json(std::shared_ptr<flatbuffers::grpc::MessageBuilder> buil
     }
 
     flatbuffers::Parser parser;
+    parser.opts.strict_json = true;
     const char *include_directories[] = {"../flatbuffers/fbs", nullptr};
 
     ok = parser.Parse(schemafile.c_str(), include_directories);
@@ -41,6 +42,8 @@ int main(int argc, char **argv)
     bond_request_fbs(builder);
 
     auto json_string = bond_to_json(builder);
+
+    std::cout << json_string << std::endl;
 
     return 0;
 }
