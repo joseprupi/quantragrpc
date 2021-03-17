@@ -48,8 +48,9 @@ deposit_zc3m_point->deposit_helper = deposit_zc3m;
 
 ``` json
 {
-"point_wrapper_type": "DepositHelper",
-"point_wrapper": {
+  "point_wrapper_type": "DepositHelper",
+  "point_wrapper": {
+    "rate": 0.0096,
     "tenor_time_unit": "Months",
     "tenor_number": 3,
     "fixing_days": 3,
