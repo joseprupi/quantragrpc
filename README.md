@@ -1,4 +1,4 @@
-Quantra is a pricing engine based on QuantLib. It allows distributed compuations and serializing quantra objects to JSON and Flatbuffers binary format.
+Quantra is a pricing engine based on QuantLib.
 
 ## Why
 
