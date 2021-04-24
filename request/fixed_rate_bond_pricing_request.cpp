@@ -144,21 +144,21 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
             if (pricing->bond_pricing_details)
             {
-                YieldParser yield_parser = YieldParser();
-                auto yield_struct = yield_parser.parse(it->yield());
+                //YieldParser yield_parser = YieldParser();
+                //auto yield_struct = yield_parser.parse(it->yield());
 
-                auto yield = bond->yield(yield_struct->day_counter, yield_struct->compounding,
-                                         yield_struct->frequency);
+                auto yield = bond->yield(pricing->yield_day_counter, pricing->yield_compounding,
+                                         pricing->yield_frequency);
 
                 response_builder.add_clean_price(bond->cleanPrice());
                 response_builder.add_dirty_price(bond->dirtyPrice());
                 response_builder.add_accrued_amount(bond->accruedAmount());
-                response_builder.add_yield(yield);
+                response_builder.add_yield_value(yield);
                 response_builder.add_accrued_days(BondFunctions::accruedDays(*bond));
 
-                InterestRate interest_rate(yield, DayCounterToQL(it->yield()->day_counter()),
-                                           CompoundingToQL(it->yield()->compounding()),
-                                           FrequencyToQL(it->yield()->frequency()));
+                InterestRate interest_rate(yield, pricing->yield_day_counter,
+                                           pricing->yield_compounding,
+                                           pricing->yield_frequency);
 
                 response_builder.add_modified_duration(BondFunctions::duration(*bond, interest_rate,
                                                                                Duration::Modified, Settings::instance().evaluationDate()));

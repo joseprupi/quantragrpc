@@ -16,18 +16,18 @@ std::shared_ptr<QuantLib::Schedule> ScheduleParser::parse(const quantra::Schedul
         schedule->end_of_mont());
 }
 
-std::shared_ptr<YieldStruct> YieldParser::parse(const quantra::Yield *yield)
-{
+// std::shared_ptr<YieldStruct> YieldParser::parse(const quantra::Yield *yield)
+// {
 
-    if (yield == NULL)
-        QUANTRA_ERROR("Yield not found");
+//     if (yield == NULL)
+//         QUANTRA_ERROR("Yield not found");
 
-    return std::make_shared<YieldStruct>(
-        YieldStruct{
-            DayCounterToQL(yield->day_counter()),
-            CompoundingToQL(yield->compounding()),
-            FrequencyToQL(yield->frequency())});
-}
+//     return std::make_shared<YieldStruct>(
+//         YieldStruct{
+//             DayCounterToQL(yield->day_counter()),
+//             CompoundingToQL(yield->compounding()),
+//             FrequencyToQL(yield->frequency())});
+// }
 
 std::shared_ptr<PricingStruct> PricingParser::parse(const quantra::Pricing *pricing)
 {
@@ -40,5 +40,8 @@ std::shared_ptr<PricingStruct> PricingParser::parse(const quantra::Pricing *pric
             pricing->as_of_date()->str(),
             pricing->curves(),
             pricing->bond_pricing_details(),
-            pricing->bond_pricing_flows()});
+            pricing->bond_pricing_flows(),
+            DayCounterToQL(pricing->yield_day_counter()),
+            CompoundingToQL(pricing->yield_compounding()),
+            FrequencyToQL(pricing->yield_frequency())});
 }

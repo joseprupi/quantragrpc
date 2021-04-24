@@ -153,12 +153,15 @@ std::shared_ptr<structs::FixedRateBond> fixed_rate_bond_example()
 std::shared_ptr<structs::PriceFixedRateBondRequest> pricing_request_example()
 {
 
-    auto yield = std::make_shared<structs::Yield>();
+    //auto yield = std::make_shared<structs::Yield>();
 
     auto pricing = std::make_shared<structs::Pricing>();
     strcpy(pricing->as_of_date, "2008/09/18");
     pricing->bond_pricing_details = false;
     pricing->bond_pricing_flows = false;
+    pricing->yield_day_counter = DayCounter_Actual360;
+    pricing->yield_compounding = Compounding_Compounded;
+    pricing->yield_frequency = Frequency_Annual;
 
     auto request = std::make_shared<structs::PriceFixedRateBondRequest>();
     request->pricing = pricing;

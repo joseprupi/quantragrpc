@@ -1,13 +1,13 @@
 #include "quantra_to_fbs.h"
 
-flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Yield> yield)
-{
-    auto yield_builder = quantra::YieldBuilder(*builder);
-    yield_builder.add_day_counter(yield->day_counter);
-    yield_builder.add_compounding(yield->compounding);
-    yield_builder.add_frequency(yield->frequency);
-    return yield_builder.Finish();
-}
+// flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Yield> yield)
+// {
+//     auto yield_builder = quantra::YieldBuilder(*builder);
+//     yield_builder.add_day_counter(yield->day_counter);
+//     yield_builder.add_compounding(yield->compounding);
+//     yield_builder.add_frequency(yield->frequency);
+//     return yield_builder.Finish();
+// }
 
 flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Pricing> pricing)
 {
@@ -27,6 +27,9 @@ flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers
     pricing_builder.add_curves(term_structures);
     pricing_builder.add_bond_pricing_details(pricing->bond_pricing_details);
     pricing_builder.add_bond_pricing_flows(pricing->bond_pricing_flows);
+    pricing_builder.add_yield_day_counter(pricing->yield_day_counter);
+    pricing_builder.add_yield_frequency(pricing->yield_frequency);
+    pricing_builder.add_yield_compounding(pricing->yield_compounding);
     return pricing_builder.Finish();
 }
 
@@ -324,10 +327,10 @@ flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std
 
     auto discounting_curve = builder->CreateString(price_bond->discounting_curve);
 
-    flatbuffers::Offset<quantra::Yield> yield;
+    // flatbuffers::Offset<quantra::Yield> yield;
 
-    if (price_bond->yield != NULL)
-        yield = yield_to_fbs(builder, price_bond->yield);
+    // if (price_bond->yield != NULL)
+    //     yield = yield_to_fbs(builder, price_bond->yield);
 
     auto price_fixed_rate_bond_builder = quantra::PriceFixedRateBondBuilder(*builder);
 
@@ -336,8 +339,8 @@ flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std
 
     price_fixed_rate_bond_builder.add_discounting_curve(discounting_curve);
 
-    if (price_bond->yield != NULL)
-        price_fixed_rate_bond_builder.add_yield(yield);
+    // if (price_bond->yield != NULL)
+    //     price_fixed_rate_bond_builder.add_yield(yield);
 
     return price_fixed_rate_bond_builder.Finish();
 }

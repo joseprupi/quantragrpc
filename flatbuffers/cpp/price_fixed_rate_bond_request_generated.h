@@ -6,13 +6,13 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "common_generated.h"
 #include "enums_generated.h"
-#include "fixed_rate_bond_generated.h"
-#include "floating_rate_bond_generated.h"
+#include "common_generated.h"
 #include "index_generated.h"
-#include "schedule_generated.h"
+#include "floating_rate_bond_generated.h"
 #include "term_structure_generated.h"
+#include "fixed_rate_bond_generated.h"
+#include "schedule_generated.h"
 
 namespace quantra {
 
@@ -26,8 +26,7 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PriceFixedRateBondBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_FIXED_RATE_BOND = 4,
-    VT_DISCOUNTING_CURVE = 6,
-    VT_YIELD = 8
+    VT_DISCOUNTING_CURVE = 6
   };
   const quantra::FixedRateBond *fixed_rate_bond() const {
     return GetPointer<const quantra::FixedRateBond *>(VT_FIXED_RATE_BOND);
@@ -35,17 +34,12 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::String *discounting_curve() const {
     return GetPointer<const flatbuffers::String *>(VT_DISCOUNTING_CURVE);
   }
-  const quantra::Yield *yield() const {
-    return GetPointer<const quantra::Yield *>(VT_YIELD);
-  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_FIXED_RATE_BOND) &&
            verifier.VerifyTable(fixed_rate_bond()) &&
            VerifyOffset(verifier, VT_DISCOUNTING_CURVE) &&
            verifier.VerifyString(discounting_curve()) &&
-           VerifyOffset(verifier, VT_YIELD) &&
-           verifier.VerifyTable(yield()) &&
            verifier.EndTable();
   }
 };
@@ -59,9 +53,6 @@ struct PriceFixedRateBondBuilder {
   }
   void add_discounting_curve(flatbuffers::Offset<flatbuffers::String> discounting_curve) {
     fbb_.AddOffset(PriceFixedRateBond::VT_DISCOUNTING_CURVE, discounting_curve);
-  }
-  void add_yield(flatbuffers::Offset<quantra::Yield> yield) {
-    fbb_.AddOffset(PriceFixedRateBond::VT_YIELD, yield);
   }
   explicit PriceFixedRateBondBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -77,10 +68,8 @@ struct PriceFixedRateBondBuilder {
 inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBond(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond = 0,
-    flatbuffers::Offset<flatbuffers::String> discounting_curve = 0,
-    flatbuffers::Offset<quantra::Yield> yield = 0) {
+    flatbuffers::Offset<flatbuffers::String> discounting_curve = 0) {
   PriceFixedRateBondBuilder builder_(_fbb);
-  builder_.add_yield(yield);
   builder_.add_discounting_curve(discounting_curve);
   builder_.add_fixed_rate_bond(fixed_rate_bond);
   return builder_.Finish();
@@ -89,14 +78,12 @@ inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBond(
 inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBondDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond = 0,
-    const char *discounting_curve = nullptr,
-    flatbuffers::Offset<quantra::Yield> yield = 0) {
+    const char *discounting_curve = nullptr) {
   auto discounting_curve__ = discounting_curve ? _fbb.CreateString(discounting_curve) : 0;
   return quantra::CreatePriceFixedRateBond(
       _fbb,
       fixed_rate_bond,
-      discounting_curve__,
-      yield);
+      discounting_curve__);
 }
 
 struct PriceFixedRateBondRequest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {

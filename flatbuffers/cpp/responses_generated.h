@@ -451,7 +451,7 @@ struct FixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tabl
     VT_CLEAN_PRICE = 6,
     VT_DIRTY_PRICE = 8,
     VT_ACCRUED_AMOUNT = 10,
-    VT_YIELD = 12,
+    VT_YIELD_VALUE = 12,
     VT_ACCRUED_DAYS = 14,
     VT_MACAULAY_DURATION = 16,
     VT_MODIFIED_DURATION = 18,
@@ -471,8 +471,8 @@ struct FixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tabl
   double accrued_amount() const {
     return GetField<double>(VT_ACCRUED_AMOUNT, 0.0);
   }
-  double yield() const {
-    return GetField<double>(VT_YIELD, 0.0);
+  double yield_value() const {
+    return GetField<double>(VT_YIELD_VALUE, 0.0);
   }
   double accrued_days() const {
     return GetField<double>(VT_ACCRUED_DAYS, 0.0);
@@ -498,7 +498,7 @@ struct FixedRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tabl
            VerifyField<double>(verifier, VT_CLEAN_PRICE) &&
            VerifyField<double>(verifier, VT_DIRTY_PRICE) &&
            VerifyField<double>(verifier, VT_ACCRUED_AMOUNT) &&
-           VerifyField<double>(verifier, VT_YIELD) &&
+           VerifyField<double>(verifier, VT_YIELD_VALUE) &&
            VerifyField<double>(verifier, VT_ACCRUED_DAYS) &&
            VerifyField<double>(verifier, VT_MACAULAY_DURATION) &&
            VerifyField<double>(verifier, VT_MODIFIED_DURATION) &&
@@ -527,8 +527,8 @@ struct FixedRateBondResponseBuilder {
   void add_accrued_amount(double accrued_amount) {
     fbb_.AddElement<double>(FixedRateBondResponse::VT_ACCRUED_AMOUNT, accrued_amount, 0.0);
   }
-  void add_yield(double yield) {
-    fbb_.AddElement<double>(FixedRateBondResponse::VT_YIELD, yield, 0.0);
+  void add_yield_value(double yield_value) {
+    fbb_.AddElement<double>(FixedRateBondResponse::VT_YIELD_VALUE, yield_value, 0.0);
   }
   void add_accrued_days(double accrued_days) {
     fbb_.AddElement<double>(FixedRateBondResponse::VT_ACCRUED_DAYS, accrued_days, 0.0);
@@ -565,7 +565,7 @@ inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponse(
     double clean_price = 0.0,
     double dirty_price = 0.0,
     double accrued_amount = 0.0,
-    double yield = 0.0,
+    double yield_value = 0.0,
     double accrued_days = 0.0,
     double macaulay_duration = 0.0,
     double modified_duration = 0.0,
@@ -578,7 +578,7 @@ inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponse(
   builder_.add_modified_duration(modified_duration);
   builder_.add_macaulay_duration(macaulay_duration);
   builder_.add_accrued_days(accrued_days);
-  builder_.add_yield(yield);
+  builder_.add_yield_value(yield_value);
   builder_.add_accrued_amount(accrued_amount);
   builder_.add_dirty_price(dirty_price);
   builder_.add_clean_price(clean_price);
@@ -593,7 +593,7 @@ inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponseDir
     double clean_price = 0.0,
     double dirty_price = 0.0,
     double accrued_amount = 0.0,
-    double yield = 0.0,
+    double yield_value = 0.0,
     double accrued_days = 0.0,
     double macaulay_duration = 0.0,
     double modified_duration = 0.0,
@@ -607,7 +607,7 @@ inline flatbuffers::Offset<FixedRateBondResponse> CreateFixedRateBondResponseDir
       clean_price,
       dirty_price,
       accrued_amount,
-      yield,
+      yield_value,
       accrued_days,
       macaulay_duration,
       modified_duration,

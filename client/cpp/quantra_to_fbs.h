@@ -11,7 +11,7 @@
 
 using namespace structs;
 
-flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Yield> yield);
+//flatbuffers::Offset<quantra::Yield> yield_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Yield> yield);
 flatbuffers::Offset<quantra::Pricing> pricing_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Pricing> pricing);
 flatbuffers::Offset<quantra::DepositHelper> deposit_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::DepositHelper> deposit);
 flatbuffers::Offset<quantra::Schedule> schedule_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::Schedule> schedule);

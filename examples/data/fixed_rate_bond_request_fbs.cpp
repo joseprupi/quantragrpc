@@ -159,6 +159,9 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     auto pricing_builder = quantra::PricingBuilder(*builder);
     pricing_builder.add_as_of_date(as_of_date);
     pricing_builder.add_curves(term_structures);
+    pricing_builder.add_yield_day_counter(quantra::enums::DayCounter_Actual360);
+    pricing_builder.add_yield_compounding(quantra::enums::Compounding_Compounded);
+    pricing_builder.add_yield_frequency(quantra::enums::Frequency_Annual);
     auto pricing = pricing_builder.Finish();
 
     // **************************
@@ -197,19 +200,19 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     // Create the PriceFixedRateBond table
     // ***********************************
 
-    // Create the Yield table
-    auto yield_builder = quantra::YieldBuilder(*builder);
-    yield_builder.add_day_counter(quantra::enums::DayCounter_Actual360);
-    yield_builder.add_compounding(quantra::enums::Compounding_Compounded);
-    yield_builder.add_frequency(quantra::enums::Frequency_Annual);
-    auto yield = yield_builder.Finish();
+    // // Create the Yield table
+    // auto yield_builder = quantra::YieldBuilder(*builder);
+    // yield_builder.add_day_counter(quantra::enums::DayCounter_Actual360);
+    // yield_builder.add_compounding(quantra::enums::Compounding_Compounded);
+    // yield_builder.add_frequency(quantra::enums::Frequency_Annual);
+    // auto yield = yield_builder.Finish();
 
     // Create the BondPricing table
     auto curve_id = builder->CreateString("depos_curve");
     auto bond_pricing_builder = quantra::PriceFixedRateBondBuilder(*builder);
     bond_pricing_builder.add_fixed_rate_bond(bond);
     bond_pricing_builder.add_discounting_curve(curve_id);
-    bond_pricing_builder.add_yield(yield);
+    //bond_pricing_builder.add_yield(yield);
     auto bond_pricing = bond_pricing_builder.Finish();
 
     std::vector<flatbuffers::Offset<quantra::PriceFixedRateBond>> bonds_vector_vector;

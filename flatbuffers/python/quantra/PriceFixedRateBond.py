@@ -42,18 +42,7 @@ class PriceFixedRateBond(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-    # PriceFixedRateBond
-    def Yield_(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
-        if o != 0:
-            x = self._tab.Indirect(o + self._tab.Pos)
-            from quantra.Yield import Yield
-            obj = Yield()
-            obj.Init(self._tab.Bytes, x)
-            return obj
-        return None
-
-def Start(builder): builder.StartObject(3)
+def Start(builder): builder.StartObject(2)
 def PriceFixedRateBondStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -65,10 +54,6 @@ def AddDiscountingCurve(builder, discountingCurve): builder.PrependUOffsetTRelat
 def PriceFixedRateBondAddDiscountingCurve(builder, discountingCurve):
     """This method is deprecated. Please switch to AddDiscountingCurve."""
     return AddDiscountingCurve(builder, discountingCurve)
-def AddYield_(builder, yield_): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(yield_), 0)
-def PriceFixedRateBondAddYield_(builder, yield_):
-    """This method is deprecated. Please switch to AddYield_."""
-    return AddYield_(builder, yield_)
 def End(builder): return builder.EndObject()
 def PriceFixedRateBondEnd(builder):
     """This method is deprecated. Please switch to End."""

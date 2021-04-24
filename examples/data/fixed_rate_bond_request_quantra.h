@@ -142,12 +142,12 @@ std::shared_ptr<structs::PriceFixedRateBondRequest> request_bond()
     strcpy(bond->issue_date, "2007/05/15");
     bond->schedule = schedule;
 
-    auto yield = std::make_shared<structs::Yield>();
+    //auto yield = std::make_shared<structs::Yield>();
 
     auto price_fixed_rate_bond = std::make_shared<structs::PriceFixedRateBond>();
     price_fixed_rate_bond->fixed_rate_bond = bond;
     strcpy(price_fixed_rate_bond->discounting_curve, "depos");
-    price_fixed_rate_bond->yield = yield;
+    //price_fixed_rate_bond->yield = yield;
 
     std::vector<std::shared_ptr<structs::PriceFixedRateBond>> bonds;
     bonds.push_back(price_fixed_rate_bond);
@@ -161,6 +161,9 @@ std::shared_ptr<structs::PriceFixedRateBondRequest> request_bond()
     pricing->curves = term_structures;
     pricing->bond_pricing_details = false;
     pricing->bond_pricing_flows = false;
+    pricing->yield_day_counter = DayCounter_Actual360;
+    pricing->yield_compounding = Compounding_Compounded;
+    pricing->yield_frequency = Frequency_Annual;
 
     auto request = std::make_shared<structs::PriceFixedRateBondRequest>();
     request->pricing = pricing;

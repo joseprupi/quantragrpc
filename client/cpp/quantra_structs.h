@@ -8,7 +8,7 @@ using namespace quantra::enums;
 namespace structs
 {
 
-    struct Yield;
+    //struct Yield;
     struct Pricing;
     struct Schedule;
     struct Fixing;
@@ -25,12 +25,12 @@ namespace structs
     struct PriceFixedRateBond;
     struct PriceFixedRateBondRequest;
 
-    struct Yield
-    {
-        quantra::enums::DayCounter day_counter;
-        quantra::enums::Compounding compounding;
-        quantra::enums::Frequency frequency;
-    };
+    // struct Yield
+    // {
+    //     quantra::enums::DayCounter day_counter;
+    //     quantra::enums::Compounding compounding;
+    //     quantra::enums::Frequency frequency;
+    // };
 
     struct Pricing
     {
@@ -38,6 +38,9 @@ namespace structs
         std::vector<std::shared_ptr<TermStructure>> curves;
         bool bond_pricing_details;
         bool bond_pricing_flows;
+        quantra::enums::DayCounter yield_day_counter;
+        quantra::enums::Compounding yield_compounding;
+        quantra::enums::Frequency yield_frequency;
     };
 
     struct Schedule
@@ -198,7 +201,7 @@ namespace structs
     {
         std::shared_ptr<FixedRateBond> fixed_rate_bond;
         char discounting_curve[11];
-        std::shared_ptr<Yield> yield;
+        //std::shared_ptr<Yield> yield;
     };
 
     struct PriceFixedRateBondRequest
@@ -212,7 +215,7 @@ namespace structs
         std::shared_ptr<FloatingRateBond> floating_rate_bond;
         char discounting_curve[11];
         char forecasting_curve[11];
-        std::shared_ptr<Yield> yield;
+        //std::shared_ptr<Yield> yield;
     };
 
     struct PriceFloatingRateBondRequest

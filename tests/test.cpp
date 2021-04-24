@@ -279,5 +279,7 @@ int main(int argc, char **argv)
     std::cout << "Quantlib Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
     std::cout << "Quantlib NPV = " << total_quantlib_npv << std::endl;
 
+    assert(total_quantlib_npv == total_quantra_npv == 107.708);
+
     return 0;
 }

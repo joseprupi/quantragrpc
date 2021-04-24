@@ -9,7 +9,6 @@ table PriceFloatingRateBond{
     floating_rate_bond:FloatingRateBond;
     discounting_curve:string;
     forecasting_curve:string;
-    yield:Yield;
 }
 
 table PriceFloatingRateBondRequest{

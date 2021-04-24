@@ -34,7 +34,7 @@ table FixedRateBondResponse{
     clean_price:double;
     dirty_price:double;
     accrued_amount:double;
-    yield:double;
+    yield_value:double;
     accrued_days:double;
     macaulay_duration:double;
     modified_duration:double;

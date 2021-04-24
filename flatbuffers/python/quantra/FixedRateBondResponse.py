@@ -53,7 +53,7 @@ class FixedRateBondResponse(object):
         return 0.0
 
     # FixedRateBondResponse
-    def Yield_(self):
+    def YieldValue(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
@@ -139,10 +139,10 @@ def AddAccruedAmount(builder, accruedAmount): builder.PrependFloat64Slot(3, accr
 def FixedRateBondResponseAddAccruedAmount(builder, accruedAmount):
     """This method is deprecated. Please switch to AddAccruedAmount."""
     return AddAccruedAmount(builder, accruedAmount)
-def AddYield_(builder, yield_): builder.PrependFloat64Slot(4, yield_, 0.0)
-def FixedRateBondResponseAddYield_(builder, yield_):
-    """This method is deprecated. Please switch to AddYield_."""
-    return AddYield_(builder, yield_)
+def AddYieldValue(builder, yieldValue): builder.PrependFloat64Slot(4, yieldValue, 0.0)
+def FixedRateBondResponseAddYieldValue(builder, yieldValue):
+    """This method is deprecated. Please switch to AddYieldValue."""
+    return AddYieldValue(builder, yieldValue)
 def AddAccruedDays(builder, accruedDays): builder.PrependFloat64Slot(5, accruedDays, 0.0)
 def FixedRateBondResponseAddAccruedDays(builder, accruedDays):
     """This method is deprecated. Please switch to AddAccruedDays."""

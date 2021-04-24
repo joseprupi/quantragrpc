@@ -25,12 +25,12 @@
 using namespace QuantLib;
 using namespace quantra;
 
-struct YieldStruct
-{
-    QuantLib::DayCounter day_counter;
-    QuantLib::Compounding compounding;
-    QuantLib::Frequency frequency;
-};
+// struct YieldStruct
+// {
+//     QuantLib::DayCounter day_counter;
+//     QuantLib::Compounding compounding;
+//     QuantLib::Frequency frequency;
+// };
 
 struct PricingStruct
 {
@@ -38,6 +38,9 @@ struct PricingStruct
     const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves;
     bool bond_pricing_details;
     bool bond_pricing_flows;
+    QuantLib::DayCounter yield_day_counter;
+    QuantLib::Compounding yield_compounding;
+    QuantLib::Frequency yield_frequency;
 };
 
 class ScheduleParser
@@ -48,13 +51,13 @@ public:
     std::shared_ptr<QuantLib::Schedule> parse(const quantra::Schedule *schedule);
 };
 
-class YieldParser
-{
+// class YieldParser
+// {
 
-private:
-public:
-    std::shared_ptr<YieldStruct> parse(const quantra::Yield *yield);
-};
+// private:
+// public:
+//     std::shared_ptr<YieldStruct> parse(const quantra::Yield *yield);
+// };
 
 class PricingParser
 {

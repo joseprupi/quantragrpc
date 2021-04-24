@@ -70,7 +70,28 @@ class Pricing(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def Start(builder): builder.StartObject(4)
+    # Pricing
+    def YieldDayCounter(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
+        return 0
+
+    # Pricing
+    def YieldCompounding(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
+        return 0
+
+    # Pricing
+    def YieldFrequency(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
+        return 0
+
+def Start(builder): builder.StartObject(7)
 def PricingStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -94,6 +115,18 @@ def AddBondPricingFlows(builder, bondPricingFlows): builder.PrependBoolSlot(3, b
 def PricingAddBondPricingFlows(builder, bondPricingFlows):
     """This method is deprecated. Please switch to AddBondPricingFlows."""
     return AddBondPricingFlows(builder, bondPricingFlows)
+def AddYieldDayCounter(builder, yieldDayCounter): builder.PrependInt8Slot(4, yieldDayCounter, 0)
+def PricingAddYieldDayCounter(builder, yieldDayCounter):
+    """This method is deprecated. Please switch to AddYieldDayCounter."""
+    return AddYieldDayCounter(builder, yieldDayCounter)
+def AddYieldCompounding(builder, yieldCompounding): builder.PrependInt8Slot(5, yieldCompounding, 0)
+def PricingAddYieldCompounding(builder, yieldCompounding):
+    """This method is deprecated. Please switch to AddYieldCompounding."""
+    return AddYieldCompounding(builder, yieldCompounding)
+def AddYieldFrequency(builder, yieldFrequency): builder.PrependInt8Slot(6, yieldFrequency, 0)
+def PricingAddYieldFrequency(builder, yieldFrequency):
+    """This method is deprecated. Please switch to AddYieldFrequency."""
+    return AddYieldFrequency(builder, yieldFrequency)
 def End(builder): return builder.EndObject()
 def PricingEnd(builder):
     """This method is deprecated. Please switch to End."""

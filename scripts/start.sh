@@ -8,7 +8,7 @@ if [[ -z "$1" ]]; then
 fi
 
 if [[ -z "$QUANTRA_SERVER_PORT" ]]; then
-   echo "BASE_PORT env variable not set"
+   echo "QUANTRA_SERVER_PORT env variable not set"
    exit 1
 fi
 

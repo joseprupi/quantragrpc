@@ -8,7 +8,6 @@ namespace quantra;
 table PriceFixedRateBond{
     fixed_rate_bond:FixedRateBond;
     discounting_curve:string;
-    yield:Yield;
 }
 
 table PriceFixedRateBondRequest{
