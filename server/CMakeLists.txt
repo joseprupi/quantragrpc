@@ -2,7 +2,8 @@
 include_directories("../grpc" 
                     "../parser" 
                     "../request" 
-                    "../common")
+                    "../common"
+		    /root/grpc/install/include)
  
 file(GLOB SYNC_SOURCES   "../parser/*.cpp" 
                     "../common/*.cpp"  

@@ -1,4 +1,5 @@
 include_directories(
+	/root/grpc/install/include	
     ../grpc
     ../parser 
     ../flatbuffers/fbs 

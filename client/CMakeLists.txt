@@ -1,4 +1,5 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/cpp
+	/root/grpc/install/include
                     /root/quantra/flatbuffers/cpp
                     /root/quantra/grpc
                     /root/quantra/examples/data
