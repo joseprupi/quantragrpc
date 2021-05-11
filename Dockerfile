@@ -52,17 +52,15 @@ RUN     ln -s ${GRPC_INSTALL_PATH}/lib/libgrpc++_unsecure.so.6 ${GRPC_INSTALL_PA
         cd /root/flatbuffers/build && \
         make test ARGS=-V
 
-# Quantlib
-# RUN     cd /root && \
-#         wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/QuantLib-1.22.tar.gz && \
-#         tar -zxvf QuantLib-1.22.tar.gz && \
-#         cd QuantLib-1.22 && \
-#         ./configure --enable-std-pointers && \
-#         make -j && \
-#         make install && \
-#         ldconfig
-
-RUN     apt-get install libquantlib0-dev
+Quantlib
+RUN     cd /root && \
+        wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/QuantLib-1.22.tar.gz && \
+        tar -zxvf QuantLib-1.22.tar.gz && \
+        cd QuantLib-1.22 && \
+        ./configure --enable-std-pointers && \
+        make -j && \
+        make install && \
+        ldconfig
  
 # Quantra
 RUN     cd /root && \
