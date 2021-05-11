@@ -59,7 +59,8 @@ RUN     cd /root && \
         cd QuantLib-1.22 && \
         ./configure --enable-std-pointers && \
         make -j && \
-        make install 
+        make install && \
+        ldconfig
  
 # Quantra
 RUN     cd /root && \
