@@ -17,7 +17,7 @@ RUN     cd root && \
         mkdir -p "third_party/abseil-cpp/cmake/build" && \
         cd ./third_party/abseil-cpp/cmake/build && \
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE ../.. && \
-        make -j install && \
+        make -j 2 install && \
         cd /root/grpc && \
         mkdir install && \
         mkdir -p cmake/build && \
@@ -31,7 +31,7 @@ RUN     cd root && \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_INSTALL_PREFIX=/root/grpc/install \
         ../.. && \
-        make -j && \
+        make -j 2 && \
         make install
 
 # Flatbuffers
@@ -43,7 +43,7 @@ RUN     cd /root && \
         mkdir build && \
         cd build && \
         cmake -DFLATBUFFERS_BUILD_GRPCTEST=ON -DGRPC_INSTALL_PATH=${GRPC_INSTALL_PATH} -DPROTOBUF_DOWNLOAD_PATH=${PROTOBUF_DOWNLOAD_PATH} .. && \
-        make -j && \
+        make -j 2 && \
         make install
 
 # Test flatbuffers
@@ -58,7 +58,7 @@ RUN     cd /root && \
         tar -zxvf QuantLib-1.22.tar.gz && \
         cd QuantLib-1.22 && \
         ./configure --enable-std-pointers && \
-        make -j && \
+        make -j 2 && \
         make install 
  
 # Quantra
@@ -69,7 +69,7 @@ RUN     cd /root && \
         mkdir build && \
         cd build && \
         cmake ../ && \ 
-        make -j
+        make -j 2
 
 RUN     cd /root/quantragrpc && \
         . ./scripts/config_vars.sh && \
