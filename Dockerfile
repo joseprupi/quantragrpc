@@ -52,7 +52,7 @@ RUN     ln -s ${GRPC_INSTALL_PATH}/lib/libgrpc++_unsecure.so.6 ${GRPC_INSTALL_PA
         cd /root/flatbuffers/build && \
         make test ARGS=-V
 
-Quantlib
+# Quantlib
 RUN     cd /root && \
         wget https://github.com/lballabio/QuantLib/releases/download/QuantLib-v1.22/QuantLib-1.22.tar.gz && \
         tar -zxvf QuantLib-1.22.tar.gz && \
