@@ -74,4 +74,5 @@ RUN     cd /root && \
 
 RUN     cd /root/quantragrpc && \
         . ./scripts/config_vars.sh && \
+        pip3 install PyYAML requests && \
         ./scripts/start.sh 10 
