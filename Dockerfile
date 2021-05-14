@@ -7,7 +7,8 @@ RUN     apt-get update && \
         add-apt-repository "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb $(lsb_release -cs) stable" && \
         apt-get update && \
         apt-get install -y \
-        git python3-pip build-essential autoconf libtool pkg-config cmake libssl-dev libboost-all-dev tar wget getenvoy-envoy
+        git python3-pip build-essential autoconf libtool pkg-config cmake libssl-dev libboost-all-dev tar wget getenvoy-envoy && \
+        pip3 install PyYAML requests
 
 # gRPC
 RUN     cd root && \
@@ -74,5 +75,4 @@ RUN     cd /root && \
 
 RUN     cd /root/quantragrpc && \
         . ./scripts/config_vars.sh && \
-        pip3 install PyYAML requests && \
         ./scripts/start.sh 10 
