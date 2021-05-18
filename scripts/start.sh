@@ -35,6 +35,7 @@ done
 
 python3 -c "from envoy_config import config; config($QUANTRA_SERVER_PORT, $QUANTRA_PORT, $1, '$QUANTRA_HOME')"
 envoy -c "$QUANTRA_HOME/scripts/quantra.yaml" &
+sleep 3
 python3 -c "from envoy_config import check_clusters_health; check_clusters_health()"
 
 wait

@@ -72,7 +72,3 @@ RUN     cd /root && \
         cd build && \
         cmake ../ && \ 
         make -j
-
-RUN     cd /root/quantragrpc && \
-        . ./scripts/config_vars.sh && \
-        ./scripts/start.sh 10 
