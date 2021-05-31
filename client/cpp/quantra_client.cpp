@@ -8,10 +8,14 @@ using grpc::Status;
 
 QuantraClient::QuantraClient(std::string addr)
 {
+
     grpc::ChannelArguments ch_args;
     ch_args.SetMaxReceiveMessageSize(INT_MAX);
+
+    auto channel_creds = grpc::SslCredentials(grpc::SslCredentialsOptions());
+
     std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(
-        addr, grpc::InsecureChannelCredentials(), ch_args);
+        addr, channel_creds, ch_args);
     this->stub_ = std::make_unique<quantra::QuantraServer::Stub>(channel);
 }
 

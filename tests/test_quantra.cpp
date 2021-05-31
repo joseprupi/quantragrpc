@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
     int total_bonds = n_bonds_x_request * n_requests;
 
-    QuantraClient client("localhost:50051");
+    QuantraClient client("grpc.quantra.io:443");
 
     auto term_structure = term_structure_example();
     auto bond = fixed_rate_bond_example();
