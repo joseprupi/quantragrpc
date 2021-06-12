@@ -26,25 +26,36 @@ int main(int argc, char **argv)
     int n_bonds_x_request = 10;
     int n_requests = 1;
     int share_curve = 0;
+    std::string connection;
 
     double total_quantra_npv = 0;
     double total_quantlib_npv = 0;
 
-    if (argc > 1)
+    if (argc == 2)
     {
-        std::istringstream iss1(argv[1]);
+        connection = argv[1];
+    }
+
+    if (argc > 2)
+    {
+        connection = argv[1];
+
+        std::cout << "Connecting to: ";
+        std::cout << connection;
+
+        std::istringstream iss1(argv[2]);
         iss1 >> n_bonds_x_request;
 
-        std::istringstream iss2(argv[2]);
+        std::istringstream iss2(argv[3]);
         iss2 >> n_requests;
 
-        std::istringstream iss3(argv[3]);
+        std::istringstream iss3(argv[4]);
         iss3 >> share_curve;
     }
 
     int total_bonds = n_bonds_x_request * n_requests;
 
-    QuantraClient client("localhost:50051");
+    QuantraClient client(connection, false);
 
     auto term_structure = term_structure_example();
     auto bond = fixed_rate_bond_example();

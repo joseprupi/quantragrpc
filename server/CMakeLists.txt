@@ -1,14 +1,14 @@
 #set(CMAKE_BUILD_TYPE Debug)
-include_directories("../grpc" 
-                    "../parser" 
-                    "../request" 
-                    "../common"
-		    /root/grpc/install/include)
+include_directories(${CMAKE_SOURCE_DIR}/grpc
+                    ${CMAKE_SOURCE_DIR}/parser
+                    ${CMAKE_SOURCE_DIR}/request 
+                    ${CMAKE_SOURCE_DIR}/common
+		            /root/grpc/install/include)
  
-file(GLOB SYNC_SOURCES   "../parser/*.cpp" 
-                    "../common/*.cpp"  
-                    "../request/*.cpp"  
-                    "./sync_server.cpp")
+file(GLOB SYNC_SOURCES  ${CMAKE_SOURCE_DIR}/parser/*.cpp
+                        ${CMAKE_SOURCE_DIR}/common/*.cpp
+                        ${CMAKE_SOURCE_DIR}/request/*.cpp  
+                        ./sync_server.cpp)
 
 
 link_directories(/root/grpc/install/lib/)

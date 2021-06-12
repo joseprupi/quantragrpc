@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    QuantraClient client("localhost:50051");
+    QuantraClient client("localhost:50051", false);
 
     auto term_structure = term_structure_example();
     auto bond = fixed_rate_bond_example();

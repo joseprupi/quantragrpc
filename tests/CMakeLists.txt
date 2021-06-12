@@ -1,12 +1,12 @@
 include_directories(
    /root/grpc/install/include 
-	../grpc
-    ../parser 
-    ../flatbuffers/fbs 
-    ../request 
-    ../common
-    ../client/cpp
-    ../examples)
+   ${CMAKE_SOURCE_DIR}/grpc
+   ${CMAKE_SOURCE_DIR}/parser 
+   ${CMAKE_SOURCE_DIR}/flatbuffers/fbs 
+   ${CMAKE_SOURCE_DIR}/request 
+   ${CMAKE_SOURCE_DIR}/common
+   ${CMAKE_SOURCE_DIR}/client/cpp
+   ${CMAKE_SOURCE_DIR}/examples)
 
 file(GLOB TEST  
     ./test.cpp)

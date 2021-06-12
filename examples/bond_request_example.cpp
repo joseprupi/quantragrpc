@@ -16,7 +16,7 @@ int main(int argc, char **argv)
         iss >> n;
     }
 
-    QuantraClient client("localhost:50051");
+    QuantraClient client("localhost:50051", false);
 
     std::shared_ptr<structs::PriceFixedRateBondRequest> bond_pricing_request = request_bond();
 

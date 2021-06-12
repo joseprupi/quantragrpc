@@ -6,13 +6,68 @@ using grpc::ClientContext;
 using grpc::CompletionQueue;
 using grpc::Status;
 
-QuantraClient::QuantraClient(std::string addr)
+#include <string>
+#include <fstream>
+#include <streambuf>
+
+QuantraClient::QuantraClient(std::string addr, bool secured)
 {
     grpc::ChannelArguments ch_args;
     ch_args.SetMaxReceiveMessageSize(INT_MAX);
+
+    std::shared_ptr<grpc::ChannelCredentials> channel_creds;
+
+    if (secured)
+    {
+        grpc::SslCredentialsOptions ssl_opts;
+        std::ifstream t("cert.pem");
+        std::string str((std::istreambuf_iterator<char>(t)),
+                        std::istreambuf_iterator<char>());
+        ssl_opts.pem_root_certs = str;
+
+        channel_creds = grpc::SslCredentials(ssl_opts);
+    }
+    else
+    {
+        channel_creds = grpc::InsecureChannelCredentials();
+    }
+
     std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(
-        addr, grpc::InsecureChannelCredentials(), ch_args);
+        addr, channel_creds, ch_args);
+
     this->stub_ = std::make_unique<quantra::QuantraServer::Stub>(channel);
+}
+
+std::shared_ptr<std::string> QuantraClient::PriceFixedRateBondRequestJSON(std::string json)
+{
+    auto builder = this->json_parser->PriceFixedRateBondRequestToFBS(json);
+    this->PriceFixedRateBondRequestCallRaw(builder, 0);
+    //return this->json_parser->PriceFixedRateBondResponseToJSON(this->raw_responses[0].get());
+    //std::string s;
+    return this->json_responses[0];
+}
+
+void QuantraClient::PriceFixedRateBondRequestCallRaw(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, int request_tag)
+{
+
+    //this->responses.resize(1);
+    this->json_responses.resize(1);
+    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, 1);
+
+    auto request_msg = builder->ReleaseMessage<quantra::PriceFixedRateBondRequest>();
+
+    AsyncClientCall *call = new AsyncClientCall;
+    call->json = true;
+    call->request_pos = request_tag;
+
+    call->response_reader =
+        stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &cq_);
+
+    call->response_reader->StartCall();
+
+    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
+
+    thread_.join();
 }
 
 void QuantraClient::PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag)
@@ -66,11 +121,26 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
         if (call->status.ok())
         {
             const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
-            response->bonds()->begin();
-
-            auto npv_response = price_fixed_rate_bond_response_to_quantra(response);
             int position = call->request_pos;
-            this->responses.at(position) = npv_response;
+            if (call->json)
+            {
+                this->json_responses[position] = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+                std::cout << this->json_responses[position].get();
+            }
+            else
+            {
+
+                auto quantra_response = price_fixed_rate_bond_response_to_quantra(response);
+                this->responses.at(position) = quantra_response;
+            }
+            //std::shared_ptr<const uint8_t> data = std::make_shared<const uint8_t>(call->reply.data());
+            //std::shared_ptr<const uint8_t> data(new uint8_t[call->reply.size()], std::default_delete<const uint8_t[]>());
+
+            //this->raw_responses.at(position) = std::make_shared<flatbuffers::grpc::Message<quantra::PriceFixedRateBondResponse>>(call->reply);
+            //this->raw_responses.at(position) = call->reply;
+
+            //std::string s = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+            //std::cout << s;
         }
         else
         {

@@ -1,33 +1,33 @@
 include_directories(
 	/root/grpc/install/include	
-    ../grpc
-    ../parser 
-    ../flatbuffers/fbs 
-    ../request 
-    ../common
-    ../client/cpp
+    ${CMAKE_SOURCE_DIR}/grpc
+    ${CMAKE_SOURCE_DIR}/parser 
+    ${CMAKE_SOURCE_DIR}/flatbuffers/fbs 
+    ${CMAKE_SOURCE_DIR}/request 
+    ${CMAKE_SOURCE_DIR}/common
+    ${CMAKE_SOURCE_DIR}/client/cpp
     data)
 
 file(GLOB ASYNC_SOURCES  
-    ../parser/*.cpp 
-    ../common/*.cpp 
-    ../request/*.cpp  
+    ${CMAKE_SOURCE_DIR}/parser/*.cpp 
+    ${CMAKE_SOURCE_DIR}/common/*.cpp 
+    ${CMAKE_SOURCE_DIR}/request/*.cpp  
     ./messages.cpp
     data/fixed_rate_bond_request_fbs.cpp
     ./async_client.cpp)
 
 file(GLOB JSON_SOURCES  
-    ../parser/*.cpp 
-    ../common/*.cpp 
-    ../request/*.cpp  
+    ${CMAKE_SOURCE_DIR}/parser/*.cpp 
+    ${CMAKE_SOURCE_DIR}/common/*.cpp 
+    ${CMAKE_SOURCE_DIR}/request/*.cpp  
     ./messages.cpp
     data/fixed_rate_bond_request_fbs.cpp
     ./bond_request_to_json.cpp)
 
 file(GLOB BOND_REQUEST_SORUCES
-    ../parser/*.cpp
-    ../common/*.cpp
-    ../request/*.cpp  
+    ${CMAKE_SOURCE_DIR}/parser/*.cpp
+    ${CMAKE_SOURCE_DIR}/common/*.cpp
+    ${CMAKE_SOURCE_DIR}/request/*.cpp  
     ./messages.cpp
     ./bond_request_example.cpp)
 

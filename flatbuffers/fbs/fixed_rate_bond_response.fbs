@@ -46,3 +46,5 @@ table FixedRateBondResponse{
 table PriceFixedRateBondResponse{
     bonds:[FixedRateBondResponse];
 }
+
+root_type PriceFixedRateBondResponse;
