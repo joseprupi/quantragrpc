@@ -26,7 +26,6 @@ public:
     void AsyncCompleteRpc(int request_size);
     std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>> responses;
     std::vector<std::shared_ptr<std::string>> json_responses;
-    //std::vector<flatbuffers::grpc::Message<quantra::PriceFixedRateBondResponse>> raw_responses;
 
 private:
     struct AsyncClientCall
@@ -42,9 +41,6 @@ private:
     };
 
     std::shared_ptr<JSONParser> json_parser = std::make_shared<JSONParser>();
-    //std::shared_ptr<flatbuffers::Parser> bond_parser = std::make_shared<flatbuffers::Parser>();
-    //std::vector<std::string> paths = {FIXED_RATE_BOND_REQUEST_PATH};
-
     std::unique_ptr<quantra::QuantraServer::Stub> stub_;
     grpc::CompletionQueue cq_;
 };
