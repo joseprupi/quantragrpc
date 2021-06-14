@@ -46,7 +46,7 @@ void JSONParser::LoadFBS()
         throw std::runtime_error("Error while loading flatbuffers schema");
     }
 
-    // Load FIXED_RATE_BOND_REQUEST schema
+    // Load FIXED_RATE_BOND_RESPONSE schema
     if (!flatbuffers::LoadFile(FIXED_RATE_BOND_RESPONSE_PATH, false, &schemafile))
     {
         throw std::runtime_error("Error while loading flatbuffers file");
@@ -55,6 +55,32 @@ void JSONParser::LoadFBS()
     this->fixed_rate_bond_response_parser->opts.strict_json = true;
 
     if (!this->fixed_rate_bond_response_parser->Parse(schemafile.c_str(), fbs_include_directories))
+    {
+        throw std::runtime_error("Error while loading flatbuffers schema");
+    }
+
+    // Load FLOATING_RATE_BOND_REQUEST schema
+    if (!flatbuffers::LoadFile(FLOATING_RATE_BOND_REQUEST_PATH, false, &schemafile))
+    {
+        throw std::runtime_error("Error while loading flatbuffers file");
+    }
+
+    this->price_floating_rate_bond_parser->opts.strict_json = true;
+
+    if (!this->price_floating_rate_bond_parser->Parse(schemafile.c_str(), fbs_include_directories))
+    {
+        throw std::runtime_error("Error while loading flatbuffers schema");
+    }
+
+    // Load FLOATING_RATE_BOND_RESPONSE schema
+    if (!flatbuffers::LoadFile(FLOATING_RATE_BOND_RESPONSE_PATH, false, &schemafile))
+    {
+        throw std::runtime_error("Error while loading flatbuffers file");
+    }
+
+    this->floating_rate_bond_response_parser->opts.strict_json = true;
+
+    if (!this->floating_rate_bond_response_parser->Parse(schemafile.c_str(), fbs_include_directories))
     {
         throw std::runtime_error("Error while loading flatbuffers schema");
     }

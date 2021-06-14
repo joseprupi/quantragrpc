@@ -218,7 +218,7 @@ namespace structs
     struct PriceFloatingRateBondRequest
     {
         std::shared_ptr<Pricing> pricing;
-        std::vector<PriceFloatingRateBond> bonds;
+        std::vector<std::shared_ptr<structs::PriceFloatingRateBond>> bonds;
     };
 
     struct PriceFixedRateBondValues

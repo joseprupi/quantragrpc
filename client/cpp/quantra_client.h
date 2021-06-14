@@ -19,10 +19,14 @@ class QuantraClient
 public:
     explicit QuantraClient(std::string addr, bool secured);
 
+    std::shared_ptr<std::string> PriceFloatingRateBondRequestJSON(std::string json);
+    void PriceFloatingRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
+    void PriceFloatingRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
+
     std::shared_ptr<std::string> PriceFixedRateBondRequestJSON(std::string json);
-    void PriceFixedRateBondRequestCallRaw(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, int request_tag);
     void PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
     void PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
+
     void AsyncCompleteRpc(int request_size);
     std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>> responses;
     std::vector<std::shared_ptr<std::string>> json_responses;

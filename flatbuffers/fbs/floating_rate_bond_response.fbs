@@ -1,0 +1,52 @@
+namespace quantra;
+
+table FlowInterest{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    discount:float;
+    rate:float;
+    price:float;
+}
+
+table FlowPastInterest{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    rate:float;
+}
+
+table FlowNotional{
+    date:string;
+    amount:double;
+    discount:float;
+    price:float;
+}
+
+union Flow { FlowInterest, FlowPastInterest, FlowNotional }
+
+table FlowsWrapper{
+    flow_wrapper:Flow;
+}
+
+table FixedRateBondResponse{
+    npv:double;
+    clean_price:double;
+    dirty_price:double;
+    accrued_amount:double;
+    yield:double;
+    accrued_days:double;
+    macaulay_duration:double;
+    modified_duration:double;
+    convexity:double;
+    bps:double;
+    flows:[FlowsWrapper];
+}
+
+table PriceFixedRateBondResponse{
+    bonds:[FixedRateBondResponse];
+}
+
+root_type PriceFixedRateBondResponse;
