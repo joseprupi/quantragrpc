@@ -16,8 +16,9 @@ int main(int argc, char **argv)
 
     std::string connection;
     connection = argv[1];
+    bool secure = 
 
-    QuantraClient client(connection, false);
+    QuantraClient client(connection, true);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]
