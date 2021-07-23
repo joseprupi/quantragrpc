@@ -2,5 +2,7 @@ scripts/envoy_config.pyc
 scripts/__pycache__/envoy_config.cpython-37.pyc
 scripts/quantra.yaml
 build/*
+flatbuffers/html/*
+flatbuffers/latex/*
 flatbuffers/build/*
 .vscode/*

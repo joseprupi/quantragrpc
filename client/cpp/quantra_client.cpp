@@ -20,8 +20,8 @@ QuantraClient::QuantraClient(std::string addr, bool secured)
     if (secured)
     {
         grpc::SslCredentialsOptions ssl_opts;
-        std::ifstream t("cert.pem");
-        std::string str((std::istreambuf_iterator<char>(t)),
+        std::ifstream cert("/root/quantragrpc/build/cert.pem");
+        std::string str((std::istreambuf_iterator<char>(cert)),
                         std::istreambuf_iterator<char>());
         ssl_opts.pem_root_certs = str;
 
@@ -29,6 +29,7 @@ QuantraClient::QuantraClient(std::string addr, bool secured)
     }
     else
     {
+        std::cout << "Not secured" << std::endl;
         channel_creds = grpc::InsecureChannelCredentials();
     }
 

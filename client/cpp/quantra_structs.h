@@ -144,17 +144,17 @@ namespace structs
 
     struct Point
     {
-        Point() {}
+        Point()
+        {
+        }
         ~Point() {}
         PointType point_type;
-        union
-        {
-            std::shared_ptr<DepositHelper> deposit_helper;
-            std::shared_ptr<FRAHelper> FRA_helper;
-            std::shared_ptr<FutureHelper> future_helper;
-            std::shared_ptr<SwapHelper> swap_helper;
-            std::shared_ptr<BondHelper> bond_helper;
-        };
+
+        std::shared_ptr<DepositHelper> deposit_helper = std::make_shared<DepositHelper>();
+        std::shared_ptr<FRAHelper> FRA_helper = std::make_shared<FRAHelper>();
+        std::shared_ptr<FutureHelper> future_helper = std::make_shared<FutureHelper>();
+        std::shared_ptr<SwapHelper> swap_helper = std::make_shared<SwapHelper>();
+        std::shared_ptr<BondHelper> bond_helper = std::make_shared<BondHelper>();
     };
 
     struct TermStructure

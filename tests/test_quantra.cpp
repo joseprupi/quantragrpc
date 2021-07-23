@@ -23,6 +23,7 @@ using namespace QuantLib;
 int main(int argc, char **argv)
 {
 
+    std::cout << "Starting" << std::endl;
     int n_bonds_x_request = 10;
     int n_requests = 1;
     int share_curve = 0;
@@ -55,7 +56,7 @@ int main(int argc, char **argv)
 
     int total_bonds = n_bonds_x_request * n_requests;
 
-    QuantraClient client(connection, false);
+    QuantraClient client(connection, true);
 
     auto term_structure = term_structure_example();
     auto bond = fixed_rate_bond_example();
