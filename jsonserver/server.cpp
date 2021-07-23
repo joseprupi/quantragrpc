@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 
     std::string connection;
     connection = argv[1];
-    bool secure = 
 
     QuantraClient client(connection, true);
 
