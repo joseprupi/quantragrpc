@@ -23,7 +23,7 @@ struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_CONVENTION = 12,
     VT_TERMINATION_DATE_CONVENTION = 14,
     VT_DATE_GENERATION_RULE = 16,
-    VT_END_OF_MONT = 18
+    VT_END_OF_MONTH = 18
   };
   quantra::enums::Calendar calendar() const {
     return static_cast<quantra::enums::Calendar>(GetField<int8_t>(VT_CALENDAR, 0));
@@ -46,8 +46,8 @@ struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   quantra::enums::DateGenerationRule date_generation_rule() const {
     return static_cast<quantra::enums::DateGenerationRule>(GetField<int8_t>(VT_DATE_GENERATION_RULE, 0));
   }
-  bool end_of_mont() const {
-    return GetField<uint8_t>(VT_END_OF_MONT, 0) != 0;
+  bool end_of_month() const {
+    return GetField<uint8_t>(VT_END_OF_MONTH, 0) != 0;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -60,7 +60,7 @@ struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int8_t>(verifier, VT_CONVENTION) &&
            VerifyField<int8_t>(verifier, VT_TERMINATION_DATE_CONVENTION) &&
            VerifyField<int8_t>(verifier, VT_DATE_GENERATION_RULE) &&
-           VerifyField<uint8_t>(verifier, VT_END_OF_MONT) &&
+           VerifyField<uint8_t>(verifier, VT_END_OF_MONTH) &&
            verifier.EndTable();
   }
 };
@@ -90,8 +90,8 @@ struct ScheduleBuilder {
   void add_date_generation_rule(quantra::enums::DateGenerationRule date_generation_rule) {
     fbb_.AddElement<int8_t>(Schedule::VT_DATE_GENERATION_RULE, static_cast<int8_t>(date_generation_rule), 0);
   }
-  void add_end_of_mont(bool end_of_mont) {
-    fbb_.AddElement<uint8_t>(Schedule::VT_END_OF_MONT, static_cast<uint8_t>(end_of_mont), 0);
+  void add_end_of_month(bool end_of_month) {
+    fbb_.AddElement<uint8_t>(Schedule::VT_END_OF_MONTH, static_cast<uint8_t>(end_of_month), 0);
   }
   explicit ScheduleBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -113,11 +113,11 @@ inline flatbuffers::Offset<Schedule> CreateSchedule(
     quantra::enums::BusinessDayConvention convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::BusinessDayConvention termination_date_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DateGenerationRule date_generation_rule = quantra::enums::DateGenerationRule_Backward,
-    bool end_of_mont = false) {
+    bool end_of_month = false) {
   ScheduleBuilder builder_(_fbb);
   builder_.add_termination_date(termination_date);
   builder_.add_effective_date(effective_date);
-  builder_.add_end_of_mont(end_of_mont);
+  builder_.add_end_of_month(end_of_month);
   builder_.add_date_generation_rule(date_generation_rule);
   builder_.add_termination_date_convention(termination_date_convention);
   builder_.add_convention(convention);
@@ -135,7 +135,7 @@ inline flatbuffers::Offset<Schedule> CreateScheduleDirect(
     quantra::enums::BusinessDayConvention convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::BusinessDayConvention termination_date_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DateGenerationRule date_generation_rule = quantra::enums::DateGenerationRule_Backward,
-    bool end_of_mont = false) {
+    bool end_of_month = false) {
   auto effective_date__ = effective_date ? _fbb.CreateString(effective_date) : 0;
   auto termination_date__ = termination_date ? _fbb.CreateString(termination_date) : 0;
   return quantra::CreateSchedule(
@@ -147,7 +147,7 @@ inline flatbuffers::Offset<Schedule> CreateScheduleDirect(
       convention,
       termination_date_convention,
       date_generation_rule,
-      end_of_mont);
+      end_of_month);
 }
 
 }  // namespace quantra

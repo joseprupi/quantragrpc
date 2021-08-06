@@ -696,69 +696,69 @@ inline flatbuffers::Offset<BondHelper> CreateBondHelperDirect(
 struct PointsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PointsWrapperBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_POINT_WRAPPER_TYPE = 4,
-    VT_POINT_WRAPPER = 6
+    VT_POINT_TYPE = 4,
+    VT_POINT = 6
   };
-  quantra::Point point_wrapper_type() const {
-    return static_cast<quantra::Point>(GetField<uint8_t>(VT_POINT_WRAPPER_TYPE, 0));
+  quantra::Point point_type() const {
+    return static_cast<quantra::Point>(GetField<uint8_t>(VT_POINT_TYPE, 0));
   }
-  const void *point_wrapper() const {
-    return GetPointer<const void *>(VT_POINT_WRAPPER);
+  const void *point() const {
+    return GetPointer<const void *>(VT_POINT);
   }
-  template<typename T> const T *point_wrapper_as() const;
-  const quantra::DepositHelper *point_wrapper_as_DepositHelper() const {
-    return point_wrapper_type() == quantra::Point_DepositHelper ? static_cast<const quantra::DepositHelper *>(point_wrapper()) : nullptr;
+  template<typename T> const T *point_as() const;
+  const quantra::DepositHelper *point_as_DepositHelper() const {
+    return point_type() == quantra::Point_DepositHelper ? static_cast<const quantra::DepositHelper *>(point()) : nullptr;
   }
-  const quantra::FRAHelper *point_wrapper_as_FRAHelper() const {
-    return point_wrapper_type() == quantra::Point_FRAHelper ? static_cast<const quantra::FRAHelper *>(point_wrapper()) : nullptr;
+  const quantra::FRAHelper *point_as_FRAHelper() const {
+    return point_type() == quantra::Point_FRAHelper ? static_cast<const quantra::FRAHelper *>(point()) : nullptr;
   }
-  const quantra::FutureHelper *point_wrapper_as_FutureHelper() const {
-    return point_wrapper_type() == quantra::Point_FutureHelper ? static_cast<const quantra::FutureHelper *>(point_wrapper()) : nullptr;
+  const quantra::FutureHelper *point_as_FutureHelper() const {
+    return point_type() == quantra::Point_FutureHelper ? static_cast<const quantra::FutureHelper *>(point()) : nullptr;
   }
-  const quantra::SwapHelper *point_wrapper_as_SwapHelper() const {
-    return point_wrapper_type() == quantra::Point_SwapHelper ? static_cast<const quantra::SwapHelper *>(point_wrapper()) : nullptr;
+  const quantra::SwapHelper *point_as_SwapHelper() const {
+    return point_type() == quantra::Point_SwapHelper ? static_cast<const quantra::SwapHelper *>(point()) : nullptr;
   }
-  const quantra::BondHelper *point_wrapper_as_BondHelper() const {
-    return point_wrapper_type() == quantra::Point_BondHelper ? static_cast<const quantra::BondHelper *>(point_wrapper()) : nullptr;
+  const quantra::BondHelper *point_as_BondHelper() const {
+    return point_type() == quantra::Point_BondHelper ? static_cast<const quantra::BondHelper *>(point()) : nullptr;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint8_t>(verifier, VT_POINT_WRAPPER_TYPE) &&
-           VerifyOffset(verifier, VT_POINT_WRAPPER) &&
-           VerifyPoint(verifier, point_wrapper(), point_wrapper_type()) &&
+           VerifyField<uint8_t>(verifier, VT_POINT_TYPE) &&
+           VerifyOffset(verifier, VT_POINT) &&
+           VerifyPoint(verifier, point(), point_type()) &&
            verifier.EndTable();
   }
 };
 
-template<> inline const quantra::DepositHelper *PointsWrapper::point_wrapper_as<quantra::DepositHelper>() const {
-  return point_wrapper_as_DepositHelper();
+template<> inline const quantra::DepositHelper *PointsWrapper::point_as<quantra::DepositHelper>() const {
+  return point_as_DepositHelper();
 }
 
-template<> inline const quantra::FRAHelper *PointsWrapper::point_wrapper_as<quantra::FRAHelper>() const {
-  return point_wrapper_as_FRAHelper();
+template<> inline const quantra::FRAHelper *PointsWrapper::point_as<quantra::FRAHelper>() const {
+  return point_as_FRAHelper();
 }
 
-template<> inline const quantra::FutureHelper *PointsWrapper::point_wrapper_as<quantra::FutureHelper>() const {
-  return point_wrapper_as_FutureHelper();
+template<> inline const quantra::FutureHelper *PointsWrapper::point_as<quantra::FutureHelper>() const {
+  return point_as_FutureHelper();
 }
 
-template<> inline const quantra::SwapHelper *PointsWrapper::point_wrapper_as<quantra::SwapHelper>() const {
-  return point_wrapper_as_SwapHelper();
+template<> inline const quantra::SwapHelper *PointsWrapper::point_as<quantra::SwapHelper>() const {
+  return point_as_SwapHelper();
 }
 
-template<> inline const quantra::BondHelper *PointsWrapper::point_wrapper_as<quantra::BondHelper>() const {
-  return point_wrapper_as_BondHelper();
+template<> inline const quantra::BondHelper *PointsWrapper::point_as<quantra::BondHelper>() const {
+  return point_as_BondHelper();
 }
 
 struct PointsWrapperBuilder {
   typedef PointsWrapper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_point_wrapper_type(quantra::Point point_wrapper_type) {
-    fbb_.AddElement<uint8_t>(PointsWrapper::VT_POINT_WRAPPER_TYPE, static_cast<uint8_t>(point_wrapper_type), 0);
+  void add_point_type(quantra::Point point_type) {
+    fbb_.AddElement<uint8_t>(PointsWrapper::VT_POINT_TYPE, static_cast<uint8_t>(point_type), 0);
   }
-  void add_point_wrapper(flatbuffers::Offset<void> point_wrapper) {
-    fbb_.AddOffset(PointsWrapper::VT_POINT_WRAPPER, point_wrapper);
+  void add_point(flatbuffers::Offset<void> point) {
+    fbb_.AddOffset(PointsWrapper::VT_POINT, point);
   }
   explicit PointsWrapperBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -773,11 +773,11 @@ struct PointsWrapperBuilder {
 
 inline flatbuffers::Offset<PointsWrapper> CreatePointsWrapper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    quantra::Point point_wrapper_type = quantra::Point_NONE,
-    flatbuffers::Offset<void> point_wrapper = 0) {
+    quantra::Point point_type = quantra::Point_NONE,
+    flatbuffers::Offset<void> point = 0) {
   PointsWrapperBuilder builder_(_fbb);
-  builder_.add_point_wrapper(point_wrapper);
-  builder_.add_point_wrapper_type(point_wrapper_type);
+  builder_.add_point(point);
+  builder_.add_point_type(point_type);
   return builder_.Finish();
 }
 

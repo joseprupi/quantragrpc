@@ -23,8 +23,8 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     auto deposit_helper_zc3m = deposit_helper_zc3m_builder.Finish();
 
     auto deposit_helper_zc3m_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    deposit_helper_zc3m_wrapper_builder.add_point_wrapper_type(quantra::Point_DepositHelper);
-    deposit_helper_zc3m_wrapper_builder.add_point_wrapper(deposit_helper_zc3m.Union());
+    deposit_helper_zc3m_wrapper_builder.add_point_type(quantra::Point_DepositHelper);
+    deposit_helper_zc3m_wrapper_builder.add_point(deposit_helper_zc3m.Union());
     auto deposit_helper_zc3m_wrapper = deposit_helper_zc3m_wrapper_builder.Finish();
 
     points_vector.push_back(deposit_helper_zc3m_wrapper);
@@ -41,8 +41,8 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     auto deposit_helper_zc6m = deposit_helper_zc6m_builder.Finish();
 
     auto deposit_helper_zc6m_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    deposit_helper_zc6m_wrapper_builder.add_point_wrapper_type(quantra::Point_DepositHelper);
-    deposit_helper_zc6m_wrapper_builder.add_point_wrapper(deposit_helper_zc6m.Union());
+    deposit_helper_zc6m_wrapper_builder.add_point_type(quantra::Point_DepositHelper);
+    deposit_helper_zc6m_wrapper_builder.add_point(deposit_helper_zc6m.Union());
     auto deposit_helper_zc6m_wrapper = deposit_helper_zc6m_wrapper_builder.Finish();
 
     points_vector.push_back(deposit_helper_zc6m_wrapper);
@@ -59,8 +59,8 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     auto deposit_helper_zc1y = deposit_helper_zc1y_builder.Finish();
 
     auto deposit_helper_zc1y_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    deposit_helper_zc1y_wrapper_builder.add_point_wrapper_type(quantra::Point_DepositHelper);
-    deposit_helper_zc1y_wrapper_builder.add_point_wrapper(deposit_helper_zc1y.Union());
+    deposit_helper_zc1y_wrapper_builder.add_point_type(quantra::Point_DepositHelper);
+    deposit_helper_zc1y_wrapper_builder.add_point(deposit_helper_zc1y.Union());
     auto deposit_helper_zc1y_wrapper = deposit_helper_zc1y_wrapper_builder.Finish();
 
     points_vector.push_back(deposit_helper_zc1y_wrapper);
@@ -110,7 +110,7 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
         schedule_builder.add_frequency(quantra::enums::Frequency_Semiannual);
         schedule_builder.add_termination_date_convention(quantra::enums::BusinessDayConvention_Unadjusted);
         schedule_builder.add_date_generation_rule(quantra::enums::DateGenerationRule_Backward);
-        schedule_builder.add_end_of_mont(false);
+        schedule_builder.add_end_of_month(false);
         auto schedule = schedule_builder.Finish();
 
         // Create bond helper
@@ -127,8 +127,8 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
         auto bond_helper = bond_helper_builder.Finish();
 
         auto point_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-        point_wrapper_builder.add_point_wrapper_type(quantra::Point_BondHelper);
-        point_wrapper_builder.add_point_wrapper(bond_helper.Union());
+        point_wrapper_builder.add_point_type(quantra::Point_BondHelper);
+        point_wrapper_builder.add_point(bond_helper.Union());
         auto point_wrapper = point_wrapper_builder.Finish();
 
         points_vector.push_back(point_wrapper);
@@ -177,7 +177,7 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     schedule_builder.add_frequency(quantra::enums::Frequency_Semiannual);
     schedule_builder.add_termination_date_convention(quantra::enums::BusinessDayConvention_Unadjusted);
     schedule_builder.add_date_generation_rule(quantra::enums::DateGenerationRule_Backward);
-    schedule_builder.add_end_of_mont(false);
+    schedule_builder.add_end_of_month(false);
     auto schedule = schedule_builder.Finish();
 
     // Create the fixed rate bond

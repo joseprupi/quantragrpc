@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 
 #include "crow_all.h"
 
@@ -17,11 +18,14 @@ int main(int argc, char **argv)
     std::string connection;
     connection = argv[1];
 
+    int port;
+    port = atoi(argv[2]);
+
     QuantraClient client(connection, true);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]
-                       { return "Hello World!"; });
+                       { return "hello"; });
 
     CROW_ROUTE(app, "/PriceFixedRateBondRequest")
         .methods("POST"_method)([&](const crow::request &req)
@@ -43,7 +47,7 @@ int main(int argc, char **argv)
 
     app.loglevel(crow::LogLevel::DEBUG);
 
-    app.port(18080)
+    app.port(port)
         .multithreaded()
         .run();
 }

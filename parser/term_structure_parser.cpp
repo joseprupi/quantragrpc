@@ -18,8 +18,8 @@ std::shared_ptr<YieldTermStructure> TermStructureParser::parse(const quantra::Te
 
     for (int i = 0; i < points->size(); i++)
     {
-        auto point = points->Get(i)->point_wrapper();
-        auto type = points->Get(i)->point_wrapper_type();
+        auto point = points->Get(i)->point();
+        auto type = points->Get(i)->point_type();
         std::shared_ptr<RateHelper> rate_helper = tsparser.parse(type, point);
         instruments.push_back(rate_helper);
     }

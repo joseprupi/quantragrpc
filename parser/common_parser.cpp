@@ -13,7 +13,7 @@ std::shared_ptr<QuantLib::Schedule> ScheduleParser::parse(const quantra::Schedul
         ConventionToQL(schedule->convention()),
         ConventionToQL(schedule->termination_date_convention()),
         DateGenerationToQL(schedule->date_generation_rule()),
-        schedule->end_of_mont());
+        schedule->end_of_month());
 }
 
 std::shared_ptr<YieldStruct> YieldParser::parse(const quantra::Yield *yield)

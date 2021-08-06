@@ -60,7 +60,7 @@ table BondHelper {
 union Point { DepositHelper, FRAHelper, FutureHelper, SwapHelper, BondHelper }
 
 table PointsWrapper{
-    point_wrapper:Point;
+    point:Point;
 }
 
 table TermStructure {

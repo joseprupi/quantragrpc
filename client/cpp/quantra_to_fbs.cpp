@@ -54,7 +54,7 @@ flatbuffers::Offset<quantra::Schedule> schedule_to_fbs(std::shared_ptr<flatbuffe
     schedule_builder.add_frequency(schedule->frequency);
     schedule_builder.add_termination_date_convention(schedule->termination_date_convention);
     schedule_builder.add_date_generation_rule(schedule->date_generation_rule);
-    schedule_builder.add_end_of_mont(schedule->end_of_mont);
+    schedule_builder.add_end_of_month(schedule->end_of_mont);
     return schedule_builder.Finish();
 }
 
@@ -101,8 +101,8 @@ flatbuffers::Offset<quantra::PointsWrapper> deposit_helper_to_fbs(std::shared_pt
     auto deposit = deposit_builder.Finish();
 
     auto deposit_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    deposit_wrapper_builder.add_point_wrapper_type(quantra::Point_DepositHelper);
-    deposit_wrapper_builder.add_point_wrapper(deposit.Union());
+    deposit_wrapper_builder.add_point_type(quantra::Point_DepositHelper);
+    deposit_wrapper_builder.add_point(deposit.Union());
     return deposit_wrapper_builder.Finish();
 }
 
@@ -118,8 +118,8 @@ flatbuffers::Offset<quantra::PointsWrapper> FRAhelper_to_fbs(std::shared_ptr<fla
     auto FRA = FRA_helper_builder.Finish();
 
     auto FRA_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    FRA_wrapper_builder.add_point_wrapper_type(quantra::Point_FRAHelper);
-    FRA_wrapper_builder.add_point_wrapper(FRA.Union());
+    FRA_wrapper_builder.add_point_type(quantra::Point_FRAHelper);
+    FRA_wrapper_builder.add_point(FRA.Union());
     return FRA_wrapper_builder.Finish();
 }
 
@@ -137,8 +137,8 @@ flatbuffers::Offset<quantra::PointsWrapper> future_helper_to_fbs(std::shared_ptr
     auto future = future_helper_builder.Finish();
 
     auto future_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    future_wrapper_builder.add_point_wrapper_type(quantra::Point_FutureHelper);
-    future_wrapper_builder.add_point_wrapper(future.Union());
+    future_wrapper_builder.add_point_type(quantra::Point_FutureHelper);
+    future_wrapper_builder.add_point(future.Union());
     return future_wrapper_builder.Finish();
 }
 
@@ -158,8 +158,8 @@ flatbuffers::Offset<quantra::PointsWrapper> swap_helper_to_fbs(std::shared_ptr<f
     auto swap = swap_helper_builder.Finish();
 
     auto swap_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    swap_wrapper_builder.add_point_wrapper_type(quantra::Point_SwapHelper);
-    swap_wrapper_builder.add_point_wrapper(swap.Union());
+    swap_wrapper_builder.add_point_type(quantra::Point_SwapHelper);
+    swap_wrapper_builder.add_point(swap.Union());
     return swap_wrapper_builder.Finish();
 }
 
@@ -189,8 +189,8 @@ flatbuffers::Offset<quantra::PointsWrapper> bond_helper_to_fbs(std::shared_ptr<f
     auto bond = bond_helper_builder.Finish();
 
     auto bond_wrapper_builder = quantra::PointsWrapperBuilder(*builder);
-    bond_wrapper_builder.add_point_wrapper_type(quantra::Point_BondHelper);
-    bond_wrapper_builder.add_point_wrapper(bond.Union());
+    bond_wrapper_builder.add_point_type(quantra::Point_BondHelper);
+    bond_wrapper_builder.add_point(bond.Union());
     return bond_wrapper_builder.Finish();
 }
 

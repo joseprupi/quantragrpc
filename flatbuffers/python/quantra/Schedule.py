@@ -74,7 +74,7 @@ class Schedule(object):
         return 0
 
     # Schedule
-    def EndOfMont(self):
+    def EndOfMonth(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
@@ -112,10 +112,10 @@ def AddDateGenerationRule(builder, dateGenerationRule): builder.PrependInt8Slot(
 def ScheduleAddDateGenerationRule(builder, dateGenerationRule):
     """This method is deprecated. Please switch to AddDateGenerationRule."""
     return AddDateGenerationRule(builder, dateGenerationRule)
-def AddEndOfMont(builder, endOfMont): builder.PrependBoolSlot(7, endOfMont, 0)
-def ScheduleAddEndOfMont(builder, endOfMont):
-    """This method is deprecated. Please switch to AddEndOfMont."""
-    return AddEndOfMont(builder, endOfMont)
+def AddEndOfMonth(builder, endOfMonth): builder.PrependBoolSlot(7, endOfMonth, 0)
+def ScheduleAddEndOfMonth(builder, endOfMonth):
+    """This method is deprecated. Please switch to AddEndOfMonth."""
+    return AddEndOfMonth(builder, endOfMonth)
 def End(builder): return builder.EndObject()
 def ScheduleEnd(builder):
     """This method is deprecated. Please switch to End."""

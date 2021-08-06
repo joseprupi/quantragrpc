@@ -10,5 +10,5 @@ table Schedule{
     convention:enums.BusinessDayConvention;
     termination_date_convention:enums.BusinessDayConvention;
     date_generation_rule:enums.DateGenerationRule;
-    end_of_mont:bool;
+    end_of_month:bool;
 }
