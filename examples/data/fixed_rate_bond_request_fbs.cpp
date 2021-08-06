@@ -229,8 +229,9 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     auto p = builder->GetBufferPointer();
     auto size = builder->GetSize();
 
-    grpc_slice slice = grpc_slice_from_copied_buffer((char *)p, size);
-    flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> msg(slice, false);
+    //::grpc::Slice slice = grpc_slice_from_copied_buffer((char *)p, size);
+    ::grpc::Slice slice((char *)p, size);
+    flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> msg(slice);
     std::cout << "Verify:" << msg.Verify() << std::endl;
 
     return msg;

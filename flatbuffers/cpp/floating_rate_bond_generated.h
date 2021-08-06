@@ -7,8 +7,8 @@
 #include "flatbuffers/flatbuffers.h"
 
 #include "enums_generated.h"
-#include "index_generated.h"
 #include "schedule_generated.h"
+#include "index_generated.h"
 
 namespace quantra {
 

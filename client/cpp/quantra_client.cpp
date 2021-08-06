@@ -19,16 +19,20 @@ QuantraClient::QuantraClient(std::string addr, bool secured)
 
     if (secured)
     {
+        std::cout << "Secured" << std::endl;
         grpc::SslCredentialsOptions ssl_opts;
 
-        char const* cert_path = getenv("QUANTRA_SERVER_CERT");
-        if ( cert_path == NULL ) {
+        char const *cert_path = getenv("QUANTRA_SERVER_CERT");
+        if (cert_path == NULL)
+        {
             throw std::runtime_error("QUANTRA_SERVER_CERT variable missing");
-        } else {
+        }
+        else
+        {
             std::ifstream cert(cert_path);
             std::string cert_str((std::istreambuf_iterator<char>(cert)),
-                         std::istreambuf_iterator<char>());
-            ssl_opts.pem_root_certs = cert_str;                         
+                                 std::istreambuf_iterator<char>());
+            ssl_opts.pem_root_certs = cert_str;
         }
 
         channel_creds = grpc::SslCredentials(ssl_opts);
