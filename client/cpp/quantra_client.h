@@ -17,6 +17,7 @@
 class QuantraClient
 {
 public:
+    explicit QuantraClient(){};
     explicit QuantraClient(std::string addr, bool secured);
 
     std::shared_ptr<std::string> PriceFloatingRateBondRequestJSON(std::string json);

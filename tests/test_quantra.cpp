@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 {
 
     std::cout << "Starting" << std::endl;
+    int secured = 0;
     int n_bonds_x_request = 10;
     int n_requests = 1;
     int share_curve = 0;
@@ -44,19 +45,31 @@ int main(int argc, char **argv)
         std::cout << "Connecting to: ";
         std::cout << connection;
 
-        std::istringstream iss1(argv[2]);
+        std::istringstream iss0(argv[2]);
+        iss0 >> secured;
+
+        std::istringstream iss1(argv[3]);
         iss1 >> n_bonds_x_request;
 
-        std::istringstream iss2(argv[3]);
+        std::istringstream iss2(argv[4]);
         iss2 >> n_requests;
 
-        std::istringstream iss3(argv[4]);
+        std::istringstream iss3(argv[5]);
         iss3 >> share_curve;
     }
 
     int total_bonds = n_bonds_x_request * n_requests;
 
-    QuantraClient client(connection, true);
+    QuantraClient *client;
+
+    if (secured == 1)
+    {
+        client = new QuantraClient(connection, true);
+    }
+    else
+    {
+        client = new QuantraClient(connection, false);
+    }
 
     auto term_structure = term_structure_example();
     auto bond = fixed_rate_bond_example();
@@ -92,11 +105,13 @@ int main(int argc, char **argv)
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    client.PriceFixedRateBondRequest(requests);
+    client->PriceFixedRateBondRequest(requests);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     std::cout << "Quantra Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+
+    delete client;
 
     return 0;
 }
