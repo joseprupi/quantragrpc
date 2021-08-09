@@ -8,8 +8,8 @@
         "interpolator": "LogLinear",
         "points": [
           {
-            "point_wrapper_type": "DepositHelper",
-            "point_wrapper": {
+            "point_type": "DepositHelper",
+            "point": {
               "rate": 0.0096,
               "tenor_time_unit": "Months",
               "tenor_number": 3,
@@ -20,8 +20,8 @@
             }
           },
           {
-            "point_wrapper_type": "DepositHelper",
-            "point_wrapper": {
+            "point_type": "DepositHelper",
+            "point": {
               "rate": 0.0145,
               "tenor_time_unit": "Months",
               "tenor_number": 6,
@@ -32,8 +32,8 @@
             }
           },
           {
-            "point_wrapper_type": "DepositHelper",
-            "point_wrapper": {
+            "point_type": "DepositHelper",
+            "point": {
               "rate": 0.0194,
               "tenor_time_unit": "Years",
               "tenor_number": 1,
@@ -44,8 +44,8 @@
             }
           },
           {
-            "point_wrapper_type": "BondHelper",
-            "point_wrapper": {
+            "point_type": "BondHelper",
+            "point": {
               "rate": 100.390625,
               "settlement_days": 3,
               "face_amount": 100.0,
@@ -65,8 +65,8 @@
             }
           },
           {
-            "point_wrapper_type": "BondHelper",
-            "point_wrapper": {
+            "point_type": "BondHelper",
+            "point": {
               "rate": 106.21875,
               "settlement_days": 3,
               "face_amount": 100.0,
@@ -86,8 +86,8 @@
             }
           },
           {
-            "point_wrapper_type": "BondHelper",
-            "point_wrapper": {
+            "point_type": "BondHelper",
+            "point": {
               "rate": 100.59375,
               "settlement_days": 3,
               "face_amount": 100.0,
@@ -107,8 +107,8 @@
             }
           },
           {
-            "point_wrapper_type": "BondHelper",
-            "point_wrapper": {
+            "point_type": "BondHelper",
+            "point": {
               "rate": 101.6875,
               "settlement_days": 3,
               "face_amount": 100.0,
@@ -128,8 +128,8 @@
             }
           },
           {
-            "point_wrapper_type": "BondHelper",
-            "point_wrapper": {
+            "point_type": "BondHelper",
+            "point": {
               "rate": 102.140625,
               "settlement_days": 3,
               "face_amount": 100.0,

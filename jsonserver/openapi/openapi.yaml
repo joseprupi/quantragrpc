@@ -15,7 +15,7 @@ tags:
   - name: "Enum"
     description: "QuantLib enumeration values requests"
 paths:
-  /price_fixed_rate_bond:
+  /price-fixed-rate-bond:
     post:
       tags:
         - "Bond pricing"
@@ -33,7 +33,7 @@ paths:
             text/json:
               schema:
                 $ref: "#/components/schemas/price_fixed_rate_bond_response"
-  /price_floating_rate_bond:
+  /price-floating-rate-bond:
     post:
       tags:
         - "Bond pricing"

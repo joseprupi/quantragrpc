@@ -27,7 +27,7 @@ int main(int argc, char **argv)
         .name("hello")([]
                        { return "hello"; });
 
-    CROW_ROUTE(app, "/PriceFixedRateBondRequest")
+    CROW_ROUTE(app, "/price-fixed-rate-bond")
         .methods("POST"_method)([&](const crow::request &req)
                                 {
                                     auto response = client.PriceFixedRateBondRequestJSON(req.body);
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
                                     return crow::response{os.str()};
                                 });
 
-    // CROW_ROUTE(app, "/PriceFloatingRateBondRequest")
+    // CROW_ROUTE(app, "/price-floating-rate-bond")
     //     .methods("POST"_method)([&](const crow::request &req)
     //                             {
     //                                 auto response = client.PriceFloatingRateBondRequestJSON(req.body);
