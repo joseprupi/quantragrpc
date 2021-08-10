@@ -4,7 +4,9 @@ std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser::PriceFixedRateBon
 {
     if (!this->price_fixed_rate_bond_parser->Parse(json_str.c_str(), fbs_include_directories))
     {
-        throw std::runtime_error("Error while loading json");
+        std::string error_message = "Error while loading json. ";
+        error_message += this->price_fixed_rate_bond_parser->error_.c_str();
+        throw std::runtime_error(error_message);
     }
 
     return std::make_shared<flatbuffers::grpc::MessageBuilder>(std::move(this->price_fixed_rate_bond_parser->builder_));
@@ -17,9 +19,6 @@ std::shared_ptr<std::string> JSONParser::PriceFixedRateBondResponseToJSON(const 
     {
         throw std::runtime_error("Couldn't serialize bond response to JSON!");
     }
-
-    //auto tmp = std::make_shared<std::string>(jsongen);
-    //std::cout << *tmp;
 
     return std::make_shared<std::string>(jsongen);
 }

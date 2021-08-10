@@ -46,10 +46,15 @@ QuantraClient::QuantraClient(std::string addr, bool secured)
     std::shared_ptr<grpc::Channel> channel = grpc::CreateCustomChannel(
         addr, channel_creds, ch_args);
 
-    this->stub_ = std::make_unique<quantra::QuantraServer::Stub>(channel);
+    this->stub_ = std::make_shared<quantra::QuantraServer::Stub>(channel);
 }
 
-std::shared_ptr<std::string> QuantraClient::PriceFixedRateBondRequestJSON(std::string json)
+QuantraClient::QuantraClient(std::shared_ptr<quantra::QuantraServer::Stub> stub_)
+{
+    this->stub_ = stub_;
+}
+
+std::shared_ptr<json_response> QuantraClient::PriceFixedRateBondRequestJSON(std::string json)
 {
     auto builder = this->json_parser->PriceFixedRateBondRequestToFBS(json);
 
@@ -122,13 +127,17 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
 
         GPR_ASSERT(ok);
 
+        int position = call->request_pos;
         if (call->status.ok())
         {
             const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
-            int position = call->request_pos;
+
             if (call->json)
             {
-                this->json_responses[position] = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+                json_response response;
+                response.response_value = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+                response.ok = true;
+                this->json_responses[position] = std::make_shared<json_response>(response);
             }
             else
             {
@@ -138,9 +147,18 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
         }
         else
         {
-            std::cout << "RPC code: " << call->status.error_code() << std::endl;
-            std::cout << "RPC message: " << call->status.error_message() << std::endl;
-            std::cout << "Error details: " << call->status.error_details() << std::endl;
+            std::string error_message = "Error when calling RPC method. \n";
+            error_message.append("RPC code: " + std::to_string(call->status.error_code()) + '\n');
+            error_message.append("RPC message: " + call->status.error_message() + '\n');
+            error_message.append("Error details: " + call->status.error_details() + '\n');
+
+            if (call->json)
+            {
+                json_response response;
+                response.response_value = std::make_shared<std::string>(error_message);
+                response.ok = false;
+                this->json_responses[position] = std::make_shared<json_response>(response);
+            }
         }
 
         delete call;

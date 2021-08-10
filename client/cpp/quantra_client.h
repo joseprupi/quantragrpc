@@ -14,23 +14,32 @@
 #include "quantraserver.grpc.fb.h"
 #include "responses_generated.h"
 
+struct json_response
+{
+    bool ok;
+    std::shared_ptr<std::string> response_value;
+};
+
 class QuantraClient
 {
 public:
     explicit QuantraClient(){};
     explicit QuantraClient(std::string addr, bool secured);
+    explicit QuantraClient(std::shared_ptr<quantra::QuantraServer::Stub> stub_);
 
     std::shared_ptr<std::string> PriceFloatingRateBondRequestJSON(std::string json);
     void PriceFloatingRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
     void PriceFloatingRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
 
-    std::shared_ptr<std::string> PriceFixedRateBondRequestJSON(std::string json);
+    std::shared_ptr<json_response> PriceFixedRateBondRequestJSON(std::string json);
     void PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag);
     void PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
 
     void AsyncCompleteRpc(int request_size);
     std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>> responses;
-    std::vector<std::shared_ptr<std::string>> json_responses;
+    std::vector<std::shared_ptr<json_response>> json_responses;
+
+    std::shared_ptr<quantra::QuantraServer::Stub> ReturnStub() { return this->stub_; }
 
 private:
     struct AsyncClientCall
@@ -46,6 +55,6 @@ private:
     };
 
     std::shared_ptr<JSONParser> json_parser = std::make_shared<JSONParser>();
-    std::unique_ptr<quantra::QuantraServer::Stub> stub_;
+    std::shared_ptr<quantra::QuantraServer::Stub> stub_;
     grpc::CompletionQueue cq_;
 };

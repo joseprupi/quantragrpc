@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     int port;
     port = atoi(argv[2]);
 
-    QuantraClient client(connection, true);
+    QuantraClient base_client(connection, false);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]
@@ -30,10 +30,27 @@ int main(int argc, char **argv)
     CROW_ROUTE(app, "/price-fixed-rate-bond")
         .methods("POST"_method)([&](const crow::request &req)
                                 {
-                                    auto response = client.PriceFixedRateBondRequestJSON(req.body);
-                                    std::ostringstream os;
-                                    os << *response;
-                                    return crow::response{os.str()};
+                                    try
+                                    {
+                                        QuantraClient client(base_client.ReturnStub());
+                                        auto response = client.PriceFixedRateBondRequestJSON(req.body);
+                                        if (response->ok)
+                                        {
+                                            std::ostringstream os;
+                                            os << *response->response_value;
+                                            return crow::response{os.str()};
+                                        }
+                                        else
+                                        {
+                                            std::ostringstream os;
+                                            os << *response->response_value;
+                                            return crow::response{500, os.str()};
+                                        }
+                                    }
+                                    catch (const std::exception &e)
+                                    {
+                                        return crow::response{500, e.what()};
+                                    }
                                 });
 
     // CROW_ROUTE(app, "/price-floating-rate-bond")

@@ -10,7 +10,7 @@
           {
             "point_type": "DepositHelper",
             "point": {
-              "rate": 0.0096,
+              "rate": 0.96,
               "tenor_time_unit": "Months",
               "tenor_number": 3,
               "fixing_days": 3,
@@ -22,7 +22,7 @@
           {
             "point_type": "DepositHelper",
             "point": {
-              "rate": 0.0145,
+              "rate": 0.145,
               "tenor_time_unit": "Months",
               "tenor_number": 6,
               "fixing_days": 3,
