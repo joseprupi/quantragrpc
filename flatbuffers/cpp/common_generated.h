@@ -6,8 +6,8 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "enums_generated.h"
 #include "term_structure_generated.h"
+#include "enums_generated.h"
 #include "schedule_generated.h"
 
 namespace quantra {
@@ -86,12 +86,16 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PricingBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AS_OF_DATE = 4,
-    VT_CURVES = 6,
-    VT_BOND_PRICING_DETAILS = 8,
-    VT_BOND_PRICING_FLOWS = 10
+    VT_SETTLEMENT_DATE = 6,
+    VT_CURVES = 8,
+    VT_BOND_PRICING_DETAILS = 10,
+    VT_BOND_PRICING_FLOWS = 12
   };
   const flatbuffers::String *as_of_date() const {
     return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
+  }
+  const flatbuffers::String *settlement_date() const {
+    return GetPointer<const flatbuffers::String *>(VT_SETTLEMENT_DATE);
   }
   const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *>(VT_CURVES);
@@ -106,6 +110,8 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_AS_OF_DATE) &&
            verifier.VerifyString(as_of_date()) &&
+           VerifyOffset(verifier, VT_SETTLEMENT_DATE) &&
+           verifier.VerifyString(settlement_date()) &&
            VerifyOffset(verifier, VT_CURVES) &&
            verifier.VerifyVector(curves()) &&
            verifier.VerifyVectorOfTables(curves()) &&
@@ -121,6 +127,9 @@ struct PricingBuilder {
   flatbuffers::uoffset_t start_;
   void add_as_of_date(flatbuffers::Offset<flatbuffers::String> as_of_date) {
     fbb_.AddOffset(Pricing::VT_AS_OF_DATE, as_of_date);
+  }
+  void add_settlement_date(flatbuffers::Offset<flatbuffers::String> settlement_date) {
+    fbb_.AddOffset(Pricing::VT_SETTLEMENT_DATE, settlement_date);
   }
   void add_curves(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves) {
     fbb_.AddOffset(Pricing::VT_CURVES, curves);
@@ -145,11 +154,13 @@ struct PricingBuilder {
 inline flatbuffers::Offset<Pricing> CreatePricing(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<flatbuffers::String> as_of_date = 0,
+    flatbuffers::Offset<flatbuffers::String> settlement_date = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0,
     bool bond_pricing_details = false,
     bool bond_pricing_flows = false) {
   PricingBuilder builder_(_fbb);
   builder_.add_curves(curves);
+  builder_.add_settlement_date(settlement_date);
   builder_.add_as_of_date(as_of_date);
   builder_.add_bond_pricing_flows(bond_pricing_flows);
   builder_.add_bond_pricing_details(bond_pricing_details);
@@ -159,14 +170,17 @@ inline flatbuffers::Offset<Pricing> CreatePricing(
 inline flatbuffers::Offset<Pricing> CreatePricingDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     const char *as_of_date = nullptr,
+    const char *settlement_date = nullptr,
     const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr,
     bool bond_pricing_details = false,
     bool bond_pricing_flows = false) {
   auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
+  auto settlement_date__ = settlement_date ? _fbb.CreateString(settlement_date) : 0;
   auto curves__ = curves ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>>(*curves) : 0;
   return quantra::CreatePricing(
       _fbb,
       as_of_date__,
+      settlement_date__,
       curves__,
       bond_pricing_details,
       bond_pricing_flows);

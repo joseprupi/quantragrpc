@@ -78,7 +78,7 @@ class TermStructure(object):
         return o == 0
 
     # TermStructure
-    def AsOfDate(self):
+    def ReferenceDate(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
@@ -112,10 +112,10 @@ def StartPointsVector(builder, numElems): return builder.StartVector(4, numElems
 def TermStructureStartPointsVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartPointsVector(builder, numElems)
-def AddAsOfDate(builder, asOfDate): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(asOfDate), 0)
-def TermStructureAddAsOfDate(builder, asOfDate):
-    """This method is deprecated. Please switch to AddAsOfDate."""
-    return AddAsOfDate(builder, asOfDate)
+def AddReferenceDate(builder, referenceDate): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(referenceDate), 0)
+def TermStructureAddReferenceDate(builder, referenceDate):
+    """This method is deprecated. Please switch to AddReferenceDate."""
+    return AddReferenceDate(builder, referenceDate)
 def End(builder): return builder.EndObject()
 def TermStructureEnd(builder):
     """This method is deprecated. Please switch to End."""

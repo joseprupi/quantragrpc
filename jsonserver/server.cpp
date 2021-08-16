@@ -18,10 +18,9 @@ int main(int argc, char **argv)
     std::string connection;
     connection = argv[1];
 
-    int port;
-    port = atoi(argv[2]);
+    int port = atoi(argv[2]);
 
-    QuantraClient base_client(connection, true);
+    QuantraClient base_client(connection, false);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]

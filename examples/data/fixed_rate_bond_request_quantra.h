@@ -119,7 +119,7 @@ std::shared_ptr<structs::PriceFixedRateBondRequest> request_bond()
     term_structure->day_counter = DayCounter_ActualActual365;
     term_structure->interpolator = Interpolator_LogLinear;
     term_structure->bootstrap_trait = BootstrapTrait_Discount;
-    strcpy(term_structure->as_of_date, "2008/09/18");
+    strcpy(term_structure->reference_date, "2008/09/18");
     term_structure->points = points;
 
     auto schedule = std::make_shared<structs::Schedule>();

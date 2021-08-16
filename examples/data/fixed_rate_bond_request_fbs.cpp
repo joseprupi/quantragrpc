@@ -143,7 +143,7 @@ flatbuffers::grpc::Message<quantra::PriceFixedRateBondRequest> bond_request_fbs(
     term_structure_builder.add_interpolator(quantra::enums::Interpolator_LogLinear);
     term_structure_builder.add_id(id);
     term_structure_builder.add_day_counter(quantra::enums::DayCounter_ActualActual365);
-    term_structure_builder.add_as_of_date(settlement_date);
+    term_structure_builder.add_reference_date(settlement_date);
     term_structure_builder.add_points(points);
     auto term_structure = term_structure_builder.Finish();
 

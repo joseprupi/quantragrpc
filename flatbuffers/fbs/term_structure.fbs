@@ -69,7 +69,7 @@ table TermStructure {
     interpolator:enums.Interpolator;
     bootstrap_trait:enums.BootstrapTrait;
     points:[PointsWrapper];
-    as_of_date:string;
+    reference_date:string;
 }
 
 root_type TermStructure;

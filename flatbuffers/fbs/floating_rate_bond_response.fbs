@@ -28,7 +28,7 @@ table FlowNotional{
 union Flow { FlowInterest, FlowPastInterest, FlowNotional }
 
 table FlowsWrapper{
-    flow_wrapper:Flow;
+    flow:Flow;
 }
 
 table FixedRateBondResponse{

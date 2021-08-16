@@ -38,6 +38,7 @@ std::shared_ptr<PricingStruct> PricingParser::parse(const quantra::Pricing *pric
     return std::make_shared<PricingStruct>(
         PricingStruct{
             pricing->as_of_date()->str(),
+            pricing->settlement_date()->str(),
             pricing->curves(),
             pricing->bond_pricing_details(),
             pricing->bond_pricing_flows()});

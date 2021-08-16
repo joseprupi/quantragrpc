@@ -13,6 +13,8 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
     Date as_of_date = DateToQL(pricing->as_of_date);
     Settings::instance().evaluationDate() = as_of_date;
 
+    Date settlement_date = DateToQL(pricing->settlement_date);
+
     auto curves = pricing->curves;
 
     std::map<std::string, std::shared_ptr<PricingEngine>> pricing_engines;
@@ -161,11 +163,11 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                                            FrequencyToQL(it->yield()->frequency()));
 
                 response_builder.add_modified_duration(BondFunctions::duration(*bond, interest_rate,
-                                                                               Duration::Modified, Settings::instance().evaluationDate()));
+                                                                               Duration::Modified, settlement_date));
                 response_builder.add_macaulay_duration(BondFunctions::duration(*bond, interest_rate,
-                                                                               Duration::Macaulay, Settings::instance().evaluationDate()));
-                response_builder.add_convexity(BondFunctions::convexity(*bond, interest_rate, Settings::instance().evaluationDate()));
-                response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), Settings::instance().evaluationDate()));
+                                                                               Duration::Macaulay, settlement_date));
+                response_builder.add_convexity(BondFunctions::convexity(*bond, interest_rate, settlement_date));
+                response_builder.add_bps(BondFunctions::bps(*bond, *term_structure->second->currentLink(), settlement_date));
             }
 
             auto bond_response = response_builder.Finish();

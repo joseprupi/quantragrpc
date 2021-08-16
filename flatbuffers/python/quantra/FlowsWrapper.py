@@ -25,14 +25,14 @@ class FlowsWrapper(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # FlowsWrapper
-    def FlowWrapperType(self):
+    def FlowType(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
     # FlowsWrapper
-    def FlowWrapper(self):
+    def Flow(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             from flatbuffers.table import Table
@@ -45,14 +45,14 @@ def Start(builder): builder.StartObject(2)
 def FlowsWrapperStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddFlowWrapperType(builder, flowWrapperType): builder.PrependUint8Slot(0, flowWrapperType, 0)
-def FlowsWrapperAddFlowWrapperType(builder, flowWrapperType):
-    """This method is deprecated. Please switch to AddFlowWrapperType."""
-    return AddFlowWrapperType(builder, flowWrapperType)
-def AddFlowWrapper(builder, flowWrapper): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(flowWrapper), 0)
-def FlowsWrapperAddFlowWrapper(builder, flowWrapper):
-    """This method is deprecated. Please switch to AddFlowWrapper."""
-    return AddFlowWrapper(builder, flowWrapper)
+def AddFlowType(builder, flowType): builder.PrependUint8Slot(0, flowType, 0)
+def FlowsWrapperAddFlowType(builder, flowType):
+    """This method is deprecated. Please switch to AddFlowType."""
+    return AddFlowType(builder, flowType)
+def AddFlow(builder, flow): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(flow), 0)
+def FlowsWrapperAddFlow(builder, flow):
+    """This method is deprecated. Please switch to AddFlow."""
+    return AddFlow(builder, flow)
 def End(builder): return builder.EndObject()
 def FlowsWrapperEnd(builder):
     """This method is deprecated. Please switch to End."""

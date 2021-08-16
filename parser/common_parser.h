@@ -35,6 +35,7 @@ struct YieldStruct
 struct PricingStruct
 {
     std::string as_of_date;
+    std::string settlement_date;
     const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves;
     bool bond_pricing_details;
     bool bond_pricing_flows;

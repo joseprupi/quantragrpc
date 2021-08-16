@@ -32,8 +32,15 @@ class Pricing(object):
         return None
 
     # Pricing
-    def Curves(self, j):
+    def SettlementDate(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # Pricing
+    def Curves(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             x = self._tab.Vector(o)
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
@@ -46,31 +53,31 @@ class Pricing(object):
 
     # Pricing
     def CurvesLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # Pricing
     def CurvesIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
     # Pricing
     def BondPricingDetails(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
     # Pricing
     def BondPricingFlows(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def Start(builder): builder.StartObject(4)
+def Start(builder): builder.StartObject(5)
 def PricingStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -78,7 +85,11 @@ def AddAsOfDate(builder, asOfDate): builder.PrependUOffsetTRelativeSlot(0, flatb
 def PricingAddAsOfDate(builder, asOfDate):
     """This method is deprecated. Please switch to AddAsOfDate."""
     return AddAsOfDate(builder, asOfDate)
-def AddCurves(builder, curves): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(curves), 0)
+def AddSettlementDate(builder, settlementDate): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(settlementDate), 0)
+def PricingAddSettlementDate(builder, settlementDate):
+    """This method is deprecated. Please switch to AddSettlementDate."""
+    return AddSettlementDate(builder, settlementDate)
+def AddCurves(builder, curves): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(curves), 0)
 def PricingAddCurves(builder, curves):
     """This method is deprecated. Please switch to AddCurves."""
     return AddCurves(builder, curves)
@@ -86,11 +97,11 @@ def StartCurvesVector(builder, numElems): return builder.StartVector(4, numElems
 def PricingStartCurvesVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartCurvesVector(builder, numElems)
-def AddBondPricingDetails(builder, bondPricingDetails): builder.PrependBoolSlot(2, bondPricingDetails, 0)
+def AddBondPricingDetails(builder, bondPricingDetails): builder.PrependBoolSlot(3, bondPricingDetails, 0)
 def PricingAddBondPricingDetails(builder, bondPricingDetails):
     """This method is deprecated. Please switch to AddBondPricingDetails."""
     return AddBondPricingDetails(builder, bondPricingDetails)
-def AddBondPricingFlows(builder, bondPricingFlows): builder.PrependBoolSlot(3, bondPricingFlows, 0)
+def AddBondPricingFlows(builder, bondPricingFlows): builder.PrependBoolSlot(4, bondPricingFlows, 0)
 def PricingAddBondPricingFlows(builder, bondPricingFlows):
     """This method is deprecated. Please switch to AddBondPricingFlows."""
     return AddBondPricingFlows(builder, bondPricingFlows)

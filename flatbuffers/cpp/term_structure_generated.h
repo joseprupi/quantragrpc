@@ -789,7 +789,7 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_INTERPOLATOR = 8,
     VT_BOOTSTRAP_TRAIT = 10,
     VT_POINTS = 12,
-    VT_AS_OF_DATE = 14
+    VT_REFERENCE_DATE = 14
   };
   const flatbuffers::String *id() const {
     return GetPointer<const flatbuffers::String *>(VT_ID);
@@ -806,8 +806,8 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>> *points() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>> *>(VT_POINTS);
   }
-  const flatbuffers::String *as_of_date() const {
-    return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
+  const flatbuffers::String *reference_date() const {
+    return GetPointer<const flatbuffers::String *>(VT_REFERENCE_DATE);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -819,8 +819,8 @@ struct TermStructure FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyOffset(verifier, VT_POINTS) &&
            verifier.VerifyVector(points()) &&
            verifier.VerifyVectorOfTables(points()) &&
-           VerifyOffset(verifier, VT_AS_OF_DATE) &&
-           verifier.VerifyString(as_of_date()) &&
+           VerifyOffset(verifier, VT_REFERENCE_DATE) &&
+           verifier.VerifyString(reference_date()) &&
            verifier.EndTable();
   }
 };
@@ -844,8 +844,8 @@ struct TermStructureBuilder {
   void add_points(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>>> points) {
     fbb_.AddOffset(TermStructure::VT_POINTS, points);
   }
-  void add_as_of_date(flatbuffers::Offset<flatbuffers::String> as_of_date) {
-    fbb_.AddOffset(TermStructure::VT_AS_OF_DATE, as_of_date);
+  void add_reference_date(flatbuffers::Offset<flatbuffers::String> reference_date) {
+    fbb_.AddOffset(TermStructure::VT_REFERENCE_DATE, reference_date);
   }
   explicit TermStructureBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -865,9 +865,9 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructure(
     quantra::enums::Interpolator interpolator = quantra::enums::Interpolator_BackwardFlat,
     quantra::enums::BootstrapTrait bootstrap_trait = quantra::enums::BootstrapTrait_Discount,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::PointsWrapper>>> points = 0,
-    flatbuffers::Offset<flatbuffers::String> as_of_date = 0) {
+    flatbuffers::Offset<flatbuffers::String> reference_date = 0) {
   TermStructureBuilder builder_(_fbb);
-  builder_.add_as_of_date(as_of_date);
+  builder_.add_reference_date(reference_date);
   builder_.add_points(points);
   builder_.add_id(id);
   builder_.add_bootstrap_trait(bootstrap_trait);
@@ -883,10 +883,10 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructureDirect(
     quantra::enums::Interpolator interpolator = quantra::enums::Interpolator_BackwardFlat,
     quantra::enums::BootstrapTrait bootstrap_trait = quantra::enums::BootstrapTrait_Discount,
     const std::vector<flatbuffers::Offset<quantra::PointsWrapper>> *points = nullptr,
-    const char *as_of_date = nullptr) {
+    const char *reference_date = nullptr) {
   auto id__ = id ? _fbb.CreateString(id) : 0;
   auto points__ = points ? _fbb.CreateVector<flatbuffers::Offset<quantra::PointsWrapper>>(*points) : 0;
-  auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
+  auto reference_date__ = reference_date ? _fbb.CreateString(reference_date) : 0;
   return quantra::CreateTermStructure(
       _fbb,
       id__,
@@ -894,7 +894,7 @@ inline flatbuffers::Offset<TermStructure> CreateTermStructureDirect(
       interpolator,
       bootstrap_trait,
       points__,
-      as_of_date__);
+      reference_date__);
 }
 
 inline bool VerifyPoint(flatbuffers::Verifier &verifier, const void *obj, Point type) {

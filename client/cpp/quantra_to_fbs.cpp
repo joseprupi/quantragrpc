@@ -246,13 +246,13 @@ flatbuffers::Offset<quantra::TermStructure> term_structure_to_fbs(std::shared_pt
     auto points = builder->CreateVector(points_vector);
 
     auto id = builder->CreateString(term_structure->id);
-    auto as_of_date = builder->CreateString(term_structure->as_of_date);
+    auto reference_date = builder->CreateString(term_structure->reference_date);
     auto term_structure_builder = quantra::TermStructureBuilder(*builder);
     term_structure_builder.add_bootstrap_trait(term_structure->bootstrap_trait);
     term_structure_builder.add_interpolator(term_structure->interpolator);
     term_structure_builder.add_id(id);
     term_structure_builder.add_day_counter(term_structure->day_counter);
-    term_structure_builder.add_as_of_date(as_of_date);
+    term_structure_builder.add_reference_date(reference_date);
     term_structure_builder.add_points(points);
     return term_structure_builder.Finish();
 }

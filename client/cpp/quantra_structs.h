@@ -35,6 +35,7 @@ namespace structs
     struct Pricing
     {
         char as_of_date[11];
+        char settlement_date[11];
         std::vector<std::shared_ptr<TermStructure>> curves;
         bool bond_pricing_details;
         bool bond_pricing_flows;
@@ -163,7 +164,7 @@ namespace structs
         quantra::enums::DayCounter day_counter;
         quantra::enums::Interpolator interpolator;
         quantra::enums::BootstrapTrait bootstrap_trait;
-        char as_of_date[11];
+        char reference_date[11];
         std::vector<std::shared_ptr<structs::Point>> points;
     };
 
