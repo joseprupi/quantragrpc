@@ -38,8 +38,8 @@
                  "point_type":"DepositHelper",
                  "point":{
                     "rate":0.0194,
-                    "tenor_time_unit":"Years",
-                    "tenor_number":1,
+                    "tenor_time_unit":"Months",
+                    "tenor_number":12,
                     "fixing_days":3,
                     "calendar":"TARGET",
                     "business_day_convention":"ModifiedFollowing",

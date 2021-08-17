@@ -4,7 +4,7 @@ include "schedule.fbs";
 namespace quantra;
 
 table DepositHelper {
-    rate:float;
+    rate:double;
     tenor_time_unit:enums.TimeUnit;
     tenor_number: int;
     fixing_days: int;
@@ -14,7 +14,7 @@ table DepositHelper {
 }
 
 table FRAHelper {
-    rate:float;
+    rate:double;
     months_to_start:int; 
     months_to_end:int; 
     fixing_days:int;
@@ -24,7 +24,7 @@ table FRAHelper {
 }
 
 table FutureHelper {
-    rate: float;
+    rate: double;
     future_start_date: string;
     future_months: int;
     calendar:enums.Calendar;
@@ -33,7 +33,7 @@ table FutureHelper {
 }
 
 table SwapHelper {
-    rate:float;
+    rate:double;
     tenor_time_unit:enums.TimeUnit;
     tenor_number: int;
     calendar:enums.Calendar;
@@ -41,19 +41,19 @@ table SwapHelper {
     sw_fixed_leg_convention:enums.BusinessDayConvention;
     sw_fixed_leg_day_counter:enums.DayCounter;
     sw_floating_leg_index:enums.Ibor;
-    spread:float;
+    spread:double;
     fwd_start_days:int; 
 }
 
 table BondHelper {
-    rate:float;
+    rate:double;
     settlement_days:int;
-    face_amount:float;
+    face_amount:double;
     schedule:Schedule;
-    coupon_rate:float;
+    coupon_rate:double;
     day_counter:enums.DayCounter;
     business_day_convention:enums.BusinessDayConvention;
-    redemption:float;
+    redemption:double;
     issue_date:string; 
 }
 

@@ -28,7 +28,7 @@ class BondHelper(object):
     def Rate(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # BondHelper
@@ -42,7 +42,7 @@ class BondHelper(object):
     def FaceAmount(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # BondHelper
@@ -60,7 +60,7 @@ class BondHelper(object):
     def CouponRate(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # BondHelper
@@ -81,7 +81,7 @@ class BondHelper(object):
     def Redemption(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+            return self._tab.Get(flatbuffers.number_types.Float64Flags, o + self._tab.Pos)
         return 0.0
 
     # BondHelper
@@ -95,7 +95,7 @@ def Start(builder): builder.StartObject(9)
 def BondHelperStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddRate(builder, rate): builder.PrependFloat32Slot(0, rate, 0.0)
+def AddRate(builder, rate): builder.PrependFloat64Slot(0, rate, 0.0)
 def BondHelperAddRate(builder, rate):
     """This method is deprecated. Please switch to AddRate."""
     return AddRate(builder, rate)
@@ -103,7 +103,7 @@ def AddSettlementDays(builder, settlementDays): builder.PrependInt32Slot(1, sett
 def BondHelperAddSettlementDays(builder, settlementDays):
     """This method is deprecated. Please switch to AddSettlementDays."""
     return AddSettlementDays(builder, settlementDays)
-def AddFaceAmount(builder, faceAmount): builder.PrependFloat32Slot(2, faceAmount, 0.0)
+def AddFaceAmount(builder, faceAmount): builder.PrependFloat64Slot(2, faceAmount, 0.0)
 def BondHelperAddFaceAmount(builder, faceAmount):
     """This method is deprecated. Please switch to AddFaceAmount."""
     return AddFaceAmount(builder, faceAmount)
@@ -111,7 +111,7 @@ def AddSchedule(builder, schedule): builder.PrependUOffsetTRelativeSlot(3, flatb
 def BondHelperAddSchedule(builder, schedule):
     """This method is deprecated. Please switch to AddSchedule."""
     return AddSchedule(builder, schedule)
-def AddCouponRate(builder, couponRate): builder.PrependFloat32Slot(4, couponRate, 0.0)
+def AddCouponRate(builder, couponRate): builder.PrependFloat64Slot(4, couponRate, 0.0)
 def BondHelperAddCouponRate(builder, couponRate):
     """This method is deprecated. Please switch to AddCouponRate."""
     return AddCouponRate(builder, couponRate)
@@ -123,7 +123,7 @@ def AddBusinessDayConvention(builder, businessDayConvention): builder.PrependInt
 def BondHelperAddBusinessDayConvention(builder, businessDayConvention):
     """This method is deprecated. Please switch to AddBusinessDayConvention."""
     return AddBusinessDayConvention(builder, businessDayConvention)
-def AddRedemption(builder, redemption): builder.PrependFloat32Slot(7, redemption, 0.0)
+def AddRedemption(builder, redemption): builder.PrependFloat64Slot(7, redemption, 0.0)
 def BondHelperAddRedemption(builder, redemption):
     """This method is deprecated. Please switch to AddRedemption."""
     return AddRedemption(builder, redemption)

@@ -112,8 +112,8 @@ struct DepositHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_BUSINESS_DAY_CONVENTION = 14,
     VT_DAY_COUNTER = 16
   };
-  float rate() const {
-    return GetField<float>(VT_RATE, 0.0f);
+  double rate() const {
+    return GetField<double>(VT_RATE, 0.0);
   }
   quantra::enums::TimeUnit tenor_time_unit() const {
     return static_cast<quantra::enums::TimeUnit>(GetField<int8_t>(VT_TENOR_TIME_UNIT, 0));
@@ -135,7 +135,7 @@ struct DepositHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_RATE) &&
+           VerifyField<double>(verifier, VT_RATE) &&
            VerifyField<int8_t>(verifier, VT_TENOR_TIME_UNIT) &&
            VerifyField<int32_t>(verifier, VT_TENOR_NUMBER) &&
            VerifyField<int32_t>(verifier, VT_FIXING_DAYS) &&
@@ -150,8 +150,8 @@ struct DepositHelperBuilder {
   typedef DepositHelper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_rate(float rate) {
-    fbb_.AddElement<float>(DepositHelper::VT_RATE, rate, 0.0f);
+  void add_rate(double rate) {
+    fbb_.AddElement<double>(DepositHelper::VT_RATE, rate, 0.0);
   }
   void add_tenor_time_unit(quantra::enums::TimeUnit tenor_time_unit) {
     fbb_.AddElement<int8_t>(DepositHelper::VT_TENOR_TIME_UNIT, static_cast<int8_t>(tenor_time_unit), 0);
@@ -184,7 +184,7 @@ struct DepositHelperBuilder {
 
 inline flatbuffers::Offset<DepositHelper> CreateDepositHelper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     quantra::enums::TimeUnit tenor_time_unit = quantra::enums::TimeUnit_Days,
     int32_t tenor_number = 0,
     int32_t fixing_days = 0,
@@ -192,9 +192,9 @@ inline flatbuffers::Offset<DepositHelper> CreateDepositHelper(
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360) {
   DepositHelperBuilder builder_(_fbb);
+  builder_.add_rate(rate);
   builder_.add_fixing_days(fixing_days);
   builder_.add_tenor_number(tenor_number);
-  builder_.add_rate(rate);
   builder_.add_day_counter(day_counter);
   builder_.add_business_day_convention(business_day_convention);
   builder_.add_calendar(calendar);
@@ -213,8 +213,8 @@ struct FRAHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_BUSINESS_DAY_CONVENTION = 14,
     VT_DAY_COUNTER = 16
   };
-  float rate() const {
-    return GetField<float>(VT_RATE, 0.0f);
+  double rate() const {
+    return GetField<double>(VT_RATE, 0.0);
   }
   int32_t months_to_start() const {
     return GetField<int32_t>(VT_MONTHS_TO_START, 0);
@@ -236,7 +236,7 @@ struct FRAHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_RATE) &&
+           VerifyField<double>(verifier, VT_RATE) &&
            VerifyField<int32_t>(verifier, VT_MONTHS_TO_START) &&
            VerifyField<int32_t>(verifier, VT_MONTHS_TO_END) &&
            VerifyField<int32_t>(verifier, VT_FIXING_DAYS) &&
@@ -251,8 +251,8 @@ struct FRAHelperBuilder {
   typedef FRAHelper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_rate(float rate) {
-    fbb_.AddElement<float>(FRAHelper::VT_RATE, rate, 0.0f);
+  void add_rate(double rate) {
+    fbb_.AddElement<double>(FRAHelper::VT_RATE, rate, 0.0);
   }
   void add_months_to_start(int32_t months_to_start) {
     fbb_.AddElement<int32_t>(FRAHelper::VT_MONTHS_TO_START, months_to_start, 0);
@@ -285,7 +285,7 @@ struct FRAHelperBuilder {
 
 inline flatbuffers::Offset<FRAHelper> CreateFRAHelper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     int32_t months_to_start = 0,
     int32_t months_to_end = 0,
     int32_t fixing_days = 0,
@@ -293,10 +293,10 @@ inline flatbuffers::Offset<FRAHelper> CreateFRAHelper(
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360) {
   FRAHelperBuilder builder_(_fbb);
+  builder_.add_rate(rate);
   builder_.add_fixing_days(fixing_days);
   builder_.add_months_to_end(months_to_end);
   builder_.add_months_to_start(months_to_start);
-  builder_.add_rate(rate);
   builder_.add_day_counter(day_counter);
   builder_.add_business_day_convention(business_day_convention);
   builder_.add_calendar(calendar);
@@ -313,8 +313,8 @@ struct FutureHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_BUSINESS_DAY_CONVENTION = 12,
     VT_DAY_COUNTER = 14
   };
-  float rate() const {
-    return GetField<float>(VT_RATE, 0.0f);
+  double rate() const {
+    return GetField<double>(VT_RATE, 0.0);
   }
   const flatbuffers::String *future_start_date() const {
     return GetPointer<const flatbuffers::String *>(VT_FUTURE_START_DATE);
@@ -333,7 +333,7 @@ struct FutureHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_RATE) &&
+           VerifyField<double>(verifier, VT_RATE) &&
            VerifyOffset(verifier, VT_FUTURE_START_DATE) &&
            verifier.VerifyString(future_start_date()) &&
            VerifyField<int32_t>(verifier, VT_FUTURE_MONTHS) &&
@@ -348,8 +348,8 @@ struct FutureHelperBuilder {
   typedef FutureHelper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_rate(float rate) {
-    fbb_.AddElement<float>(FutureHelper::VT_RATE, rate, 0.0f);
+  void add_rate(double rate) {
+    fbb_.AddElement<double>(FutureHelper::VT_RATE, rate, 0.0);
   }
   void add_future_start_date(flatbuffers::Offset<flatbuffers::String> future_start_date) {
     fbb_.AddOffset(FutureHelper::VT_FUTURE_START_DATE, future_start_date);
@@ -379,16 +379,16 @@ struct FutureHelperBuilder {
 
 inline flatbuffers::Offset<FutureHelper> CreateFutureHelper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     flatbuffers::Offset<flatbuffers::String> future_start_date = 0,
     int32_t future_months = 0,
     quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina,
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360) {
   FutureHelperBuilder builder_(_fbb);
+  builder_.add_rate(rate);
   builder_.add_future_months(future_months);
   builder_.add_future_start_date(future_start_date);
-  builder_.add_rate(rate);
   builder_.add_day_counter(day_counter);
   builder_.add_business_day_convention(business_day_convention);
   builder_.add_calendar(calendar);
@@ -397,7 +397,7 @@ inline flatbuffers::Offset<FutureHelper> CreateFutureHelper(
 
 inline flatbuffers::Offset<FutureHelper> CreateFutureHelperDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     const char *future_start_date = nullptr,
     int32_t future_months = 0,
     quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina,
@@ -428,8 +428,8 @@ struct SwapHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_SPREAD = 20,
     VT_FWD_START_DAYS = 22
   };
-  float rate() const {
-    return GetField<float>(VT_RATE, 0.0f);
+  double rate() const {
+    return GetField<double>(VT_RATE, 0.0);
   }
   quantra::enums::TimeUnit tenor_time_unit() const {
     return static_cast<quantra::enums::TimeUnit>(GetField<int8_t>(VT_TENOR_TIME_UNIT, 0));
@@ -452,15 +452,15 @@ struct SwapHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   quantra::enums::Ibor sw_floating_leg_index() const {
     return static_cast<quantra::enums::Ibor>(GetField<int8_t>(VT_SW_FLOATING_LEG_INDEX, 0));
   }
-  float spread() const {
-    return GetField<float>(VT_SPREAD, 0.0f);
+  double spread() const {
+    return GetField<double>(VT_SPREAD, 0.0);
   }
   int32_t fwd_start_days() const {
     return GetField<int32_t>(VT_FWD_START_DAYS, 0);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_RATE) &&
+           VerifyField<double>(verifier, VT_RATE) &&
            VerifyField<int8_t>(verifier, VT_TENOR_TIME_UNIT) &&
            VerifyField<int32_t>(verifier, VT_TENOR_NUMBER) &&
            VerifyField<int8_t>(verifier, VT_CALENDAR) &&
@@ -468,7 +468,7 @@ struct SwapHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int8_t>(verifier, VT_SW_FIXED_LEG_CONVENTION) &&
            VerifyField<int8_t>(verifier, VT_SW_FIXED_LEG_DAY_COUNTER) &&
            VerifyField<int8_t>(verifier, VT_SW_FLOATING_LEG_INDEX) &&
-           VerifyField<float>(verifier, VT_SPREAD) &&
+           VerifyField<double>(verifier, VT_SPREAD) &&
            VerifyField<int32_t>(verifier, VT_FWD_START_DAYS) &&
            verifier.EndTable();
   }
@@ -478,8 +478,8 @@ struct SwapHelperBuilder {
   typedef SwapHelper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_rate(float rate) {
-    fbb_.AddElement<float>(SwapHelper::VT_RATE, rate, 0.0f);
+  void add_rate(double rate) {
+    fbb_.AddElement<double>(SwapHelper::VT_RATE, rate, 0.0);
   }
   void add_tenor_time_unit(quantra::enums::TimeUnit tenor_time_unit) {
     fbb_.AddElement<int8_t>(SwapHelper::VT_TENOR_TIME_UNIT, static_cast<int8_t>(tenor_time_unit), 0);
@@ -502,8 +502,8 @@ struct SwapHelperBuilder {
   void add_sw_floating_leg_index(quantra::enums::Ibor sw_floating_leg_index) {
     fbb_.AddElement<int8_t>(SwapHelper::VT_SW_FLOATING_LEG_INDEX, static_cast<int8_t>(sw_floating_leg_index), 0);
   }
-  void add_spread(float spread) {
-    fbb_.AddElement<float>(SwapHelper::VT_SPREAD, spread, 0.0f);
+  void add_spread(double spread) {
+    fbb_.AddElement<double>(SwapHelper::VT_SPREAD, spread, 0.0);
   }
   void add_fwd_start_days(int32_t fwd_start_days) {
     fbb_.AddElement<int32_t>(SwapHelper::VT_FWD_START_DAYS, fwd_start_days, 0);
@@ -521,7 +521,7 @@ struct SwapHelperBuilder {
 
 inline flatbuffers::Offset<SwapHelper> CreateSwapHelper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     quantra::enums::TimeUnit tenor_time_unit = quantra::enums::TimeUnit_Days,
     int32_t tenor_number = 0,
     quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina,
@@ -529,13 +529,13 @@ inline flatbuffers::Offset<SwapHelper> CreateSwapHelper(
     quantra::enums::BusinessDayConvention sw_fixed_leg_convention = quantra::enums::BusinessDayConvention_Following,
     quantra::enums::DayCounter sw_fixed_leg_day_counter = quantra::enums::DayCounter_Actual360,
     quantra::enums::Ibor sw_floating_leg_index = quantra::enums::Ibor_Euribor10M,
-    float spread = 0.0f,
+    double spread = 0.0,
     int32_t fwd_start_days = 0) {
   SwapHelperBuilder builder_(_fbb);
-  builder_.add_fwd_start_days(fwd_start_days);
   builder_.add_spread(spread);
-  builder_.add_tenor_number(tenor_number);
   builder_.add_rate(rate);
+  builder_.add_fwd_start_days(fwd_start_days);
+  builder_.add_tenor_number(tenor_number);
   builder_.add_sw_floating_leg_index(sw_floating_leg_index);
   builder_.add_sw_fixed_leg_day_counter(sw_fixed_leg_day_counter);
   builder_.add_sw_fixed_leg_convention(sw_fixed_leg_convention);
@@ -558,20 +558,20 @@ struct BondHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_REDEMPTION = 18,
     VT_ISSUE_DATE = 20
   };
-  float rate() const {
-    return GetField<float>(VT_RATE, 0.0f);
+  double rate() const {
+    return GetField<double>(VT_RATE, 0.0);
   }
   int32_t settlement_days() const {
     return GetField<int32_t>(VT_SETTLEMENT_DAYS, 0);
   }
-  float face_amount() const {
-    return GetField<float>(VT_FACE_AMOUNT, 0.0f);
+  double face_amount() const {
+    return GetField<double>(VT_FACE_AMOUNT, 0.0);
   }
   const quantra::Schedule *schedule() const {
     return GetPointer<const quantra::Schedule *>(VT_SCHEDULE);
   }
-  float coupon_rate() const {
-    return GetField<float>(VT_COUPON_RATE, 0.0f);
+  double coupon_rate() const {
+    return GetField<double>(VT_COUPON_RATE, 0.0);
   }
   quantra::enums::DayCounter day_counter() const {
     return static_cast<quantra::enums::DayCounter>(GetField<int8_t>(VT_DAY_COUNTER, 0));
@@ -579,23 +579,23 @@ struct BondHelper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   quantra::enums::BusinessDayConvention business_day_convention() const {
     return static_cast<quantra::enums::BusinessDayConvention>(GetField<int8_t>(VT_BUSINESS_DAY_CONVENTION, 0));
   }
-  float redemption() const {
-    return GetField<float>(VT_REDEMPTION, 0.0f);
+  double redemption() const {
+    return GetField<double>(VT_REDEMPTION, 0.0);
   }
   const flatbuffers::String *issue_date() const {
     return GetPointer<const flatbuffers::String *>(VT_ISSUE_DATE);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_RATE) &&
+           VerifyField<double>(verifier, VT_RATE) &&
            VerifyField<int32_t>(verifier, VT_SETTLEMENT_DAYS) &&
-           VerifyField<float>(verifier, VT_FACE_AMOUNT) &&
+           VerifyField<double>(verifier, VT_FACE_AMOUNT) &&
            VerifyOffset(verifier, VT_SCHEDULE) &&
            verifier.VerifyTable(schedule()) &&
-           VerifyField<float>(verifier, VT_COUPON_RATE) &&
+           VerifyField<double>(verifier, VT_COUPON_RATE) &&
            VerifyField<int8_t>(verifier, VT_DAY_COUNTER) &&
            VerifyField<int8_t>(verifier, VT_BUSINESS_DAY_CONVENTION) &&
-           VerifyField<float>(verifier, VT_REDEMPTION) &&
+           VerifyField<double>(verifier, VT_REDEMPTION) &&
            VerifyOffset(verifier, VT_ISSUE_DATE) &&
            verifier.VerifyString(issue_date()) &&
            verifier.EndTable();
@@ -606,20 +606,20 @@ struct BondHelperBuilder {
   typedef BondHelper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_rate(float rate) {
-    fbb_.AddElement<float>(BondHelper::VT_RATE, rate, 0.0f);
+  void add_rate(double rate) {
+    fbb_.AddElement<double>(BondHelper::VT_RATE, rate, 0.0);
   }
   void add_settlement_days(int32_t settlement_days) {
     fbb_.AddElement<int32_t>(BondHelper::VT_SETTLEMENT_DAYS, settlement_days, 0);
   }
-  void add_face_amount(float face_amount) {
-    fbb_.AddElement<float>(BondHelper::VT_FACE_AMOUNT, face_amount, 0.0f);
+  void add_face_amount(double face_amount) {
+    fbb_.AddElement<double>(BondHelper::VT_FACE_AMOUNT, face_amount, 0.0);
   }
   void add_schedule(flatbuffers::Offset<quantra::Schedule> schedule) {
     fbb_.AddOffset(BondHelper::VT_SCHEDULE, schedule);
   }
-  void add_coupon_rate(float coupon_rate) {
-    fbb_.AddElement<float>(BondHelper::VT_COUPON_RATE, coupon_rate, 0.0f);
+  void add_coupon_rate(double coupon_rate) {
+    fbb_.AddElement<double>(BondHelper::VT_COUPON_RATE, coupon_rate, 0.0);
   }
   void add_day_counter(quantra::enums::DayCounter day_counter) {
     fbb_.AddElement<int8_t>(BondHelper::VT_DAY_COUNTER, static_cast<int8_t>(day_counter), 0);
@@ -627,8 +627,8 @@ struct BondHelperBuilder {
   void add_business_day_convention(quantra::enums::BusinessDayConvention business_day_convention) {
     fbb_.AddElement<int8_t>(BondHelper::VT_BUSINESS_DAY_CONVENTION, static_cast<int8_t>(business_day_convention), 0);
   }
-  void add_redemption(float redemption) {
-    fbb_.AddElement<float>(BondHelper::VT_REDEMPTION, redemption, 0.0f);
+  void add_redemption(double redemption) {
+    fbb_.AddElement<double>(BondHelper::VT_REDEMPTION, redemption, 0.0);
   }
   void add_issue_date(flatbuffers::Offset<flatbuffers::String> issue_date) {
     fbb_.AddOffset(BondHelper::VT_ISSUE_DATE, issue_date);
@@ -646,23 +646,23 @@ struct BondHelperBuilder {
 
 inline flatbuffers::Offset<BondHelper> CreateBondHelper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     int32_t settlement_days = 0,
-    float face_amount = 0.0f,
+    double face_amount = 0.0,
     flatbuffers::Offset<quantra::Schedule> schedule = 0,
-    float coupon_rate = 0.0f,
+    double coupon_rate = 0.0,
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
-    float redemption = 0.0f,
+    double redemption = 0.0,
     flatbuffers::Offset<flatbuffers::String> issue_date = 0) {
   BondHelperBuilder builder_(_fbb);
-  builder_.add_issue_date(issue_date);
   builder_.add_redemption(redemption);
   builder_.add_coupon_rate(coupon_rate);
-  builder_.add_schedule(schedule);
   builder_.add_face_amount(face_amount);
-  builder_.add_settlement_days(settlement_days);
   builder_.add_rate(rate);
+  builder_.add_issue_date(issue_date);
+  builder_.add_schedule(schedule);
+  builder_.add_settlement_days(settlement_days);
   builder_.add_business_day_convention(business_day_convention);
   builder_.add_day_counter(day_counter);
   return builder_.Finish();
@@ -670,14 +670,14 @@ inline flatbuffers::Offset<BondHelper> CreateBondHelper(
 
 inline flatbuffers::Offset<BondHelper> CreateBondHelperDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    float rate = 0.0f,
+    double rate = 0.0,
     int32_t settlement_days = 0,
-    float face_amount = 0.0f,
+    double face_amount = 0.0,
     flatbuffers::Offset<quantra::Schedule> schedule = 0,
-    float coupon_rate = 0.0f,
+    double coupon_rate = 0.0,
     quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360,
     quantra::enums::BusinessDayConvention business_day_convention = quantra::enums::BusinessDayConvention_Following,
-    float redemption = 0.0f,
+    double redemption = 0.0,
     const char *issue_date = nullptr) {
   auto issue_date__ = issue_date ? _fbb.CreateString(issue_date) : 0;
   return quantra::CreateBondHelper(

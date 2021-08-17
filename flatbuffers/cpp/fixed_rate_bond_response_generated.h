@@ -373,55 +373,55 @@ inline flatbuffers::Offset<FlowNotional> CreateFlowNotionalDirect(
 struct FlowsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef FlowsWrapperBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_FLOW_WRAPPER_TYPE = 4,
-    VT_FLOW_WRAPPER = 6
+    VT_FLOW_TYPE = 4,
+    VT_FLOW = 6
   };
-  quantra::Flow flow_wrapper_type() const {
-    return static_cast<quantra::Flow>(GetField<uint8_t>(VT_FLOW_WRAPPER_TYPE, 0));
+  quantra::Flow flow_type() const {
+    return static_cast<quantra::Flow>(GetField<uint8_t>(VT_FLOW_TYPE, 0));
   }
-  const void *flow_wrapper() const {
-    return GetPointer<const void *>(VT_FLOW_WRAPPER);
+  const void *flow() const {
+    return GetPointer<const void *>(VT_FLOW);
   }
-  template<typename T> const T *flow_wrapper_as() const;
-  const quantra::FlowInterest *flow_wrapper_as_FlowInterest() const {
-    return flow_wrapper_type() == quantra::Flow_FlowInterest ? static_cast<const quantra::FlowInterest *>(flow_wrapper()) : nullptr;
+  template<typename T> const T *flow_as() const;
+  const quantra::FlowInterest *flow_as_FlowInterest() const {
+    return flow_type() == quantra::Flow_FlowInterest ? static_cast<const quantra::FlowInterest *>(flow()) : nullptr;
   }
-  const quantra::FlowPastInterest *flow_wrapper_as_FlowPastInterest() const {
-    return flow_wrapper_type() == quantra::Flow_FlowPastInterest ? static_cast<const quantra::FlowPastInterest *>(flow_wrapper()) : nullptr;
+  const quantra::FlowPastInterest *flow_as_FlowPastInterest() const {
+    return flow_type() == quantra::Flow_FlowPastInterest ? static_cast<const quantra::FlowPastInterest *>(flow()) : nullptr;
   }
-  const quantra::FlowNotional *flow_wrapper_as_FlowNotional() const {
-    return flow_wrapper_type() == quantra::Flow_FlowNotional ? static_cast<const quantra::FlowNotional *>(flow_wrapper()) : nullptr;
+  const quantra::FlowNotional *flow_as_FlowNotional() const {
+    return flow_type() == quantra::Flow_FlowNotional ? static_cast<const quantra::FlowNotional *>(flow()) : nullptr;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint8_t>(verifier, VT_FLOW_WRAPPER_TYPE) &&
-           VerifyOffset(verifier, VT_FLOW_WRAPPER) &&
-           VerifyFlow(verifier, flow_wrapper(), flow_wrapper_type()) &&
+           VerifyField<uint8_t>(verifier, VT_FLOW_TYPE) &&
+           VerifyOffset(verifier, VT_FLOW) &&
+           VerifyFlow(verifier, flow(), flow_type()) &&
            verifier.EndTable();
   }
 };
 
-template<> inline const quantra::FlowInterest *FlowsWrapper::flow_wrapper_as<quantra::FlowInterest>() const {
-  return flow_wrapper_as_FlowInterest();
+template<> inline const quantra::FlowInterest *FlowsWrapper::flow_as<quantra::FlowInterest>() const {
+  return flow_as_FlowInterest();
 }
 
-template<> inline const quantra::FlowPastInterest *FlowsWrapper::flow_wrapper_as<quantra::FlowPastInterest>() const {
-  return flow_wrapper_as_FlowPastInterest();
+template<> inline const quantra::FlowPastInterest *FlowsWrapper::flow_as<quantra::FlowPastInterest>() const {
+  return flow_as_FlowPastInterest();
 }
 
-template<> inline const quantra::FlowNotional *FlowsWrapper::flow_wrapper_as<quantra::FlowNotional>() const {
-  return flow_wrapper_as_FlowNotional();
+template<> inline const quantra::FlowNotional *FlowsWrapper::flow_as<quantra::FlowNotional>() const {
+  return flow_as_FlowNotional();
 }
 
 struct FlowsWrapperBuilder {
   typedef FlowsWrapper Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_flow_wrapper_type(quantra::Flow flow_wrapper_type) {
-    fbb_.AddElement<uint8_t>(FlowsWrapper::VT_FLOW_WRAPPER_TYPE, static_cast<uint8_t>(flow_wrapper_type), 0);
+  void add_flow_type(quantra::Flow flow_type) {
+    fbb_.AddElement<uint8_t>(FlowsWrapper::VT_FLOW_TYPE, static_cast<uint8_t>(flow_type), 0);
   }
-  void add_flow_wrapper(flatbuffers::Offset<void> flow_wrapper) {
-    fbb_.AddOffset(FlowsWrapper::VT_FLOW_WRAPPER, flow_wrapper);
+  void add_flow(flatbuffers::Offset<void> flow) {
+    fbb_.AddOffset(FlowsWrapper::VT_FLOW, flow);
   }
   explicit FlowsWrapperBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -436,11 +436,11 @@ struct FlowsWrapperBuilder {
 
 inline flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(
     flatbuffers::FlatBufferBuilder &_fbb,
-    quantra::Flow flow_wrapper_type = quantra::Flow_NONE,
-    flatbuffers::Offset<void> flow_wrapper = 0) {
+    quantra::Flow flow_type = quantra::Flow_NONE,
+    flatbuffers::Offset<void> flow = 0) {
   FlowsWrapperBuilder builder_(_fbb);
-  builder_.add_flow_wrapper(flow_wrapper);
-  builder_.add_flow_wrapper_type(flow_wrapper_type);
+  builder_.add_flow(flow);
+  builder_.add_flow_type(flow_type);
   return builder_.Finish();
 }
 

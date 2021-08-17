@@ -63,12 +63,14 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                     {
                         if (!coupon->hasOccurred(Settings::instance().evaluationDate()))
                         {
-                            std::ostringstream os;
+                            std::ostringstream os_start_date;
+                            os_start_date << QuantLib::io::iso_date(coupon->accrualStartDate());
+                            auto accrual_start_date = builder->CreateString(os_start_date.str());
 
-                            os << QuantLib::io::iso_date(coupon->accrualStartDate());
-                            auto accrual_start_date = builder->CreateString(os.str());
-                            os << QuantLib::io::iso_date(coupon->accrualEndDate());
-                            auto accrual_end_date = builder->CreateString(os.str());
+                            std::ostringstream os_end_date;
+                            os_end_date << QuantLib::io::iso_date(coupon->accrualEndDate());
+                            auto accrual_end_date = builder->CreateString(os_end_date.str());
+
                             auto flow_interest_builder = FlowInterestBuilder(*builder);
                             flow_interest_builder.add_amount(coupon->amount());
                             flow_interest_builder.add_accrual_start_date(accrual_start_date);
@@ -87,12 +89,14 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
                         }
                         else
                         {
-                            std::ostringstream os;
+                            std::ostringstream os_start_date;
+                            os_start_date << QuantLib::io::iso_date(coupon->accrualStartDate());
+                            auto accrual_start_date = builder->CreateString(os_start_date.str());
 
-                            os << QuantLib::io::iso_date(coupon->accrualStartDate());
-                            auto accrual_start_date = builder->CreateString(os.str());
-                            os << QuantLib::io::iso_date(coupon->accrualEndDate());
-                            auto accrual_end_date = builder->CreateString(os.str());
+                            std::ostringstream os_end_date;
+                            os_end_date << QuantLib::io::iso_date(coupon->accrualEndDate());
+                            auto accrual_end_date = builder->CreateString(os_end_date.str());
+
                             auto flow_past_interest_builder = FlowInterestBuilder(*builder);
                             flow_past_interest_builder.add_amount(coupon->amount());
                             flow_past_interest_builder.add_accrual_start_date(accrual_start_date);

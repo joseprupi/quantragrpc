@@ -6,9 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-#include "term_structure_generated.h"
 #include "enums_generated.h"
 #include "schedule_generated.h"
+#include "term_structure_generated.h"
 
 namespace quantra {
 

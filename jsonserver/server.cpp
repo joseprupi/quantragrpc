@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
     int port = atoi(argv[2]);
 
-    QuantraClient base_client(connection, true);
+    QuantraClient base_client(connection, false);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]
