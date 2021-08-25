@@ -23,6 +23,29 @@ std::shared_ptr<std::string> JSONParser::PriceFixedRateBondResponseToJSON(const 
     return std::make_shared<std::string>(jsongen);
 }
 
+std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser::PriceFloatingRateBondRequestToFBS(std::string json_str)
+{
+    if (!this->price_floating_rate_bond_parser->Parse(json_str.c_str(), fbs_include_directories))
+    {
+        std::string error_message = "Error while loading json. ";
+        error_message += this->price_floating_rate_bond_parser->error_.c_str();
+        throw std::runtime_error(error_message);
+    }
+
+    return std::make_shared<flatbuffers::grpc::MessageBuilder>(std::move(this->price_floating_rate_bond_parser->builder_));
+}
+
+std::shared_ptr<std::string> JSONParser::PriceFloatingRateBondResponseToJSON(const uint8_t *buffer)
+{
+    std::string jsongen;
+    if (!GenerateText((*this->floating_rate_bond_response_parser), buffer, &jsongen))
+    {
+        throw std::runtime_error("Couldn't serialize bond response to JSON!");
+    }
+
+    return std::make_shared<std::string>(jsongen);
+}
+
 JSONParser::JSONParser()
 {
     this->LoadFBS();

@@ -114,6 +114,66 @@ void QuantraClient::PriceFixedRateBondRequest(std::vector<std::shared_ptr<struct
     thread_.join();
 }
 
+std::shared_ptr<json_response> QuantraClient::PriceFloatingRateBondRequestJSON(std::string json)
+{
+    auto builder = this->json_parser->PriceFloatingRateBondRequestToFBS(json);
+
+    this->json_responses.resize(1);
+    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, 1);
+
+    auto request_msg = builder->ReleaseMessage<quantra::PriceFloatingRateBondRequest>();
+
+    AsyncClientCall *call = new AsyncClientCall;
+    call->json = true;
+    call->request_pos = 0;
+
+    call->response_reader =
+        stub_->PrepareAsyncPriceFloatingRateBond(&call->context, request_msg, &cq_);
+
+    call->response_reader->StartCall();
+
+    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
+
+    thread_.join();
+
+    return this->json_responses[0];
+}
+
+void QuantraClient::PriceFloatingRateBondRequestCall(std::shared_ptr<structs::PriceFloatingRateBondRequest> request, int request_tag)
+{
+    std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
+
+    auto bond_request = price_floating_rate_bond_request_to_fbs(builder, request);
+    builder->Finish(bond_request);
+
+    auto request_msg = builder->ReleaseMessage<quantra::PriceFloatingRateBondRequest>();
+
+    AsyncClientCall *call = new AsyncClientCall;
+    call->request_pos = request_tag;
+
+    call->response_reader =
+        stub_->PrepareAsyncPriceFloatingRateBond(&call->context, request_msg, &cq_);
+
+    call->response_reader->StartCall();
+
+    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
+}
+
+void QuantraClient::PriceFloatingRateBondRequest(std::vector<std::shared_ptr<structs::PriceFloatingRateBondRequest>> request)
+{
+    this->responses.resize(request.size());
+    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, request.size());
+
+    int request_tag = 0;
+    for (auto it = request.begin(); it != request.end(); it++)
+    {
+        this->PriceFloatingRateBondRequestCall(*it, request_tag);
+        request_tag += 1;
+    }
+
+    thread_.join();
+}
+
 void QuantraClient::AsyncCompleteRpc(int request_size)
 {
     void *got_tag;

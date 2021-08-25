@@ -1,5 +1,5 @@
-#ifndef QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
-#define QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
+#ifndef QUANTRASERVER_FLOATINGRATEBONDPRICINGREQUEST_H
+#define QUANTRASERVER_FLOATINGRATEBONDPRICINGREQUEST_H
 
 #include <map>
 #include <string>
@@ -25,17 +25,17 @@
 
 #include "quantra_request.h"
 
-#include "price_fixed_rate_bond_request_generated.h"
-#include "fixed_rate_bond_response_generated.h"
+#include "price_floating_rate_bond_request_generated.h"
+#include "floating_rate_bond_response_generated.h"
 #include "common_parser.h"
-#include "fixed_rate_bond_parser.h"
+#include "floating_rate_bond_parser.h"
 #include "term_structure_parser.h"
 
-class FixedRateBondPricingRequest : QuantraRequest<quantra::PriceFixedRateBondRequest,
-                                                   quantra::PriceFixedRateBondResponse>
+class FloatingRateBondPricingRequest : QuantraRequest<quantra::PriceFloatingRateBondRequest,
+                                                      quantra::PriceFloatingRateBondResponse>
 {
 public:
-    flatbuffers::Offset<quantra::PriceFixedRateBondResponse> request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFixedRateBondRequest *request) const;
+    flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> request(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const quantra::PriceFloatingRateBondRequest *request) const;
 };
 
-#endif //QUANTRASERVER_FIXEDRATEBONDPRICINGREQUEST_H
+#endif //QUANTRASERVER_FLOATINGRATEBONDPRICINGREQUEST_H

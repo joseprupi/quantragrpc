@@ -26,12 +26,13 @@
 using namespace QuantLib;
 using namespace quantra;
 
-class FixedRateBondParser
+class FloatingRateBondParser
 {
 
 private:
 public:
     std::shared_ptr<QuantLib::FloatingRateBond> parse(const quantra::FloatingRateBond *ts);
+    IndexParser index_parser = IndexParser();
 };
 
 #endif //QUANTRASERVER_FLOATINGRATEBONDPARSER_H

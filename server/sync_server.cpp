@@ -2,7 +2,9 @@
 #include "quantraserver_generated.h"
 
 #include "fixed_rate_bond_pricing_request.h"
-#include "responses_generated.h"
+#include "floating_rate_bond_pricing_request.h"
+#include "price_fixed_rate_bond_request_generated.h"
+#include "price_floating_rate_bond_request_generated.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -40,8 +42,19 @@ private:
     class CallData
     {
     public:
-        CallData(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
+        virtual void Proceed() = 0;
+    };
+
+    template <class Message, class Request, class Response, class ResponseBuilder>
+    class CallDataGeneric : CallData
+    {
+    public:
+        explicit CallDataGeneric(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
             : service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+        {
+        }
+
+        void start()
         {
             Proceed();
         }
@@ -51,19 +64,18 @@ private:
             if (status_ == CREATE)
             {
                 status_ = PROCESS;
-                service_->RequestPriceFixedRateBond(&ctx_, &request_msg, &responder_, cq_, cq_,
-                                                    this);
+                this->RequestCall();
             }
             else if (status_ == PROCESS)
             {
                 std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
                 try
                 {
-                    FixedRateBondPricingRequest request;
+                    Request request;
                     auto response = request.request(builder, request_msg.GetRoot());
                     builder->Finish(response);
 
-                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
+                    reply_ = builder->ReleaseMessage<Response>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -76,10 +88,10 @@ private:
                     error_msg.append(e.what());
 
                     builder->Reset();
-                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    ResponseBuilder empty_pricing(*builder);
                     builder->Finish(empty_pricing.Finish());
 
-                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
+                    reply_ = builder->ReleaseMessage<Response>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -94,10 +106,10 @@ private:
                     std::cout << "Quantra error:  " << error_msg << std::endl;
 
                     builder->Reset();
-                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    ResponseBuilder empty_pricing(*builder);
                     builder->Finish(empty_pricing.Finish());
 
-                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
+                    reply_ = builder->ReleaseMessage<Response>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -111,10 +123,10 @@ private:
                     std::cout << "Unknown error:  " << error_msg << std::endl;
 
                     builder->Reset();
-                    PriceFixedRateBondResponseBuilder empty_pricing(*builder);
+                    ResponseBuilder empty_pricing(*builder);
                     builder->Finish(empty_pricing.Finish());
 
-                    reply_ = builder->ReleaseMessage<quantra::PriceFixedRateBondResponse>();
+                    reply_ = builder->ReleaseMessage<Response>();
                     assert(reply_.Verify());
 
                     status_ = FINISH;
@@ -134,15 +146,17 @@ private:
             }
         }
 
-    private:
+        virtual void RequestCall() = 0;
+
+    protected:
         QuantraServer::AsyncService *service_;
         grpc::ServerCompletionQueue *cq_;
         grpc::ServerContext ctx_;
 
-        flatbuffers::grpc::Message<PriceFixedRateBondRequest> request_msg;
-        flatbuffers::grpc::Message<PriceFixedRateBondResponse> reply_;
+        flatbuffers::grpc::Message<Message> request_msg;
+        flatbuffers::grpc::Message<Response> reply_;
 
-        grpc::ServerAsyncResponseWriter<flatbuffers::grpc::Message<PriceFixedRateBondResponse>> responder_;
+        grpc::ServerAsyncResponseWriter<flatbuffers::grpc::Message<Response>> responder_;
 
         enum CallStatus
         {
@@ -153,15 +167,47 @@ private:
         CallStatus status_;
     };
 
-    void HandleRpcs()
+    class PriceFixedRateBondData : public CallDataGeneric<quantra::PriceFixedRateBondRequest, FixedRateBondPricingRequest, PriceFixedRateBondResponse, PriceFixedRateBondResponseBuilder>
+    {
+    public:
+        PriceFixedRateBondData(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
+            : CallDataGeneric(service, cq)
+        {
+        }
+        void RequestCall()
+        {
+            service_->RequestPriceFixedRateBond(&this->ctx_, &this->request_msg, &this->responder_, this->cq_, this->cq_, this);
+        }
+    };
+
+    class PriceFloatingRateBondData : public CallDataGeneric<quantra::PriceFloatingRateBondRequest, FloatingRateBondPricingRequest, PriceFloatingRateBondResponse, PriceFloatingRateBondResponseBuilder>
+    {
+    public:
+        PriceFloatingRateBondData(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
+            : CallDataGeneric(service, cq)
+        {
+        }
+        void RequestCall()
+        {
+            service_->RequestPriceFloatingRateBond(&this->ctx_, &this->request_msg, &this->responder_, this->cq_, this->cq_, this);
+        }
+    };
+
+    void
+    HandleRpcs()
     {
 
         void *tag;
         bool ok;
+
+        PriceFixedRateBondData *fixed_bonds = new PriceFixedRateBondData(&service_, cq_.get());
+        fixed_bonds->start();
+
+        PriceFloatingRateBondData *floating_bonds = new PriceFloatingRateBondData(&service_, cq_.get());
+        floating_bonds->start();
+
         while (true)
         {
-            new CallData(&service_, cq_.get());
-
             GPR_ASSERT(cq_->Next(&tag, &ok));
             GPR_ASSERT(ok);
             static_cast<CallData *>(tag)->Proceed();

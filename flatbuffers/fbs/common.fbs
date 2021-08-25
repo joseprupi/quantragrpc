@@ -20,3 +20,57 @@ table Pricing{
 table Error{
     error_message: string;
 }
+
+table FlowInterest{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    discount:float;
+    rate:float;
+    price:float;
+}
+
+table FlowInterestFloat{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    discount:float;
+    rate:float;
+    price:float;
+}
+
+table FlowPastInterestFloat{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    rate:float;
+}
+
+table FlowPastInterest{
+    amount:double;
+    fixing_date:string;
+    accrual_start_date:string;
+    accrual_end_date:string;
+    rate:float;
+}
+
+table FlowNotional{
+    date:string;
+    amount:double;
+    discount:float;
+    price:float;
+}
+
+union Flow { FlowInterest, FlowPastInterest, FlowNotional }
+//union FlowFloat { FlowInterestFloat, FlowPastInterestFloat, FlowNotional }
+
+table FlowsWrapper{
+    flow:Flow;
+}
+
+//table FlowsFloatWrapper{
+//    flow:FlowFloat;
+//}

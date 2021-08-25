@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
     int port = atoi(argv[2]);
 
-    QuantraClient base_client(connection, true);
+    QuantraClient base_client(connection, false);
 
     CROW_ROUTE(app, "/")
         .name("hello")([]
@@ -52,14 +52,31 @@ int main(int argc, char **argv)
                                     }
                                 });
 
-    // CROW_ROUTE(app, "/price-floating-rate-bond")
-    //     .methods("POST"_method)([&](const crow::request &req)
-    //                             {
-    //                                 auto response = client.PriceFloatingRateBondRequestJSON(req.body);
-    //                                 std::ostringstream os;
-    //                                 os << *response;
-    //                                 return crow::response{os.str()};
-    //                             });
+    CROW_ROUTE(app, "/price-floating-rate-bond")
+        .methods("POST"_method)([&](const crow::request &req)
+                                {
+                                    try
+                                    {
+                                        QuantraClient client(base_client.ReturnStub());
+                                        auto response = client.PriceFloatingRateBondRequestJSON(req.body);
+                                        if (response->ok)
+                                        {
+                                            std::ostringstream os;
+                                            os << *response->response_value;
+                                            return crow::response{os.str()};
+                                        }
+                                        else
+                                        {
+                                            std::ostringstream os;
+                                            os << *response->response_value;
+                                            return crow::response{500, os.str()};
+                                        }
+                                    }
+                                    catch (const std::exception &e)
+                                    {
+                                        return crow::response{500, e.what()};
+                                    }
+                                });
 
     app.loglevel(crow::LogLevel::DEBUG);
 

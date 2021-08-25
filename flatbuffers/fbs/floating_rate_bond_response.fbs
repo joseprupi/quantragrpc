@@ -1,37 +1,8 @@
+include "common.fbs";
+
 namespace quantra;
 
-table FlowInterest{
-    amount:double;
-    fixing_date:string;
-    accrual_start_date:string;
-    accrual_end_date:string;
-    discount:float;
-    rate:float;
-    price:float;
-}
-
-table FlowPastInterest{
-    amount:double;
-    fixing_date:string;
-    accrual_start_date:string;
-    accrual_end_date:string;
-    rate:float;
-}
-
-table FlowNotional{
-    date:string;
-    amount:double;
-    discount:float;
-    price:float;
-}
-
-union Flow { FlowInterest, FlowPastInterest, FlowNotional }
-
-table FlowsWrapper{
-    flow:Flow;
-}
-
-table FixedRateBondResponse{
+table FloatingRateBondResponse{
     npv:double;
     clean_price:double;
     dirty_price:double;
@@ -45,8 +16,8 @@ table FixedRateBondResponse{
     flows:[FlowsWrapper];
 }
 
-table PriceFixedRateBondResponse{
-    bonds:[FixedRateBondResponse];
+table PriceFloatingRateBondResponse{
+    bonds:[FloatingRateBondResponse];
 }
 
-root_type PriceFixedRateBondResponse;
+root_type PriceFloatingRateBondResponse;
