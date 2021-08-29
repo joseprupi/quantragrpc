@@ -42,7 +42,6 @@ public:
 
     std::shared_ptr<quantra::QuantraServer::Stub> ReturnStub() { return this->stub_; }
 
-private:
     struct AsyncClientCall
     {
 
@@ -64,10 +63,12 @@ template <class Struct, class Request, class Response>
 class QuantraCall
 {
 public:
-    QuantraCall(std::shared_ptr<quantra::QuantraServer::Stub> stub_, grpc::CompletionQueue cq_)
+    QuantraCall(std::shared_ptr<QuantraClient> client) : client(client)
     {
+        call = std::make_shared<AsyncClientCall>();
     }
-    virtual void PrepareAsync(std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<Response>>> response_reader, std::shared_ptr<quantra::QuantraServer::Stub> stub_) = 0;
+    virtual void PrepareAsync(std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<Response>>> response_reader,
+                              std::shared_ptr<quantra::QuantraServer::Stub> stub_) = 0;
     void Call(std::shared_ptr<Struct> request, int request_tag)
     {
         std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
@@ -75,9 +76,8 @@ public:
         auto bond_request = price_fixe_rate_bond_request_to_fbs(builder, request);
         builder->Finish(bond_request);
 
-        auto request_msg = builder->ReleaseMessage<Request>();
+        request_msg = builder->ReleaseMessage<Request>();
 
-        AsyncClientCall *call = new AsyncClientCall;
         call->request_pos = request_tag;
 
         call->response_reader =
@@ -137,14 +137,18 @@ protected:
         std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<Response>>> response_reader;
         bool json = false;
     };
+    std::shared_ptr<QuantraClient> client;
+    std::shared_ptr<AsyncClientCall> call;
+    flatbuffers::grpc::Message<Request> request_msg;
 };
 
-class PriceFixedRateBondData : public QuantraCall<quantra::PriceFixedRateBondRequest, structs::PriceFixedRateBondRequest, PriceFixedRateBondResponse>
+class PriceFixedRateBondData : public QuantraCall<structs::PriceFixedRateBondRequest,
+                                                  quantra::PriceFixedRateBondRequest,
+                                                  quantra::PriceFixedRateBondResponse>
 {
-    void PrepareAsync(std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<Response>>> response_reader, std::shared_ptr<quantra::QuantraServer::Stub> stub_)
+    void PrepareAsync(std::shared_ptr<quantra::QuantraServer::Stub> stub_)
     {
-        //std::unique_ptr< ::grpc::ClientAsyncResponseReader< flatbuffers::grpc::Message<PriceFixedRateBondResponse>>> PrepareAsyncPriceFixedRateBond(::grpc::ClientContext* context, const flatbuffers::grpc::Message<PriceFixedRateBondRequest>& request, ::grpc::CompletionQueue* cq) {
-        response_reader =
-            stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &cq_);
+        call->response_reader =
+            stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &client->cq_);
     }
 };
