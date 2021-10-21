@@ -10,7 +10,7 @@ using grpc::Status;
 #include <fstream>
 #include <streambuf>
 
-QuantraClient::QuantraClient(std::string addr, bool secured)
+QuantraClient::QuantraClient(std::string addr, bool secured) /* : fixed_rate_bond(new PriceFixedRateBondData(this)),*/
 {
     grpc::ChannelArguments ch_args;
     ch_args.SetMaxReceiveMessageSize(INT_MAX);
@@ -47,184 +47,28 @@ QuantraClient::QuantraClient(std::string addr, bool secured)
         addr, channel_creds, ch_args);
 
     this->stub_ = std::make_shared<quantra::QuantraServer::Stub>(channel);
+    this->init();
 }
 
 QuantraClient::QuantraClient(std::shared_ptr<quantra::QuantraServer::Stub> stub_)
 {
     this->stub_ = stub_;
+    this->init();
 }
 
-std::shared_ptr<json_response> QuantraClient::PriceFixedRateBondRequestJSON(std::string json)
+void QuantraClient::init()
 {
-    auto builder = this->json_parser->PriceFixedRateBondRequestToFBS(json);
-
-    this->json_responses.resize(1);
-    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, 1);
-
-    auto request_msg = builder->ReleaseMessage<quantra::PriceFixedRateBondRequest>();
-
-    AsyncClientCall *call = new AsyncClientCall;
-    call->json = true;
-    call->request_pos = 0;
-
-    call->response_reader =
-        stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &cq_);
-
-    call->response_reader->StartCall();
-
-    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
-
-    thread_.join();
-
-    return this->json_responses[0];
+    this->fixed_rate_bond = std::make_shared<PriceFixedRateBondData>(this->stub_);
 }
 
-void QuantraClient::PriceFixedRateBondRequestCall(std::shared_ptr<structs::PriceFixedRateBondRequest> request, int request_tag)
+std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>>
+QuantraClient::PriceFixedRateBond(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request)
 {
-    std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
-
-    auto bond_request = price_fixe_rate_bond_request_to_fbs(builder, request);
-    builder->Finish(bond_request);
-
-    auto request_msg = builder->ReleaseMessage<quantra::PriceFixedRateBondRequest>();
-
-    AsyncClientCall *call = new AsyncClientCall;
-    call->request_pos = request_tag;
-
-    call->response_reader =
-        stub_->PrepareAsyncPriceFixedRateBond(&call->context, request_msg, &cq_);
-
-    call->response_reader->StartCall();
-
-    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
+    return this->fixed_rate_bond->RequestCall(request);
 }
 
-void QuantraClient::PriceFixedRateBondRequest(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request)
+std::shared_ptr<json_response> QuantraClient::PriceFixedRateBondJSON(std::string json)
 {
-    this->responses.resize(request.size());
-    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, request.size());
-
-    int request_tag = 0;
-    for (auto it = request.begin(); it != request.end(); it++)
-    {
-        this->PriceFixedRateBondRequestCall(*it, request_tag);
-        request_tag += 1;
-    }
-
-    thread_.join();
-}
-
-std::shared_ptr<json_response> QuantraClient::PriceFloatingRateBondRequestJSON(std::string json)
-{
-    auto builder = this->json_parser->PriceFloatingRateBondRequestToFBS(json);
-
-    this->json_responses.resize(1);
-    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, 1);
-
-    auto request_msg = builder->ReleaseMessage<quantra::PriceFloatingRateBondRequest>();
-
-    AsyncClientCall *call = new AsyncClientCall;
-    call->json = true;
-    call->request_pos = 0;
-
-    call->response_reader =
-        stub_->PrepareAsyncPriceFloatingRateBond(&call->context, request_msg, &cq_);
-
-    call->response_reader->StartCall();
-
-    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
-
-    thread_.join();
-
-    return this->json_responses[0];
-}
-
-void QuantraClient::PriceFloatingRateBondRequestCall(std::shared_ptr<structs::PriceFloatingRateBondRequest> request, int request_tag)
-{
-    std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
-
-    auto bond_request = price_floating_rate_bond_request_to_fbs(builder, request);
-    builder->Finish(bond_request);
-
-    auto request_msg = builder->ReleaseMessage<quantra::PriceFloatingRateBondRequest>();
-
-    AsyncClientCall *call = new AsyncClientCall;
-    call->request_pos = request_tag;
-
-    call->response_reader =
-        stub_->PrepareAsyncPriceFloatingRateBond(&call->context, request_msg, &cq_);
-
-    call->response_reader->StartCall();
-
-    call->response_reader->Finish(&call->reply, &call->status, (void *)call);
-}
-
-void QuantraClient::PriceFloatingRateBondRequest(std::vector<std::shared_ptr<structs::PriceFloatingRateBondRequest>> request)
-{
-    this->responses.resize(request.size());
-    std::thread thread_ = std::thread(&QuantraClient::AsyncCompleteRpc, this, request.size());
-
-    int request_tag = 0;
-    for (auto it = request.begin(); it != request.end(); it++)
-    {
-        this->PriceFloatingRateBondRequestCall(*it, request_tag);
-        request_tag += 1;
-    }
-
-    thread_.join();
-}
-
-void QuantraClient::AsyncCompleteRpc(int request_size)
-{
-    void *got_tag;
-    bool ok = false;
-
-    int req_count = 0;
-
-    while (cq_.Next(&got_tag, &ok))
-    {
-        AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
-
-        GPR_ASSERT(ok);
-
-        int position = call->request_pos;
-        if (call->status.ok())
-        {
-            const quantra::PriceFixedRateBondResponse *response = call->reply.GetRoot();
-
-            if (call->json)
-            {
-                json_response response;
-                response.response_value = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
-                response.ok = true;
-                this->json_responses[position] = std::make_shared<json_response>(response);
-            }
-            else
-            {
-                auto quantra_response = price_fixed_rate_bond_response_to_quantra(response);
-                this->responses.at(position) = quantra_response;
-            }
-        }
-        else
-        {
-            std::string error_message = "Error when calling RPC method. \n";
-            error_message.append("RPC code: " + std::to_string(call->status.error_code()) + '\n');
-            error_message.append("RPC message: " + call->status.error_message() + '\n');
-            error_message.append("Error details: " + call->status.error_details() + '\n');
-
-            if (call->json)
-            {
-                json_response response;
-                response.response_value = std::make_shared<std::string>(error_message);
-                response.ok = false;
-                this->json_responses[position] = std::make_shared<json_response>(response);
-            }
-        }
-
-        delete call;
-
-        req_count += 1;
-        if (req_count == request_size)
-            break;
-    }
+    //this->fixed_rate_bond = std::make_shared<PriceFixedRateBondData>(this->stub_);
+    return this->fixed_rate_bond->JSONRequest(json);
 }

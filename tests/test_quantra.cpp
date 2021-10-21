@@ -105,11 +105,25 @@ int main(int argc, char **argv)
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    client->PriceFixedRateBondRequest(requests);
+    //auto responses = client->PriceFixedRateBond(requests);
+    auto responses = client->PriceFixedRateBond(requests);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     std::cout << "Quantra Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+
+    int size1 = responses.size();
+    int size2 = 0;
+    for (auto it = responses.begin(); it != responses.end(); it++)
+    {
+        size2 = (*it)->size();
+        for (auto it2 = (*it)->begin(); it2 != (*it)->end(); it2++)
+        {
+            total_quantra_npv += (*it2)->npv;
+        }
+    }
+
+    std::cout << "Quantra NPV = " << total_quantra_npv << std::endl;
 
     delete client;
 

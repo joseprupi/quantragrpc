@@ -1,3 +1,6 @@
+#ifndef JSON_TO_FBS_H
+#define JSON_TO_FBS_H
+
 #include <string>
 #include <memory>
 
@@ -10,6 +13,12 @@
 #define FIXED_RATE_BOND_RESPONSE_PATH "/root/quantragrpc/flatbuffers/fbs/fixed_rate_bond_response.fbs"
 #define FLOATING_RATE_BOND_REQUEST_PATH "/root/quantragrpc/flatbuffers/fbs/price_floating_rate_bond_request.fbs"
 #define FLOATING_RATE_BOND_RESPONSE_PATH "/root/quantragrpc/flatbuffers/fbs/floating_rate_bond_response.fbs"
+
+struct json_response
+{
+    bool ok;
+    std::shared_ptr<std::string> response_value;
+};
 
 class JSONParser
 {
@@ -30,3 +39,5 @@ private:
 
     void LoadFBS();
 };
+
+#endif

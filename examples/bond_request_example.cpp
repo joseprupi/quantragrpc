@@ -25,7 +25,9 @@ int main(int argc, char **argv)
     for (int i = 0; i < n; i++)
         requests.push_back(bond_pricing_request);
 
-    client.PriceFixedRateBondRequest(requests);
+    // PriceFixedRateBondData request_data;
+    // request_data.RequestCall(requests);
+    client.PriceFixedRateBond(requests);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 

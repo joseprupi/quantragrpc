@@ -80,14 +80,14 @@ int main(int argc, char **argv)
         requests.push_back(request);
     }
 
-    client.PriceFixedRateBondRequest(requests);
+    auto responses = client.PriceFixedRateBond(requests);
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     std::cout << "Quantra Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
-    int size1 = client.responses.size();
+    int size1 = responses.size();
     int size2 = 0;
-    for (auto it = client.responses.begin(); it != client.responses.end(); it++)
+    for (auto it = responses.begin(); it != responses.end(); it++)
     {
         size2 = (*it)->size();
         for (auto it2 = (*it)->begin(); it2 != (*it)->end(); it2++)
