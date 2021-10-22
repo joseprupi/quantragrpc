@@ -8,7 +8,7 @@ include_directories(${CMAKE_SOURCE_DIR}/grpc
 file(GLOB SYNC_SOURCES  ${CMAKE_SOURCE_DIR}/parser/*.cpp
                         ${CMAKE_SOURCE_DIR}/common/*.cpp
                         ${CMAKE_SOURCE_DIR}/request/*.cpp  
-                        ./sync_server.cpp)
+                        ./*.cpp)
 
 
 link_directories(/root/grpc/install/lib/)

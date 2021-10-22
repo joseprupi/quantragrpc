@@ -71,6 +71,7 @@ private:
                 std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
                 try
                 {
+                    this->CreateService(service_, cq_);
                     Request request;
                     auto response = request.request(builder, request_msg.GetRoot());
                     builder->Finish(response);
@@ -147,6 +148,7 @@ private:
         }
 
         virtual void RequestCall() = 0;
+        virtual void CreateService(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq) = 0;
 
     protected:
         QuantraServer::AsyncService *service_;
@@ -178,6 +180,11 @@ private:
         {
             service_->RequestPriceFixedRateBond(&this->ctx_, &this->request_msg, &this->responder_, this->cq_, this->cq_, this);
         }
+        void CreateService(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
+        {
+            auto price_fixed_bonds = new PriceFixedRateBondData(service_, cq_);
+            price_fixed_bonds->start();
+        }
     };
 
     class PriceFloatingRateBondData : public CallDataGeneric<quantra::PriceFloatingRateBondRequest, FloatingRateBondPricingRequest, PriceFloatingRateBondResponse, PriceFloatingRateBondResponseBuilder>
@@ -191,6 +198,11 @@ private:
         {
             service_->RequestPriceFloatingRateBond(&this->ctx_, &this->request_msg, &this->responder_, this->cq_, this->cq_, this);
         }
+        void CreateService(QuantraServer::AsyncService *service, grpc::ServerCompletionQueue *cq)
+        {
+            auto price_floating_bonds = new PriceFloatingRateBondData(service_, cq_);
+            price_floating_bonds->start();
+        }
     };
 
     void
@@ -200,11 +212,10 @@ private:
         void *tag;
         bool ok;
 
-        PriceFixedRateBondData *fixed_bonds = new PriceFixedRateBondData(&service_, cq_.get());
-        fixed_bonds->start();
-
-        PriceFloatingRateBondData *floating_bonds = new PriceFloatingRateBondData(&service_, cq_.get());
-        floating_bonds->start();
+        auto price_fixed_bonds = new PriceFixedRateBondData(&service_, cq_.get());
+        price_fixed_bonds->start();
+        auto price_floating_bonds = new PriceFloatingRateBondData(&service_, cq_.get());
+        price_floating_bonds->start();
 
         while (true)
         {

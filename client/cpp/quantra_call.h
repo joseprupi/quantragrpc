@@ -26,7 +26,7 @@ template <class RequestStruct, class Request, class ResponseStruct, class Respon
 class QuantraCall
 {
 public:
-    struct AsyncClientCall
+        struct AsyncClientCall
     {
 
         flatbuffers::grpc::Message<Response> reply;
@@ -37,6 +37,7 @@ public:
         std::unique_ptr<grpc::ClientAsyncResponseReader<flatbuffers::grpc::Message<Response>>> response_reader;
         bool json = false;
     };
+
     QuantraCall(std::shared_ptr<quantra::QuantraServer::Stub> stub_)
     {
         this->stub_ = stub_;
