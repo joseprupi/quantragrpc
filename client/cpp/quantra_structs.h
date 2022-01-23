@@ -21,7 +21,7 @@ namespace structs
     struct Point;
     struct TermStructure;
     struct FixedRateBond;
-    struct FloatingRateBond;
+    // struct FloatingRateBond;
     struct PriceFixedRateBond;
     struct PriceFixedRateBondRequest;
 
@@ -180,6 +180,19 @@ namespace structs
         std::shared_ptr<Schedule> schedule;
     };
 
+    struct PriceFixedRateBond
+    {
+        std::shared_ptr<FixedRateBond> fixed_rate_bond;
+        char discounting_curve[11];
+        std::shared_ptr<Yield> yield;
+    };
+
+    struct PriceFixedRateBondRequest
+    {
+        std::shared_ptr<structs::Pricing> pricing;
+        std::vector<std::shared_ptr<structs::PriceFixedRateBond>> bonds;
+    };
+
     struct FloatingRateBond
     {
         int settlement_days;
@@ -193,19 +206,6 @@ namespace structs
         bool in_arrears;
         double redemption;
         std::string issue_date;
-    };
-
-    struct PriceFixedRateBond
-    {
-        std::shared_ptr<FixedRateBond> fixed_rate_bond;
-        char discounting_curve[11];
-        std::shared_ptr<Yield> yield;
-    };
-
-    struct PriceFixedRateBondRequest
-    {
-        std::shared_ptr<Pricing> pricing;
-        std::vector<std::shared_ptr<structs::PriceFixedRateBond>> bonds;
     };
 
     struct PriceFloatingRateBond
@@ -232,6 +232,16 @@ namespace structs
         std::vector<std::shared_ptr<PriceFixedRateBondValues>> price;
     };
 
+    struct PriceFloatingRateBondValues
+    {
+        float npv;
+    };
+
+    struct PriceFloatingRateBondResponse
+    {
+        std::vector<std::shared_ptr<PriceFloatingRateBondValues>> price;
+    };
+
 }
 
-#endif //QUANTRA_STRUCTS_H
+#endif // QUANTRA_STRUCTS_H

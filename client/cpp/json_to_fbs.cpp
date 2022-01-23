@@ -12,7 +12,7 @@ std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser::PriceFixedRateBon
     return std::make_shared<flatbuffers::grpc::MessageBuilder>(std::move(this->price_fixed_rate_bond_parser->builder_));
 }
 
-std::shared_ptr<std::string> JSONParser::PriceFixedRateBondResponseToJSON(const uint8_t *buffer)
+std::shared_ptr<std::string> JSONParser::  PriceFixedRateBondResponseToJSON(const uint8_t *buffer)
 {
     std::string jsongen;
     if (!GenerateText((*this->fixed_rate_bond_response_parser), buffer, &jsongen))

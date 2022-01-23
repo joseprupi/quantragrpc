@@ -32,7 +32,6 @@ int main(int argc, char **argv)
                                     try
                                     {
                                         auto client = std::make_shared<QuantraClient>(base_client.ReturnStub());
-                                        //QuantraClient client(base_client.ReturnStub());
                                         auto response = client->PriceFixedRateBondJSON(req.body);
                                         if (response->ok)
                                         {
@@ -58,8 +57,8 @@ int main(int argc, char **argv)
                                 {
                                     try
                                     {
-                                        QuantraClient client(base_client.ReturnStub());
-                                        auto response = client.PriceFixedRateBondJSON(req.body);
+                                        auto client = std::make_shared<QuantraClient>(base_client.ReturnStub());
+                                        auto response = client->PriceFixedRateBondJSON(req.body);
                                         if (response->ok)
                                         {
                                             std::ostringstream os;

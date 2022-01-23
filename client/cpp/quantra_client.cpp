@@ -66,7 +66,6 @@ QuantraClient::PriceFixedRateBond(std::vector<std::shared_ptr<structs::PriceFixe
 {
     return this->fixed_rate_bond->RequestCall(request);
 }
-
 std::shared_ptr<json_response> QuantraClient::PriceFixedRateBondJSON(std::string json)
 {
     //this->fixed_rate_bond = std::make_shared<PriceFixedRateBondData>(this->stub_);

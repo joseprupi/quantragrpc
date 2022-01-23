@@ -279,6 +279,57 @@ flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond_to_fbs(std::shared_p
 
     return fixed_rate_bond_builder.Finish();
 }
+flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixed_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::PriceFixedRateBond> price_bond)
+{
+    flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond;
+
+    if (price_bond->fixed_rate_bond != NULL)
+        fixed_rate_bond = fixed_rate_bond_to_fbs(builder, price_bond->fixed_rate_bond);
+
+    auto discounting_curve = builder->CreateString(price_bond->discounting_curve);
+
+    flatbuffers::Offset<quantra::Yield> yield;
+
+    if (price_bond->yield != NULL)
+        yield = yield_to_fbs(builder, price_bond->yield);
+
+    auto price_fixed_rate_bond_builder = quantra::PriceFixedRateBondBuilder(*builder);
+
+    if (price_bond->fixed_rate_bond != NULL)
+        price_fixed_rate_bond_builder.add_fixed_rate_bond(fixed_rate_bond);
+
+    price_fixed_rate_bond_builder.add_discounting_curve(discounting_curve);
+
+    if (price_bond->yield != NULL)
+        price_fixed_rate_bond_builder.add_yield(yield);
+
+    return price_fixed_rate_bond_builder.Finish();
+}
+flatbuffers::Offset<quantra::PriceFixedRateBondRequest> price_fixed_rate_bond_request_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::PriceFixedRateBondRequest> price_bond)
+{
+    flatbuffers::Offset<quantra::Pricing> pricing;
+
+    if (price_bond->pricing != nullptr)
+        pricing = pricing_to_fbs(builder, price_bond->pricing);
+
+    std::vector<flatbuffers::Offset<quantra::PriceFixedRateBond>> price_fixed_rate_bond_vector;
+
+    for (auto it = price_bond->bonds.begin(); it < price_bond->bonds.end(); it++)
+    {
+        auto price_fixed_rate_bond = price_fixed_rate_bond_to_fbs(builder, *it);
+        price_fixed_rate_bond_vector.push_back(price_fixed_rate_bond);
+    }
+
+    auto bonds = builder->CreateVector(price_fixed_rate_bond_vector);
+    auto price_fixed_rate_bond_request_builder = quantra::PriceFixedRateBondRequestBuilder(*builder);
+
+    if (price_bond->pricing != NULL)
+        price_fixed_rate_bond_request_builder.add_pricing(pricing);
+
+    price_fixed_rate_bond_request_builder.add_bonds(bonds);
+
+    return price_fixed_rate_bond_request_builder.Finish();
+}
 
 flatbuffers::Offset<quantra::FloatingRateBond> floating_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::FloatingRateBond> floating_rate_bond)
 {
@@ -313,59 +364,6 @@ flatbuffers::Offset<quantra::FloatingRateBond> floating_rate_bond_to_fbs(std::sh
     floating_rate_bond_builder.add_issue_date(issue_date);
 
     return floating_rate_bond_builder.Finish();
-}
-
-flatbuffers::Offset<quantra::PriceFixedRateBond> price_fixe_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::PriceFixedRateBond> price_bond)
-{
-    flatbuffers::Offset<quantra::FixedRateBond> fixed_rate_bond;
-
-    if (price_bond->fixed_rate_bond != NULL)
-        fixed_rate_bond = fixed_rate_bond_to_fbs(builder, price_bond->fixed_rate_bond);
-
-    auto discounting_curve = builder->CreateString(price_bond->discounting_curve);
-
-    flatbuffers::Offset<quantra::Yield> yield;
-
-    if (price_bond->yield != NULL)
-        yield = yield_to_fbs(builder, price_bond->yield);
-
-    auto price_fixed_rate_bond_builder = quantra::PriceFixedRateBondBuilder(*builder);
-
-    if (price_bond->fixed_rate_bond != NULL)
-        price_fixed_rate_bond_builder.add_fixed_rate_bond(fixed_rate_bond);
-
-    price_fixed_rate_bond_builder.add_discounting_curve(discounting_curve);
-
-    if (price_bond->yield != NULL)
-        price_fixed_rate_bond_builder.add_yield(yield);
-
-    return price_fixed_rate_bond_builder.Finish();
-}
-
-flatbuffers::Offset<quantra::PriceFixedRateBondRequest> price_fixe_rate_bond_request_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::PriceFixedRateBondRequest> price_bond)
-{
-    flatbuffers::Offset<quantra::Pricing> pricing;
-
-    if (price_bond->pricing != nullptr)
-        pricing = pricing_to_fbs(builder, price_bond->pricing);
-
-    std::vector<flatbuffers::Offset<quantra::PriceFixedRateBond>> price_fixed_rate_bond_vector;
-
-    for (auto it = price_bond->bonds.begin(); it < price_bond->bonds.end(); it++)
-    {
-        auto price_fixed_rate_bond = price_fixe_rate_bond_to_fbs(builder, *it);
-        price_fixed_rate_bond_vector.push_back(price_fixed_rate_bond);
-    }
-
-    auto bonds = builder->CreateVector(price_fixed_rate_bond_vector);
-    auto price_fixed_rate_bond_request_builder = quantra::PriceFixedRateBondRequestBuilder(*builder);
-
-    if (price_bond->pricing != NULL)
-        price_fixed_rate_bond_request_builder.add_pricing(pricing);
-
-    price_fixed_rate_bond_request_builder.add_bonds(bonds);
-
-    return price_fixed_rate_bond_request_builder.Finish();
 }
 
 flatbuffers::Offset<quantra::PriceFloatingRateBond> price_floating_rate_bond_to_fbs(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, const std::shared_ptr<const structs::PriceFloatingRateBond> price_bond)

@@ -26,7 +26,7 @@ template <class RequestStruct, class Request, class ResponseStruct, class Respon
 class QuantraCall
 {
 public:
-        struct AsyncClientCall
+    struct AsyncClientCall
     {
 
         flatbuffers::grpc::Message<Response> reply;
@@ -100,12 +100,12 @@ public:
 
     virtual void PrepareAsync(AsyncClientCall *call) = 0;
     virtual std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser_(std::string json_str) = 0;
-    virtual flatbuffers::Offset<quantra::PriceFixedRateBondRequest> QuantraToFBS(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, std::shared_ptr<RequestStruct> struct_request) = 0;
+    virtual flatbuffers::Offset<Request> QuantraToFBS(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, std::shared_ptr<RequestStruct> struct_request) = 0;
     virtual std::shared_ptr<std::vector<std::shared_ptr<ResponseStruct>>> FBSToQuantra(const Response *response) = 0;
 
     void Call(std::shared_ptr<RequestStruct> request, int request_tag)
     {
-        //this->call = new AsyncClientCall;
+        // this->call = new AsyncClientCall;
         AsyncClientCall *call = new AsyncClientCall;
         std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder = std::make_shared<flatbuffers::grpc::MessageBuilder>();
         auto bond_request = this->QuantraToFBS(builder, request);
@@ -181,6 +181,22 @@ public:
                                                                          std::shared_ptr<structs::PriceFixedRateBondRequest> request_struct);
     void PrepareAsync(AsyncClientCall *call);
     std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>> FBSToQuantra(const quantra::PriceFixedRateBondResponse *response);
+};
+
+class PriceFloatingRateBondData : public QuantraCall<structs::PriceFloatingRateBondRequest,
+                                                     quantra::PriceFloatingRateBondRequest,
+                                                     structs::PriceFloatingRateBondValues,
+                                                     quantra::PriceFloatingRateBondResponse>
+{
+
+public:
+    PriceFloatingRateBondData(std::shared_ptr<quantra::QuantraServer::Stub> stub_) : QuantraCall(stub_){};
+    std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser_(std::string json_str);
+    flatbuffers::Offset<quantra::PriceFloatingRateBondRequest> QuantraToFBS(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder,
+                                                                            std::shared_ptr<structs::PriceFloatingRateBondRequest> request_struct);
+    void PrepareAsync(AsyncClientCall *call);
+    std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFloatingRateBondValues>>> FBSToQuantra(const quantra::PriceFloatingRateBondResponse *response);
+    // this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
 };
 
 #endif

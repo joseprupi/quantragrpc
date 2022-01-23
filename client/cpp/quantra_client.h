@@ -20,6 +20,7 @@
 #include "floating_rate_bond_response_generated.h"
 
 class PriceFixedRateBondData;
+class PriceFloatingRateBondData;
 
 class QuantraClient
 {
@@ -35,9 +36,12 @@ public:
     std::shared_ptr<quantra::QuantraServer::Stub> stub_;
 
     std::shared_ptr<PriceFixedRateBondData> fixed_rate_bond;
-    std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>>
-    PriceFixedRateBond(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
+    std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>> PriceFixedRateBond(std::vector<std::shared_ptr<structs::PriceFixedRateBondRequest>> request);
     std::shared_ptr<json_response> PriceFixedRateBondJSON(std::string json);
+
+    std::shared_ptr<PriceFloatingRateBondData> floating_rate_bond;
+    std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFloatingRateBondValues>>>> PriceFloatingRateBond(std::vector<std::shared_ptr<structs::PriceFloatingRateBondRequest>> request);
+    std::shared_ptr<json_response> PriceFloatingRateBondJSON(std::string json);
 };
 
 #endif

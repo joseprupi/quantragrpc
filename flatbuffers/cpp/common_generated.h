@@ -14,30 +14,39 @@ namespace quantra {
 
 struct Yield;
 struct YieldBuilder;
+struct YieldT;
 
 struct Pricing;
 struct PricingBuilder;
+struct PricingT;
 
 struct Error;
 struct ErrorBuilder;
+struct ErrorT;
 
 struct FlowInterest;
 struct FlowInterestBuilder;
+struct FlowInterestT;
 
 struct FlowInterestFloat;
 struct FlowInterestFloatBuilder;
+struct FlowInterestFloatT;
 
 struct FlowPastInterestFloat;
 struct FlowPastInterestFloatBuilder;
+struct FlowPastInterestFloatT;
 
 struct FlowPastInterest;
 struct FlowPastInterestBuilder;
+struct FlowPastInterestT;
 
 struct FlowNotional;
 struct FlowNotionalBuilder;
+struct FlowNotionalT;
 
 struct FlowsWrapper;
 struct FlowsWrapperBuilder;
+struct FlowsWrapperT;
 
 enum Flow : uint8_t {
   Flow_NONE = 0,
@@ -91,10 +100,76 @@ template<> struct FlowTraits<quantra::FlowNotional> {
   static const Flow enum_value = Flow_FlowNotional;
 };
 
+struct FlowUnion {
+  Flow type;
+  void *value;
+
+  FlowUnion() : type(Flow_NONE), value(nullptr) {}
+  FlowUnion(FlowUnion&& u) FLATBUFFERS_NOEXCEPT :
+    type(Flow_NONE), value(nullptr)
+    { std::swap(type, u.type); std::swap(value, u.value); }
+  FlowUnion(const FlowUnion &);
+  FlowUnion &operator=(const FlowUnion &u)
+    { FlowUnion t(u); std::swap(type, t.type); std::swap(value, t.value); return *this; }
+  FlowUnion &operator=(FlowUnion &&u) FLATBUFFERS_NOEXCEPT
+    { std::swap(type, u.type); std::swap(value, u.value); return *this; }
+  ~FlowUnion() { Reset(); }
+
+  void Reset();
+
+#ifndef FLATBUFFERS_CPP98_STL
+  template <typename T>
+  void Set(T&& val) {
+    using RT = typename std::remove_reference<T>::type;
+    Reset();
+    type = FlowTraits<typename RT::TableType>::enum_value;
+    if (type != Flow_NONE) {
+      value = new RT(std::forward<T>(val));
+    }
+  }
+#endif  // FLATBUFFERS_CPP98_STL
+
+  static void *UnPack(const void *obj, Flow type, const flatbuffers::resolver_function_t *resolver);
+  flatbuffers::Offset<void> Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher = nullptr) const;
+
+  quantra::FlowInterestT *AsFlowInterest() {
+    return type == Flow_FlowInterest ?
+      reinterpret_cast<quantra::FlowInterestT *>(value) : nullptr;
+  }
+  const quantra::FlowInterestT *AsFlowInterest() const {
+    return type == Flow_FlowInterest ?
+      reinterpret_cast<const quantra::FlowInterestT *>(value) : nullptr;
+  }
+  quantra::FlowPastInterestT *AsFlowPastInterest() {
+    return type == Flow_FlowPastInterest ?
+      reinterpret_cast<quantra::FlowPastInterestT *>(value) : nullptr;
+  }
+  const quantra::FlowPastInterestT *AsFlowPastInterest() const {
+    return type == Flow_FlowPastInterest ?
+      reinterpret_cast<const quantra::FlowPastInterestT *>(value) : nullptr;
+  }
+  quantra::FlowNotionalT *AsFlowNotional() {
+    return type == Flow_FlowNotional ?
+      reinterpret_cast<quantra::FlowNotionalT *>(value) : nullptr;
+  }
+  const quantra::FlowNotionalT *AsFlowNotional() const {
+    return type == Flow_FlowNotional ?
+      reinterpret_cast<const quantra::FlowNotionalT *>(value) : nullptr;
+  }
+};
+
 bool VerifyFlow(flatbuffers::Verifier &verifier, const void *obj, Flow type);
 bool VerifyFlowVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types);
 
+struct YieldT : public flatbuffers::NativeTable {
+  typedef Yield TableType;
+  quantra::enums::DayCounter day_counter = quantra::enums::DayCounter_Actual360;
+  quantra::enums::Compounding compounding = quantra::enums::Compounding_Compounded;
+  quantra::enums::Frequency frequency = quantra::enums::Frequency_Annual;
+};
+
 struct Yield FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef YieldT NativeTableType;
   typedef YieldBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_DAY_COUNTER = 4,
@@ -117,6 +192,9 @@ struct Yield FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int8_t>(verifier, VT_FREQUENCY) &&
            verifier.EndTable();
   }
+  YieldT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(YieldT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Yield> Pack(flatbuffers::FlatBufferBuilder &_fbb, const YieldT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct YieldBuilder {
@@ -155,7 +233,19 @@ inline flatbuffers::Offset<Yield> CreateYield(
   return builder_.Finish();
 }
 
+flatbuffers::Offset<Yield> CreateYield(flatbuffers::FlatBufferBuilder &_fbb, const YieldT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PricingT : public flatbuffers::NativeTable {
+  typedef Pricing TableType;
+  std::string as_of_date{};
+  std::string settlement_date{};
+  std::vector<std::unique_ptr<quantra::TermStructureT>> curves{};
+  bool bond_pricing_details = false;
+  bool bond_pricing_flows = false;
+};
+
 struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PricingT NativeTableType;
   typedef PricingBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AS_OF_DATE = 4,
@@ -192,6 +282,9 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<uint8_t>(verifier, VT_BOND_PRICING_FLOWS) &&
            verifier.EndTable();
   }
+  PricingT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PricingT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Pricing> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PricingT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct PricingBuilder {
@@ -259,7 +352,15 @@ inline flatbuffers::Offset<Pricing> CreatePricingDirect(
       bond_pricing_flows);
 }
 
+flatbuffers::Offset<Pricing> CreatePricing(flatbuffers::FlatBufferBuilder &_fbb, const PricingT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ErrorT : public flatbuffers::NativeTable {
+  typedef Error TableType;
+  std::string error_message{};
+};
+
 struct Error FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ErrorT NativeTableType;
   typedef ErrorBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ERROR_MESSAGE = 4
@@ -273,6 +374,9 @@ struct Error FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyString(error_message()) &&
            verifier.EndTable();
   }
+  ErrorT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ErrorT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Error> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ErrorT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct ErrorBuilder {
@@ -310,7 +414,21 @@ inline flatbuffers::Offset<Error> CreateErrorDirect(
       error_message__);
 }
 
+flatbuffers::Offset<Error> CreateError(flatbuffers::FlatBufferBuilder &_fbb, const ErrorT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowInterestT : public flatbuffers::NativeTable {
+  typedef FlowInterest TableType;
+  double amount = 0.0;
+  std::string fixing_date{};
+  std::string accrual_start_date{};
+  std::string accrual_end_date{};
+  float discount = 0.0f;
+  float rate = 0.0f;
+  float price = 0.0f;
+};
+
 struct FlowInterest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowInterestT NativeTableType;
   typedef FlowInterestBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AMOUNT = 4,
@@ -356,6 +474,9 @@ struct FlowInterest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_PRICE) &&
            verifier.EndTable();
   }
+  FlowInterestT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowInterestT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowInterest> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FlowInterestBuilder {
@@ -437,7 +558,21 @@ inline flatbuffers::Offset<FlowInterest> CreateFlowInterestDirect(
       price);
 }
 
+flatbuffers::Offset<FlowInterest> CreateFlowInterest(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowInterestFloatT : public flatbuffers::NativeTable {
+  typedef FlowInterestFloat TableType;
+  double amount = 0.0;
+  std::string fixing_date{};
+  std::string accrual_start_date{};
+  std::string accrual_end_date{};
+  float discount = 0.0f;
+  float rate = 0.0f;
+  float price = 0.0f;
+};
+
 struct FlowInterestFloat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowInterestFloatT NativeTableType;
   typedef FlowInterestFloatBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AMOUNT = 4,
@@ -483,6 +618,9 @@ struct FlowInterestFloat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_PRICE) &&
            verifier.EndTable();
   }
+  FlowInterestFloatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowInterestFloatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowInterestFloat> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestFloatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FlowInterestFloatBuilder {
@@ -564,7 +702,19 @@ inline flatbuffers::Offset<FlowInterestFloat> CreateFlowInterestFloatDirect(
       price);
 }
 
+flatbuffers::Offset<FlowInterestFloat> CreateFlowInterestFloat(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestFloatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowPastInterestFloatT : public flatbuffers::NativeTable {
+  typedef FlowPastInterestFloat TableType;
+  double amount = 0.0;
+  std::string fixing_date{};
+  std::string accrual_start_date{};
+  std::string accrual_end_date{};
+  float rate = 0.0f;
+};
+
 struct FlowPastInterestFloat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowPastInterestFloatT NativeTableType;
   typedef FlowPastInterestFloatBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AMOUNT = 4,
@@ -600,6 +750,9 @@ struct FlowPastInterestFloat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tabl
            VerifyField<float>(verifier, VT_RATE) &&
            verifier.EndTable();
   }
+  FlowPastInterestFloatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowPastInterestFloatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowPastInterestFloat> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestFloatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FlowPastInterestFloatBuilder {
@@ -667,7 +820,19 @@ inline flatbuffers::Offset<FlowPastInterestFloat> CreateFlowPastInterestFloatDir
       rate);
 }
 
+flatbuffers::Offset<FlowPastInterestFloat> CreateFlowPastInterestFloat(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestFloatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowPastInterestT : public flatbuffers::NativeTable {
+  typedef FlowPastInterest TableType;
+  double amount = 0.0;
+  std::string fixing_date{};
+  std::string accrual_start_date{};
+  std::string accrual_end_date{};
+  float rate = 0.0f;
+};
+
 struct FlowPastInterest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowPastInterestT NativeTableType;
   typedef FlowPastInterestBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_AMOUNT = 4,
@@ -703,6 +868,9 @@ struct FlowPastInterest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_RATE) &&
            verifier.EndTable();
   }
+  FlowPastInterestT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowPastInterestT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowPastInterest> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FlowPastInterestBuilder {
@@ -770,7 +938,18 @@ inline flatbuffers::Offset<FlowPastInterest> CreateFlowPastInterestDirect(
       rate);
 }
 
+flatbuffers::Offset<FlowPastInterest> CreateFlowPastInterest(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowNotionalT : public flatbuffers::NativeTable {
+  typedef FlowNotional TableType;
+  std::string date{};
+  double amount = 0.0;
+  float discount = 0.0f;
+  float price = 0.0f;
+};
+
 struct FlowNotional FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowNotionalT NativeTableType;
   typedef FlowNotionalBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_DATE = 4,
@@ -799,6 +978,9 @@ struct FlowNotional FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_PRICE) &&
            verifier.EndTable();
   }
+  FlowNotionalT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowNotionalT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowNotional> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowNotionalT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FlowNotionalBuilder {
@@ -857,7 +1039,15 @@ inline flatbuffers::Offset<FlowNotional> CreateFlowNotionalDirect(
       price);
 }
 
+flatbuffers::Offset<FlowNotional> CreateFlowNotional(flatbuffers::FlatBufferBuilder &_fbb, const FlowNotionalT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct FlowsWrapperT : public flatbuffers::NativeTable {
+  typedef FlowsWrapper TableType;
+  quantra::FlowUnion flow{};
+};
+
 struct FlowsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FlowsWrapperT NativeTableType;
   typedef FlowsWrapperBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_FLOW_TYPE = 4,
@@ -886,6 +1076,9 @@ struct FlowsWrapper FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyFlow(verifier, flow(), flow_type()) &&
            verifier.EndTable();
   }
+  FlowsWrapperT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FlowsWrapperT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FlowsWrapper> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowsWrapperT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 template<> inline const quantra::FlowInterest *FlowsWrapper::flow_as<quantra::FlowInterest>() const {
@@ -931,6 +1124,332 @@ inline flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(
   return builder_.Finish();
 }
 
+flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(flatbuffers::FlatBufferBuilder &_fbb, const FlowsWrapperT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline YieldT *Yield::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<YieldT>(new YieldT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Yield::UnPackTo(YieldT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = day_counter(); _o->day_counter = _e; }
+  { auto _e = compounding(); _o->compounding = _e; }
+  { auto _e = frequency(); _o->frequency = _e; }
+}
+
+inline flatbuffers::Offset<Yield> Yield::Pack(flatbuffers::FlatBufferBuilder &_fbb, const YieldT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateYield(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<Yield> CreateYield(flatbuffers::FlatBufferBuilder &_fbb, const YieldT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const YieldT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _day_counter = _o->day_counter;
+  auto _compounding = _o->compounding;
+  auto _frequency = _o->frequency;
+  return quantra::CreateYield(
+      _fbb,
+      _day_counter,
+      _compounding,
+      _frequency);
+}
+
+inline PricingT *Pricing::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<PricingT>(new PricingT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Pricing::UnPackTo(PricingT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = as_of_date(); if (_e) _o->as_of_date = _e->str(); }
+  { auto _e = settlement_date(); if (_e) _o->settlement_date = _e->str(); }
+  { auto _e = curves(); if (_e) { _o->curves.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->curves[_i]) { _e->Get(_i)->UnPackTo(_o->curves[_i].get(), _resolver); } else { _o->curves[_i] = std::unique_ptr<quantra::TermStructureT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
+  { auto _e = bond_pricing_details(); _o->bond_pricing_details = _e; }
+  { auto _e = bond_pricing_flows(); _o->bond_pricing_flows = _e; }
+}
+
+inline flatbuffers::Offset<Pricing> Pricing::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PricingT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePricing(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<Pricing> CreatePricing(flatbuffers::FlatBufferBuilder &_fbb, const PricingT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PricingT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _as_of_date = _o->as_of_date.empty() ? 0 : _fbb.CreateString(_o->as_of_date);
+  auto _settlement_date = _o->settlement_date.empty() ? 0 : _fbb.CreateString(_o->settlement_date);
+  auto _curves = _o->curves.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>> (_o->curves.size(), [](size_t i, _VectorArgs *__va) { return CreateTermStructure(*__va->__fbb, __va->__o->curves[i].get(), __va->__rehasher); }, &_va ) : 0;
+  auto _bond_pricing_details = _o->bond_pricing_details;
+  auto _bond_pricing_flows = _o->bond_pricing_flows;
+  return quantra::CreatePricing(
+      _fbb,
+      _as_of_date,
+      _settlement_date,
+      _curves,
+      _bond_pricing_details,
+      _bond_pricing_flows);
+}
+
+inline ErrorT *Error::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ErrorT>(new ErrorT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Error::UnPackTo(ErrorT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = error_message(); if (_e) _o->error_message = _e->str(); }
+}
+
+inline flatbuffers::Offset<Error> Error::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ErrorT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateError(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<Error> CreateError(flatbuffers::FlatBufferBuilder &_fbb, const ErrorT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ErrorT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _error_message = _o->error_message.empty() ? 0 : _fbb.CreateString(_o->error_message);
+  return quantra::CreateError(
+      _fbb,
+      _error_message);
+}
+
+inline FlowInterestT *FlowInterest::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowInterestT>(new FlowInterestT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowInterest::UnPackTo(FlowInterestT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = amount(); _o->amount = _e; }
+  { auto _e = fixing_date(); if (_e) _o->fixing_date = _e->str(); }
+  { auto _e = accrual_start_date(); if (_e) _o->accrual_start_date = _e->str(); }
+  { auto _e = accrual_end_date(); if (_e) _o->accrual_end_date = _e->str(); }
+  { auto _e = discount(); _o->discount = _e; }
+  { auto _e = rate(); _o->rate = _e; }
+  { auto _e = price(); _o->price = _e; }
+}
+
+inline flatbuffers::Offset<FlowInterest> FlowInterest::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowInterest(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowInterest> CreateFlowInterest(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowInterestT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _amount = _o->amount;
+  auto _fixing_date = _o->fixing_date.empty() ? 0 : _fbb.CreateString(_o->fixing_date);
+  auto _accrual_start_date = _o->accrual_start_date.empty() ? 0 : _fbb.CreateString(_o->accrual_start_date);
+  auto _accrual_end_date = _o->accrual_end_date.empty() ? 0 : _fbb.CreateString(_o->accrual_end_date);
+  auto _discount = _o->discount;
+  auto _rate = _o->rate;
+  auto _price = _o->price;
+  return quantra::CreateFlowInterest(
+      _fbb,
+      _amount,
+      _fixing_date,
+      _accrual_start_date,
+      _accrual_end_date,
+      _discount,
+      _rate,
+      _price);
+}
+
+inline FlowInterestFloatT *FlowInterestFloat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowInterestFloatT>(new FlowInterestFloatT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowInterestFloat::UnPackTo(FlowInterestFloatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = amount(); _o->amount = _e; }
+  { auto _e = fixing_date(); if (_e) _o->fixing_date = _e->str(); }
+  { auto _e = accrual_start_date(); if (_e) _o->accrual_start_date = _e->str(); }
+  { auto _e = accrual_end_date(); if (_e) _o->accrual_end_date = _e->str(); }
+  { auto _e = discount(); _o->discount = _e; }
+  { auto _e = rate(); _o->rate = _e; }
+  { auto _e = price(); _o->price = _e; }
+}
+
+inline flatbuffers::Offset<FlowInterestFloat> FlowInterestFloat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestFloatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowInterestFloat(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowInterestFloat> CreateFlowInterestFloat(flatbuffers::FlatBufferBuilder &_fbb, const FlowInterestFloatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowInterestFloatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _amount = _o->amount;
+  auto _fixing_date = _o->fixing_date.empty() ? 0 : _fbb.CreateString(_o->fixing_date);
+  auto _accrual_start_date = _o->accrual_start_date.empty() ? 0 : _fbb.CreateString(_o->accrual_start_date);
+  auto _accrual_end_date = _o->accrual_end_date.empty() ? 0 : _fbb.CreateString(_o->accrual_end_date);
+  auto _discount = _o->discount;
+  auto _rate = _o->rate;
+  auto _price = _o->price;
+  return quantra::CreateFlowInterestFloat(
+      _fbb,
+      _amount,
+      _fixing_date,
+      _accrual_start_date,
+      _accrual_end_date,
+      _discount,
+      _rate,
+      _price);
+}
+
+inline FlowPastInterestFloatT *FlowPastInterestFloat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowPastInterestFloatT>(new FlowPastInterestFloatT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowPastInterestFloat::UnPackTo(FlowPastInterestFloatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = amount(); _o->amount = _e; }
+  { auto _e = fixing_date(); if (_e) _o->fixing_date = _e->str(); }
+  { auto _e = accrual_start_date(); if (_e) _o->accrual_start_date = _e->str(); }
+  { auto _e = accrual_end_date(); if (_e) _o->accrual_end_date = _e->str(); }
+  { auto _e = rate(); _o->rate = _e; }
+}
+
+inline flatbuffers::Offset<FlowPastInterestFloat> FlowPastInterestFloat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestFloatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowPastInterestFloat(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowPastInterestFloat> CreateFlowPastInterestFloat(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestFloatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowPastInterestFloatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _amount = _o->amount;
+  auto _fixing_date = _o->fixing_date.empty() ? 0 : _fbb.CreateString(_o->fixing_date);
+  auto _accrual_start_date = _o->accrual_start_date.empty() ? 0 : _fbb.CreateString(_o->accrual_start_date);
+  auto _accrual_end_date = _o->accrual_end_date.empty() ? 0 : _fbb.CreateString(_o->accrual_end_date);
+  auto _rate = _o->rate;
+  return quantra::CreateFlowPastInterestFloat(
+      _fbb,
+      _amount,
+      _fixing_date,
+      _accrual_start_date,
+      _accrual_end_date,
+      _rate);
+}
+
+inline FlowPastInterestT *FlowPastInterest::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowPastInterestT>(new FlowPastInterestT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowPastInterest::UnPackTo(FlowPastInterestT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = amount(); _o->amount = _e; }
+  { auto _e = fixing_date(); if (_e) _o->fixing_date = _e->str(); }
+  { auto _e = accrual_start_date(); if (_e) _o->accrual_start_date = _e->str(); }
+  { auto _e = accrual_end_date(); if (_e) _o->accrual_end_date = _e->str(); }
+  { auto _e = rate(); _o->rate = _e; }
+}
+
+inline flatbuffers::Offset<FlowPastInterest> FlowPastInterest::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowPastInterest(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowPastInterest> CreateFlowPastInterest(flatbuffers::FlatBufferBuilder &_fbb, const FlowPastInterestT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowPastInterestT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _amount = _o->amount;
+  auto _fixing_date = _o->fixing_date.empty() ? 0 : _fbb.CreateString(_o->fixing_date);
+  auto _accrual_start_date = _o->accrual_start_date.empty() ? 0 : _fbb.CreateString(_o->accrual_start_date);
+  auto _accrual_end_date = _o->accrual_end_date.empty() ? 0 : _fbb.CreateString(_o->accrual_end_date);
+  auto _rate = _o->rate;
+  return quantra::CreateFlowPastInterest(
+      _fbb,
+      _amount,
+      _fixing_date,
+      _accrual_start_date,
+      _accrual_end_date,
+      _rate);
+}
+
+inline FlowNotionalT *FlowNotional::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowNotionalT>(new FlowNotionalT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowNotional::UnPackTo(FlowNotionalT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = date(); if (_e) _o->date = _e->str(); }
+  { auto _e = amount(); _o->amount = _e; }
+  { auto _e = discount(); _o->discount = _e; }
+  { auto _e = price(); _o->price = _e; }
+}
+
+inline flatbuffers::Offset<FlowNotional> FlowNotional::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowNotionalT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowNotional(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowNotional> CreateFlowNotional(flatbuffers::FlatBufferBuilder &_fbb, const FlowNotionalT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowNotionalT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _date = _o->date.empty() ? 0 : _fbb.CreateString(_o->date);
+  auto _amount = _o->amount;
+  auto _discount = _o->discount;
+  auto _price = _o->price;
+  return quantra::CreateFlowNotional(
+      _fbb,
+      _date,
+      _amount,
+      _discount,
+      _price);
+}
+
+inline FlowsWrapperT *FlowsWrapper::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FlowsWrapperT>(new FlowsWrapperT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FlowsWrapper::UnPackTo(FlowsWrapperT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = flow_type(); _o->flow.type = _e; }
+  { auto _e = flow(); if (_e) _o->flow.value = quantra::FlowUnion::UnPack(_e, flow_type(), _resolver); }
+}
+
+inline flatbuffers::Offset<FlowsWrapper> FlowsWrapper::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FlowsWrapperT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFlowsWrapper(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FlowsWrapper> CreateFlowsWrapper(flatbuffers::FlatBufferBuilder &_fbb, const FlowsWrapperT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FlowsWrapperT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _flow_type = _o->flow.type;
+  auto _flow = _o->flow.Pack(_fbb);
+  return quantra::CreateFlowsWrapper(
+      _fbb,
+      _flow_type,
+      _flow);
+}
+
 inline bool VerifyFlow(flatbuffers::Verifier &verifier, const void *obj, Flow type) {
   switch (type) {
     case Flow_NONE: {
@@ -962,6 +1481,84 @@ inline bool VerifyFlowVector(flatbuffers::Verifier &verifier, const flatbuffers:
     }
   }
   return true;
+}
+
+inline void *FlowUnion::UnPack(const void *obj, Flow type, const flatbuffers::resolver_function_t *resolver) {
+  switch (type) {
+    case Flow_FlowInterest: {
+      auto ptr = reinterpret_cast<const quantra::FlowInterest *>(obj);
+      return ptr->UnPack(resolver);
+    }
+    case Flow_FlowPastInterest: {
+      auto ptr = reinterpret_cast<const quantra::FlowPastInterest *>(obj);
+      return ptr->UnPack(resolver);
+    }
+    case Flow_FlowNotional: {
+      auto ptr = reinterpret_cast<const quantra::FlowNotional *>(obj);
+      return ptr->UnPack(resolver);
+    }
+    default: return nullptr;
+  }
+}
+
+inline flatbuffers::Offset<void> FlowUnion::Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher) const {
+  switch (type) {
+    case Flow_FlowInterest: {
+      auto ptr = reinterpret_cast<const quantra::FlowInterestT *>(value);
+      return CreateFlowInterest(_fbb, ptr, _rehasher).Union();
+    }
+    case Flow_FlowPastInterest: {
+      auto ptr = reinterpret_cast<const quantra::FlowPastInterestT *>(value);
+      return CreateFlowPastInterest(_fbb, ptr, _rehasher).Union();
+    }
+    case Flow_FlowNotional: {
+      auto ptr = reinterpret_cast<const quantra::FlowNotionalT *>(value);
+      return CreateFlowNotional(_fbb, ptr, _rehasher).Union();
+    }
+    default: return 0;
+  }
+}
+
+inline FlowUnion::FlowUnion(const FlowUnion &u) : type(u.type), value(nullptr) {
+  switch (type) {
+    case Flow_FlowInterest: {
+      value = new quantra::FlowInterestT(*reinterpret_cast<quantra::FlowInterestT *>(u.value));
+      break;
+    }
+    case Flow_FlowPastInterest: {
+      value = new quantra::FlowPastInterestT(*reinterpret_cast<quantra::FlowPastInterestT *>(u.value));
+      break;
+    }
+    case Flow_FlowNotional: {
+      value = new quantra::FlowNotionalT(*reinterpret_cast<quantra::FlowNotionalT *>(u.value));
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+inline void FlowUnion::Reset() {
+  switch (type) {
+    case Flow_FlowInterest: {
+      auto ptr = reinterpret_cast<quantra::FlowInterestT *>(value);
+      delete ptr;
+      break;
+    }
+    case Flow_FlowPastInterest: {
+      auto ptr = reinterpret_cast<quantra::FlowPastInterestT *>(value);
+      delete ptr;
+      break;
+    }
+    case Flow_FlowNotional: {
+      auto ptr = reinterpret_cast<quantra::FlowNotionalT *>(value);
+      delete ptr;
+      break;
+    }
+    default: break;
+  }
+  value = nullptr;
+  type = Flow_NONE;
 }
 
 }  // namespace quantra

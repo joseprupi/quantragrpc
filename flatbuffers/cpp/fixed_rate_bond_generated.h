@@ -13,8 +13,22 @@ namespace quantra {
 
 struct FixedRateBond;
 struct FixedRateBondBuilder;
+struct FixedRateBondT;
+
+struct FixedRateBondT : public flatbuffers::NativeTable {
+  typedef FixedRateBond TableType;
+  int32_t settlement_days = 0;
+  double face_amount = 0.0;
+  double rate = 0.0;
+  quantra::enums::DayCounter accrual_day_counter = quantra::enums::DayCounter_Actual360;
+  quantra::enums::BusinessDayConvention payment_convention = quantra::enums::BusinessDayConvention_Following;
+  double redemption = 0.0;
+  std::string issue_date{};
+  std::unique_ptr<quantra::ScheduleT> schedule{};
+};
 
 struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FixedRateBondT NativeTableType;
   typedef FixedRateBondBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_SETTLEMENT_DAYS = 4,
@@ -64,6 +78,9 @@ struct FixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyTable(schedule()) &&
            verifier.EndTable();
   }
+  FixedRateBondT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FixedRateBondT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FixedRateBond> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FixedRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FixedRateBondBuilder {
@@ -150,6 +167,55 @@ inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBondDirect(
       schedule);
 }
 
+flatbuffers::Offset<FixedRateBond> CreateFixedRateBond(flatbuffers::FlatBufferBuilder &_fbb, const FixedRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline FixedRateBondT *FixedRateBond::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FixedRateBondT>(new FixedRateBondT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FixedRateBond::UnPackTo(FixedRateBondT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = settlement_days(); _o->settlement_days = _e; }
+  { auto _e = face_amount(); _o->face_amount = _e; }
+  { auto _e = rate(); _o->rate = _e; }
+  { auto _e = accrual_day_counter(); _o->accrual_day_counter = _e; }
+  { auto _e = payment_convention(); _o->payment_convention = _e; }
+  { auto _e = redemption(); _o->redemption = _e; }
+  { auto _e = issue_date(); if (_e) _o->issue_date = _e->str(); }
+  { auto _e = schedule(); if (_e) { if(_o->schedule) { _e->UnPackTo(_o->schedule.get(), _resolver); } else { _o->schedule = std::unique_ptr<quantra::ScheduleT>(_e->UnPack(_resolver)); } } }
+}
+
+inline flatbuffers::Offset<FixedRateBond> FixedRateBond::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FixedRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFixedRateBond(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FixedRateBond> CreateFixedRateBond(flatbuffers::FlatBufferBuilder &_fbb, const FixedRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FixedRateBondT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _settlement_days = _o->settlement_days;
+  auto _face_amount = _o->face_amount;
+  auto _rate = _o->rate;
+  auto _accrual_day_counter = _o->accrual_day_counter;
+  auto _payment_convention = _o->payment_convention;
+  auto _redemption = _o->redemption;
+  auto _issue_date = _o->issue_date.empty() ? 0 : _fbb.CreateString(_o->issue_date);
+  auto _schedule = _o->schedule ? CreateSchedule(_fbb, _o->schedule.get(), _rehasher) : 0;
+  return quantra::CreateFixedRateBond(
+      _fbb,
+      _settlement_days,
+      _face_amount,
+      _rate,
+      _accrual_day_counter,
+      _payment_convention,
+      _redemption,
+      _issue_date,
+      _schedule);
+}
+
 inline const quantra::FixedRateBond *GetFixedRateBond(const void *buf) {
   return flatbuffers::GetRoot<quantra::FixedRateBond>(buf);
 }
@@ -178,6 +244,18 @@ inline void FinishSizePrefixedFixedRateBondBuffer(
     flatbuffers::FlatBufferBuilder &fbb,
     flatbuffers::Offset<quantra::FixedRateBond> root) {
   fbb.FinishSizePrefixed(root);
+}
+
+inline std::unique_ptr<quantra::FixedRateBondT> UnPackFixedRateBond(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::FixedRateBondT>(GetFixedRateBond(buf)->UnPack(res));
+}
+
+inline std::unique_ptr<quantra::FixedRateBondT> UnPackSizePrefixedFixedRateBond(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::FixedRateBondT>(GetSizePrefixedFixedRateBond(buf)->UnPack(res));
 }
 
 }  // namespace quantra

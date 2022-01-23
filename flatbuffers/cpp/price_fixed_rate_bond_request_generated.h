@@ -18,11 +18,21 @@ namespace quantra {
 
 struct PriceFixedRateBond;
 struct PriceFixedRateBondBuilder;
+struct PriceFixedRateBondT;
 
 struct PriceFixedRateBondRequest;
 struct PriceFixedRateBondRequestBuilder;
+struct PriceFixedRateBondRequestT;
+
+struct PriceFixedRateBondT : public flatbuffers::NativeTable {
+  typedef PriceFixedRateBond TableType;
+  std::unique_ptr<quantra::FixedRateBondT> fixed_rate_bond{};
+  std::string discounting_curve{};
+  std::unique_ptr<quantra::YieldT> yield{};
+};
 
 struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PriceFixedRateBondT NativeTableType;
   typedef PriceFixedRateBondBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_FIXED_RATE_BOND = 4,
@@ -48,6 +58,9 @@ struct PriceFixedRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyTable(yield()) &&
            verifier.EndTable();
   }
+  PriceFixedRateBondT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PriceFixedRateBondT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<PriceFixedRateBond> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct PriceFixedRateBondBuilder {
@@ -99,7 +112,16 @@ inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBondDirect(
       yield);
 }
 
+flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBond(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PriceFixedRateBondRequestT : public flatbuffers::NativeTable {
+  typedef PriceFixedRateBondRequest TableType;
+  std::unique_ptr<quantra::PricingT> pricing{};
+  std::vector<std::unique_ptr<quantra::PriceFixedRateBondT>> bonds{};
+};
+
 struct PriceFixedRateBondRequest FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PriceFixedRateBondRequestT NativeTableType;
   typedef PriceFixedRateBondRequestBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_PRICING = 4,
@@ -120,6 +142,9 @@ struct PriceFixedRateBondRequest FLATBUFFERS_FINAL_CLASS : private flatbuffers::
            verifier.VerifyVectorOfTables(bonds()) &&
            verifier.EndTable();
   }
+  PriceFixedRateBondRequestT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PriceFixedRateBondRequestT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<PriceFixedRateBondRequest> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondRequestT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct PriceFixedRateBondRequestBuilder {
@@ -164,6 +189,69 @@ inline flatbuffers::Offset<PriceFixedRateBondRequest> CreatePriceFixedRateBondRe
       bonds__);
 }
 
+flatbuffers::Offset<PriceFixedRateBondRequest> CreatePriceFixedRateBondRequest(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondRequestT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline PriceFixedRateBondT *PriceFixedRateBond::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<PriceFixedRateBondT>(new PriceFixedRateBondT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PriceFixedRateBond::UnPackTo(PriceFixedRateBondT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = fixed_rate_bond(); if (_e) { if(_o->fixed_rate_bond) { _e->UnPackTo(_o->fixed_rate_bond.get(), _resolver); } else { _o->fixed_rate_bond = std::unique_ptr<quantra::FixedRateBondT>(_e->UnPack(_resolver)); } } }
+  { auto _e = discounting_curve(); if (_e) _o->discounting_curve = _e->str(); }
+  { auto _e = yield(); if (_e) { if(_o->yield) { _e->UnPackTo(_o->yield.get(), _resolver); } else { _o->yield = std::unique_ptr<quantra::YieldT>(_e->UnPack(_resolver)); } } }
+}
+
+inline flatbuffers::Offset<PriceFixedRateBond> PriceFixedRateBond::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePriceFixedRateBond(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<PriceFixedRateBond> CreatePriceFixedRateBond(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PriceFixedRateBondT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _fixed_rate_bond = _o->fixed_rate_bond ? CreateFixedRateBond(_fbb, _o->fixed_rate_bond.get(), _rehasher) : 0;
+  auto _discounting_curve = _o->discounting_curve.empty() ? 0 : _fbb.CreateString(_o->discounting_curve);
+  auto _yield = _o->yield ? CreateYield(_fbb, _o->yield.get(), _rehasher) : 0;
+  return quantra::CreatePriceFixedRateBond(
+      _fbb,
+      _fixed_rate_bond,
+      _discounting_curve,
+      _yield);
+}
+
+inline PriceFixedRateBondRequestT *PriceFixedRateBondRequest::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<PriceFixedRateBondRequestT>(new PriceFixedRateBondRequestT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PriceFixedRateBondRequest::UnPackTo(PriceFixedRateBondRequestT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = pricing(); if (_e) { if(_o->pricing) { _e->UnPackTo(_o->pricing.get(), _resolver); } else { _o->pricing = std::unique_ptr<quantra::PricingT>(_e->UnPack(_resolver)); } } }
+  { auto _e = bonds(); if (_e) { _o->bonds.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->bonds[_i]) { _e->Get(_i)->UnPackTo(_o->bonds[_i].get(), _resolver); } else { _o->bonds[_i] = std::unique_ptr<quantra::PriceFixedRateBondT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
+}
+
+inline flatbuffers::Offset<PriceFixedRateBondRequest> PriceFixedRateBondRequest::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondRequestT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePriceFixedRateBondRequest(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<PriceFixedRateBondRequest> CreatePriceFixedRateBondRequest(flatbuffers::FlatBufferBuilder &_fbb, const PriceFixedRateBondRequestT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PriceFixedRateBondRequestT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _pricing = _o->pricing ? CreatePricing(_fbb, _o->pricing.get(), _rehasher) : 0;
+  auto _bonds = _o->bonds.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::PriceFixedRateBond>> (_o->bonds.size(), [](size_t i, _VectorArgs *__va) { return CreatePriceFixedRateBond(*__va->__fbb, __va->__o->bonds[i].get(), __va->__rehasher); }, &_va ) : 0;
+  return quantra::CreatePriceFixedRateBondRequest(
+      _fbb,
+      _pricing,
+      _bonds);
+}
+
 inline const quantra::PriceFixedRateBondRequest *GetPriceFixedRateBondRequest(const void *buf) {
   return flatbuffers::GetRoot<quantra::PriceFixedRateBondRequest>(buf);
 }
@@ -192,6 +280,18 @@ inline void FinishSizePrefixedPriceFixedRateBondRequestBuffer(
     flatbuffers::FlatBufferBuilder &fbb,
     flatbuffers::Offset<quantra::PriceFixedRateBondRequest> root) {
   fbb.FinishSizePrefixed(root);
+}
+
+inline std::unique_ptr<quantra::PriceFixedRateBondRequestT> UnPackPriceFixedRateBondRequest(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::PriceFixedRateBondRequestT>(GetPriceFixedRateBondRequest(buf)->UnPack(res));
+}
+
+inline std::unique_ptr<quantra::PriceFixedRateBondRequestT> UnPackSizePrefixedPriceFixedRateBondRequest(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::PriceFixedRateBondRequestT>(GetSizePrefixedPriceFixedRateBondRequest(buf)->UnPack(res));
 }
 
 }  // namespace quantra

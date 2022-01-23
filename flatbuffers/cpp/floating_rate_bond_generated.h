@@ -14,8 +14,25 @@ namespace quantra {
 
 struct FloatingRateBond;
 struct FloatingRateBondBuilder;
+struct FloatingRateBondT;
+
+struct FloatingRateBondT : public flatbuffers::NativeTable {
+  typedef FloatingRateBond TableType;
+  int32_t settlement_days = 0;
+  double face_amount = 0.0;
+  std::unique_ptr<quantra::ScheduleT> schedule{};
+  std::unique_ptr<quantra::IndexT> index{};
+  quantra::enums::DayCounter accrual_day_counter = quantra::enums::DayCounter_Actual360;
+  quantra::enums::BusinessDayConvention payment_convention = quantra::enums::BusinessDayConvention_Following;
+  int32_t fixing_days = 0;
+  double spread = 0.0;
+  bool in_arrears = false;
+  double redemption = 0.0;
+  std::string issue_date{};
+};
 
 struct FloatingRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FloatingRateBondT NativeTableType;
   typedef FloatingRateBondBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_SETTLEMENT_DAYS = 4,
@@ -81,6 +98,9 @@ struct FloatingRateBond FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyString(issue_date()) &&
            verifier.EndTable();
   }
+  FloatingRateBondT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FloatingRateBondT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FloatingRateBond> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FloatingRateBondBuilder {
@@ -188,6 +208,64 @@ inline flatbuffers::Offset<FloatingRateBond> CreateFloatingRateBondDirect(
       issue_date__);
 }
 
+flatbuffers::Offset<FloatingRateBond> CreateFloatingRateBond(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline FloatingRateBondT *FloatingRateBond::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FloatingRateBondT>(new FloatingRateBondT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FloatingRateBond::UnPackTo(FloatingRateBondT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = settlement_days(); _o->settlement_days = _e; }
+  { auto _e = face_amount(); _o->face_amount = _e; }
+  { auto _e = schedule(); if (_e) { if(_o->schedule) { _e->UnPackTo(_o->schedule.get(), _resolver); } else { _o->schedule = std::unique_ptr<quantra::ScheduleT>(_e->UnPack(_resolver)); } } }
+  { auto _e = index(); if (_e) { if(_o->index) { _e->UnPackTo(_o->index.get(), _resolver); } else { _o->index = std::unique_ptr<quantra::IndexT>(_e->UnPack(_resolver)); } } }
+  { auto _e = accrual_day_counter(); _o->accrual_day_counter = _e; }
+  { auto _e = payment_convention(); _o->payment_convention = _e; }
+  { auto _e = fixing_days(); _o->fixing_days = _e; }
+  { auto _e = spread(); _o->spread = _e; }
+  { auto _e = in_arrears(); _o->in_arrears = _e; }
+  { auto _e = redemption(); _o->redemption = _e; }
+  { auto _e = issue_date(); if (_e) _o->issue_date = _e->str(); }
+}
+
+inline flatbuffers::Offset<FloatingRateBond> FloatingRateBond::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFloatingRateBond(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FloatingRateBond> CreateFloatingRateBond(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FloatingRateBondT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _settlement_days = _o->settlement_days;
+  auto _face_amount = _o->face_amount;
+  auto _schedule = _o->schedule ? CreateSchedule(_fbb, _o->schedule.get(), _rehasher) : 0;
+  auto _index = _o->index ? CreateIndex(_fbb, _o->index.get(), _rehasher) : 0;
+  auto _accrual_day_counter = _o->accrual_day_counter;
+  auto _payment_convention = _o->payment_convention;
+  auto _fixing_days = _o->fixing_days;
+  auto _spread = _o->spread;
+  auto _in_arrears = _o->in_arrears;
+  auto _redemption = _o->redemption;
+  auto _issue_date = _o->issue_date.empty() ? 0 : _fbb.CreateString(_o->issue_date);
+  return quantra::CreateFloatingRateBond(
+      _fbb,
+      _settlement_days,
+      _face_amount,
+      _schedule,
+      _index,
+      _accrual_day_counter,
+      _payment_convention,
+      _fixing_days,
+      _spread,
+      _in_arrears,
+      _redemption,
+      _issue_date);
+}
+
 inline const quantra::FloatingRateBond *GetFloatingRateBond(const void *buf) {
   return flatbuffers::GetRoot<quantra::FloatingRateBond>(buf);
 }
@@ -216,6 +294,18 @@ inline void FinishSizePrefixedFloatingRateBondBuffer(
     flatbuffers::FlatBufferBuilder &fbb,
     flatbuffers::Offset<quantra::FloatingRateBond> root) {
   fbb.FinishSizePrefixed(root);
+}
+
+inline std::unique_ptr<quantra::FloatingRateBondT> UnPackFloatingRateBond(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::FloatingRateBondT>(GetFloatingRateBond(buf)->UnPack(res));
+}
+
+inline std::unique_ptr<quantra::FloatingRateBondT> UnPackSizePrefixedFloatingRateBond(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::FloatingRateBondT>(GetSizePrefixedFloatingRateBond(buf)->UnPack(res));
 }
 
 }  // namespace quantra

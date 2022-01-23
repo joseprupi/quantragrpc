@@ -15,11 +15,29 @@ namespace quantra {
 
 struct FloatingRateBondResponse;
 struct FloatingRateBondResponseBuilder;
+struct FloatingRateBondResponseT;
 
 struct PriceFloatingRateBondResponse;
 struct PriceFloatingRateBondResponseBuilder;
+struct PriceFloatingRateBondResponseT;
+
+struct FloatingRateBondResponseT : public flatbuffers::NativeTable {
+  typedef FloatingRateBondResponse TableType;
+  double npv = 0.0;
+  double clean_price = 0.0;
+  double dirty_price = 0.0;
+  double accrued_amount = 0.0;
+  double yield = 0.0;
+  double accrued_days = 0.0;
+  double macaulay_duration = 0.0;
+  double modified_duration = 0.0;
+  double convexity = 0.0;
+  double bps = 0.0;
+  std::vector<std::unique_ptr<quantra::FlowsWrapperT>> flows{};
+};
 
 struct FloatingRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef FloatingRateBondResponseT NativeTableType;
   typedef FloatingRateBondResponseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NPV = 4,
@@ -84,6 +102,9 @@ struct FloatingRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::T
            verifier.VerifyVectorOfTables(flows()) &&
            verifier.EndTable();
   }
+  FloatingRateBondResponseT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FloatingRateBondResponseT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<FloatingRateBondResponse> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondResponseT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FloatingRateBondResponseBuilder {
@@ -191,7 +212,15 @@ inline flatbuffers::Offset<FloatingRateBondResponse> CreateFloatingRateBondRespo
       flows__);
 }
 
+flatbuffers::Offset<FloatingRateBondResponse> CreateFloatingRateBondResponse(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondResponseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PriceFloatingRateBondResponseT : public flatbuffers::NativeTable {
+  typedef PriceFloatingRateBondResponse TableType;
+  std::vector<std::unique_ptr<quantra::FloatingRateBondResponseT>> bonds{};
+};
+
 struct PriceFloatingRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef PriceFloatingRateBondResponseT NativeTableType;
   typedef PriceFloatingRateBondResponseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_BONDS = 4
@@ -206,6 +235,9 @@ struct PriceFloatingRateBondResponse FLATBUFFERS_FINAL_CLASS : private flatbuffe
            verifier.VerifyVectorOfTables(bonds()) &&
            verifier.EndTable();
   }
+  PriceFloatingRateBondResponseT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PriceFloatingRateBondResponseT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<PriceFloatingRateBondResponse> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFloatingRateBondResponseT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct PriceFloatingRateBondResponseBuilder {
@@ -243,6 +275,90 @@ inline flatbuffers::Offset<PriceFloatingRateBondResponse> CreatePriceFloatingRat
       bonds__);
 }
 
+flatbuffers::Offset<PriceFloatingRateBondResponse> CreatePriceFloatingRateBondResponse(flatbuffers::FlatBufferBuilder &_fbb, const PriceFloatingRateBondResponseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline FloatingRateBondResponseT *FloatingRateBondResponse::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<FloatingRateBondResponseT>(new FloatingRateBondResponseT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void FloatingRateBondResponse::UnPackTo(FloatingRateBondResponseT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = npv(); _o->npv = _e; }
+  { auto _e = clean_price(); _o->clean_price = _e; }
+  { auto _e = dirty_price(); _o->dirty_price = _e; }
+  { auto _e = accrued_amount(); _o->accrued_amount = _e; }
+  { auto _e = yield(); _o->yield = _e; }
+  { auto _e = accrued_days(); _o->accrued_days = _e; }
+  { auto _e = macaulay_duration(); _o->macaulay_duration = _e; }
+  { auto _e = modified_duration(); _o->modified_duration = _e; }
+  { auto _e = convexity(); _o->convexity = _e; }
+  { auto _e = bps(); _o->bps = _e; }
+  { auto _e = flows(); if (_e) { _o->flows.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->flows[_i]) { _e->Get(_i)->UnPackTo(_o->flows[_i].get(), _resolver); } else { _o->flows[_i] = std::unique_ptr<quantra::FlowsWrapperT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
+}
+
+inline flatbuffers::Offset<FloatingRateBondResponse> FloatingRateBondResponse::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondResponseT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateFloatingRateBondResponse(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<FloatingRateBondResponse> CreateFloatingRateBondResponse(flatbuffers::FlatBufferBuilder &_fbb, const FloatingRateBondResponseT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FloatingRateBondResponseT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _npv = _o->npv;
+  auto _clean_price = _o->clean_price;
+  auto _dirty_price = _o->dirty_price;
+  auto _accrued_amount = _o->accrued_amount;
+  auto _yield = _o->yield;
+  auto _accrued_days = _o->accrued_days;
+  auto _macaulay_duration = _o->macaulay_duration;
+  auto _modified_duration = _o->modified_duration;
+  auto _convexity = _o->convexity;
+  auto _bps = _o->bps;
+  auto _flows = _o->flows.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::FlowsWrapper>> (_o->flows.size(), [](size_t i, _VectorArgs *__va) { return CreateFlowsWrapper(*__va->__fbb, __va->__o->flows[i].get(), __va->__rehasher); }, &_va ) : 0;
+  return quantra::CreateFloatingRateBondResponse(
+      _fbb,
+      _npv,
+      _clean_price,
+      _dirty_price,
+      _accrued_amount,
+      _yield,
+      _accrued_days,
+      _macaulay_duration,
+      _modified_duration,
+      _convexity,
+      _bps,
+      _flows);
+}
+
+inline PriceFloatingRateBondResponseT *PriceFloatingRateBondResponse::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<PriceFloatingRateBondResponseT>(new PriceFloatingRateBondResponseT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PriceFloatingRateBondResponse::UnPackTo(PriceFloatingRateBondResponseT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = bonds(); if (_e) { _o->bonds.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->bonds[_i]) { _e->Get(_i)->UnPackTo(_o->bonds[_i].get(), _resolver); } else { _o->bonds[_i] = std::unique_ptr<quantra::FloatingRateBondResponseT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
+}
+
+inline flatbuffers::Offset<PriceFloatingRateBondResponse> PriceFloatingRateBondResponse::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PriceFloatingRateBondResponseT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePriceFloatingRateBondResponse(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<PriceFloatingRateBondResponse> CreatePriceFloatingRateBondResponse(flatbuffers::FlatBufferBuilder &_fbb, const PriceFloatingRateBondResponseT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PriceFloatingRateBondResponseT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _bonds = _o->bonds.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::FloatingRateBondResponse>> (_o->bonds.size(), [](size_t i, _VectorArgs *__va) { return CreateFloatingRateBondResponse(*__va->__fbb, __va->__o->bonds[i].get(), __va->__rehasher); }, &_va ) : 0;
+  return quantra::CreatePriceFloatingRateBondResponse(
+      _fbb,
+      _bonds);
+}
+
 inline const quantra::PriceFloatingRateBondResponse *GetPriceFloatingRateBondResponse(const void *buf) {
   return flatbuffers::GetRoot<quantra::PriceFloatingRateBondResponse>(buf);
 }
@@ -271,6 +387,18 @@ inline void FinishSizePrefixedPriceFloatingRateBondResponseBuffer(
     flatbuffers::FlatBufferBuilder &fbb,
     flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> root) {
   fbb.FinishSizePrefixed(root);
+}
+
+inline std::unique_ptr<quantra::PriceFloatingRateBondResponseT> UnPackPriceFloatingRateBondResponse(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::PriceFloatingRateBondResponseT>(GetPriceFloatingRateBondResponse(buf)->UnPack(res));
+}
+
+inline std::unique_ptr<quantra::PriceFloatingRateBondResponseT> UnPackSizePrefixedPriceFloatingRateBondResponse(
+    const void *buf,
+    const flatbuffers::resolver_function_t *res = nullptr) {
+  return std::unique_ptr<quantra::PriceFloatingRateBondResponseT>(GetSizePrefixedPriceFloatingRateBondResponse(buf)->UnPack(res));
 }
 
 }  // namespace quantra

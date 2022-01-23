@@ -12,8 +12,22 @@ namespace quantra {
 
 struct Schedule;
 struct ScheduleBuilder;
+struct ScheduleT;
+
+struct ScheduleT : public flatbuffers::NativeTable {
+  typedef Schedule TableType;
+  quantra::enums::Calendar calendar = quantra::enums::Calendar_Argentina;
+  std::string effective_date{};
+  std::string termination_date{};
+  quantra::enums::Frequency frequency = quantra::enums::Frequency_Annual;
+  quantra::enums::BusinessDayConvention convention = quantra::enums::BusinessDayConvention_Following;
+  quantra::enums::BusinessDayConvention termination_date_convention = quantra::enums::BusinessDayConvention_Following;
+  quantra::enums::DateGenerationRule date_generation_rule = quantra::enums::DateGenerationRule_Backward;
+  bool end_of_month = false;
+};
 
 struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef ScheduleT NativeTableType;
   typedef ScheduleBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_CALENDAR = 4,
@@ -63,6 +77,9 @@ struct Schedule FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<uint8_t>(verifier, VT_END_OF_MONTH) &&
            verifier.EndTable();
   }
+  ScheduleT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ScheduleT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Schedule> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ScheduleT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct ScheduleBuilder {
@@ -148,6 +165,55 @@ inline flatbuffers::Offset<Schedule> CreateScheduleDirect(
       termination_date_convention,
       date_generation_rule,
       end_of_month);
+}
+
+flatbuffers::Offset<Schedule> CreateSchedule(flatbuffers::FlatBufferBuilder &_fbb, const ScheduleT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline ScheduleT *Schedule::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ScheduleT>(new ScheduleT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Schedule::UnPackTo(ScheduleT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = calendar(); _o->calendar = _e; }
+  { auto _e = effective_date(); if (_e) _o->effective_date = _e->str(); }
+  { auto _e = termination_date(); if (_e) _o->termination_date = _e->str(); }
+  { auto _e = frequency(); _o->frequency = _e; }
+  { auto _e = convention(); _o->convention = _e; }
+  { auto _e = termination_date_convention(); _o->termination_date_convention = _e; }
+  { auto _e = date_generation_rule(); _o->date_generation_rule = _e; }
+  { auto _e = end_of_month(); _o->end_of_month = _e; }
+}
+
+inline flatbuffers::Offset<Schedule> Schedule::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ScheduleT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSchedule(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<Schedule> CreateSchedule(flatbuffers::FlatBufferBuilder &_fbb, const ScheduleT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ScheduleT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _calendar = _o->calendar;
+  auto _effective_date = _o->effective_date.empty() ? 0 : _fbb.CreateString(_o->effective_date);
+  auto _termination_date = _o->termination_date.empty() ? 0 : _fbb.CreateString(_o->termination_date);
+  auto _frequency = _o->frequency;
+  auto _convention = _o->convention;
+  auto _termination_date_convention = _o->termination_date_convention;
+  auto _date_generation_rule = _o->date_generation_rule;
+  auto _end_of_month = _o->end_of_month;
+  return quantra::CreateSchedule(
+      _fbb,
+      _calendar,
+      _effective_date,
+      _termination_date,
+      _frequency,
+      _convention,
+      _termination_date_convention,
+      _date_generation_rule,
+      _end_of_month);
 }
 
 }  // namespace quantra
