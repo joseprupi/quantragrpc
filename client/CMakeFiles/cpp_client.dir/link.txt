@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcpp_client.a  CMakeFiles/cpp_client.dir/cpp/fbs_to_quantra.o CMakeFiles/cpp_client.dir/cpp/json_to_fbs.o CMakeFiles/cpp_client.dir/cpp/quantra_call.o CMakeFiles/cpp_client.dir/cpp/quantra_client.o CMakeFiles/cpp_client.dir/cpp/quantra_to_fbs.o
+/usr/bin/ranlib libcpp_client.a

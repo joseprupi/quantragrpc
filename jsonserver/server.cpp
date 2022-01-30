@@ -49,8 +49,7 @@ int main(int argc, char **argv)
                                     catch (const std::exception &e)
                                     {
                                         return crow::response{500, e.what()};
-                                    }
-                                });
+                                    } });
 
     CROW_ROUTE(app, "/price-floating-rate-bond")
         .methods("POST"_method)([&](const crow::request &req)
@@ -58,7 +57,7 @@ int main(int argc, char **argv)
                                     try
                                     {
                                         auto client = std::make_shared<QuantraClient>(base_client.ReturnStub());
-                                        auto response = client->PriceFixedRateBondJSON(req.body);
+                                        auto response = client->PriceFloatingRateBondJSON(req.body);
                                         if (response->ok)
                                         {
                                             std::ostringstream os;
@@ -75,8 +74,7 @@ int main(int argc, char **argv)
                                     catch (const std::exception &e)
                                     {
                                         return crow::response{500, e.what()};
-                                    }
-                                });
+                                    } });
 
     app.loglevel(crow::LogLevel::DEBUG);
 

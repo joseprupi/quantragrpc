@@ -64,7 +64,7 @@ public:
                 if (call->json)
                 {
                     json_response response;
-                    response.response_value = this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+                    response.response_value = this->ResponseToJson(call->reply.data());
                     response.ok = true;
                     this->json_responses[position] = std::make_shared<json_response>(response);
                 }
@@ -102,6 +102,7 @@ public:
     virtual std::shared_ptr<flatbuffers::grpc::MessageBuilder> JSONParser_(std::string json_str) = 0;
     virtual flatbuffers::Offset<Request> QuantraToFBS(std::shared_ptr<flatbuffers::grpc::MessageBuilder> builder, std::shared_ptr<RequestStruct> struct_request) = 0;
     virtual std::shared_ptr<std::vector<std::shared_ptr<ResponseStruct>>> FBSToQuantra(const Response *response) = 0;
+    virtual std::shared_ptr<std::string> ResponseToJson(const uint8_t *buffer) = 0;
 
     void Call(std::shared_ptr<RequestStruct> request, int request_tag)
     {
@@ -181,6 +182,7 @@ public:
                                                                          std::shared_ptr<structs::PriceFixedRateBondRequest> request_struct);
     void PrepareAsync(AsyncClientCall *call);
     std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>> FBSToQuantra(const quantra::PriceFixedRateBondResponse *response);
+    virtual std::shared_ptr<std::string> ResponseToJson(const uint8_t *buffer);
 };
 
 class PriceFloatingRateBondData : public QuantraCall<structs::PriceFloatingRateBondRequest,
@@ -196,7 +198,7 @@ public:
                                                                             std::shared_ptr<structs::PriceFloatingRateBondRequest> request_struct);
     void PrepareAsync(AsyncClientCall *call);
     std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFloatingRateBondValues>>> FBSToQuantra(const quantra::PriceFloatingRateBondResponse *response);
-    // this->json_parser->PriceFixedRateBondResponseToJSON(call->reply.data());
+    virtual std::shared_ptr<std::string> ResponseToJson(const uint8_t *buffer);
 };
 
 #endif

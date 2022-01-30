@@ -278,7 +278,7 @@
                   "sw_fixed_leg_convention":"Unadjusted",
                   "sw_fixed_leg_day_counter":"Thirty360",
                   "sw_floating_leg_index":"Euribor6M",
-                  "spread":0,
+                  "spread":0 ,
                   "fwd_start_days":1
                }
             },
@@ -315,7 +315,7 @@
          ]
       }
      ],
-     "bond_pricing_flows":true,
+     "bond_pricing_flows":false,
      "bond_pricing_details":true
   },
   "bonds":[

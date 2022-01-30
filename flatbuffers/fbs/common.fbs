@@ -1,4 +1,5 @@
 include "term_structure.fbs";
+include "coupon_pricer.fbs";
 include "enums.fbs";
 
 namespace quantra;
@@ -15,6 +16,7 @@ table Pricing{
     curves:[TermStructure];
     bond_pricing_details:bool = false;
     bond_pricing_flows:bool = false;
+    coupon_pricers:[CouponPricer];
 }
 
 table Error{

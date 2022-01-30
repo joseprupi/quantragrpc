@@ -59,6 +59,7 @@ QuantraClient::QuantraClient(std::shared_ptr<quantra::QuantraServer::Stub> stub_
 void QuantraClient::init()
 {
     this->fixed_rate_bond = std::make_shared<PriceFixedRateBondData>(this->stub_);
+    this->floating_rate_bond = std::make_shared<PriceFloatingRateBondData>(this->stub_);
 }
 
 std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>>
@@ -68,6 +69,15 @@ QuantraClient::PriceFixedRateBond(std::vector<std::shared_ptr<structs::PriceFixe
 }
 std::shared_ptr<json_response> QuantraClient::PriceFixedRateBondJSON(std::string json)
 {
-    //this->fixed_rate_bond = std::make_shared<PriceFixedRateBondData>(this->stub_);
     return this->fixed_rate_bond->JSONRequest(json);
+}
+
+std::vector<std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFloatingRateBondValues>>>>
+QuantraClient::PriceFloatingRateBond(std::vector<std::shared_ptr<structs::PriceFloatingRateBondRequest>> request)
+{
+    return this->floating_rate_bond->RequestCall(request);
+}
+std::shared_ptr<json_response> QuantraClient::PriceFloatingRateBondJSON(std::string json)
+{
+    return this->floating_rate_bond->JSONRequest(json);
 }

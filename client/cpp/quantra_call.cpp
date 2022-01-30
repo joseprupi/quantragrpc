@@ -22,6 +22,13 @@ std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFixedRateBondValues>>>
     return price_fixed_rate_bond_response_to_quantra(response);
 }
 
+std::shared_ptr<std::string> PriceFixedRateBondData::ResponseToJson(const uint8_t *buffer)
+{
+    return this->json_parser->PriceFixedRateBondResponseToJSON(buffer);
+}
+
+/* Floating Bond */
+
 std::shared_ptr<flatbuffers::grpc::MessageBuilder> PriceFloatingRateBondData::JSONParser_(std::string json_str)
 {
     return this->json_parser->PriceFloatingRateBondRequestToFBS(json_str);
@@ -42,4 +49,9 @@ void PriceFloatingRateBondData::PrepareAsync(AsyncClientCall *call)
 std::shared_ptr<std::vector<std::shared_ptr<structs::PriceFloatingRateBondValues>>> PriceFloatingRateBondData::FBSToQuantra(const quantra::PriceFloatingRateBondResponse *response)
 {
     return price_floating_rate_bond_response_to_quantra(response);
+}
+
+std::shared_ptr<std::string> PriceFloatingRateBondData::ResponseToJson(const uint8_t *buffer)
+{
+    return this->json_parser->PriceFloatingRateBondResponseToJSON(buffer);
 }

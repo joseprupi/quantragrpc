@@ -46,6 +46,7 @@ std::shared_ptr<RateHelper> TermStructurePointParser::parse(uint8_t point_type, 
     else if (point_type == Point_SwapHelper)
     {
         auto point = static_cast<const quantra::SwapHelper *>(data);
+        std::shared_ptr<Quote> spread(new SimpleQuote(point->spread()));
 
         return std::make_shared<SwapRateHelper>(
             point->rate(),
@@ -54,7 +55,8 @@ std::shared_ptr<RateHelper> TermStructurePointParser::parse(uint8_t point_type, 
             FrequencyToQL(point->sw_fixed_leg_frequency()),
             ConventionToQL(point->sw_fixed_leg_convention()),
             DayCounterToQL(point->sw_fixed_leg_day_counter()),
-            IborToQL(point->sw_floating_leg_index()));
+            IborToQL(point->sw_floating_leg_index()),
+            Handle<Quote>(spread), point->fwd_start_days() * Days);
     }
 
     else if (point_type == Point_BondHelper)

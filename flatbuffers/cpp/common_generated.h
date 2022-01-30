@@ -7,6 +7,7 @@
 #include "flatbuffers/flatbuffers.h"
 
 #include "enums_generated.h"
+#include "coupon_pricer_generated.h"
 #include "schedule_generated.h"
 #include "term_structure_generated.h"
 
@@ -242,6 +243,7 @@ struct PricingT : public flatbuffers::NativeTable {
   std::vector<std::unique_ptr<quantra::TermStructureT>> curves{};
   bool bond_pricing_details = false;
   bool bond_pricing_flows = false;
+  std::vector<std::unique_ptr<quantra::CouponPricerT>> coupon_pricers{};
 };
 
 struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
@@ -252,7 +254,8 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_SETTLEMENT_DATE = 6,
     VT_CURVES = 8,
     VT_BOND_PRICING_DETAILS = 10,
-    VT_BOND_PRICING_FLOWS = 12
+    VT_BOND_PRICING_FLOWS = 12,
+    VT_COUPON_PRICERS = 14
   };
   const flatbuffers::String *as_of_date() const {
     return GetPointer<const flatbuffers::String *>(VT_AS_OF_DATE);
@@ -269,6 +272,9 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool bond_pricing_flows() const {
     return GetField<uint8_t>(VT_BOND_PRICING_FLOWS, 0) != 0;
   }
+  const flatbuffers::Vector<flatbuffers::Offset<quantra::CouponPricer>> *coupon_pricers() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<quantra::CouponPricer>> *>(VT_COUPON_PRICERS);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_AS_OF_DATE) &&
@@ -280,6 +286,9 @@ struct Pricing FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyVectorOfTables(curves()) &&
            VerifyField<uint8_t>(verifier, VT_BOND_PRICING_DETAILS) &&
            VerifyField<uint8_t>(verifier, VT_BOND_PRICING_FLOWS) &&
+           VerifyOffset(verifier, VT_COUPON_PRICERS) &&
+           verifier.VerifyVector(coupon_pricers()) &&
+           verifier.VerifyVectorOfTables(coupon_pricers()) &&
            verifier.EndTable();
   }
   PricingT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -306,6 +315,9 @@ struct PricingBuilder {
   void add_bond_pricing_flows(bool bond_pricing_flows) {
     fbb_.AddElement<uint8_t>(Pricing::VT_BOND_PRICING_FLOWS, static_cast<uint8_t>(bond_pricing_flows), 0);
   }
+  void add_coupon_pricers(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::CouponPricer>>> coupon_pricers) {
+    fbb_.AddOffset(Pricing::VT_COUPON_PRICERS, coupon_pricers);
+  }
   explicit PricingBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -323,8 +335,10 @@ inline flatbuffers::Offset<Pricing> CreatePricing(
     flatbuffers::Offset<flatbuffers::String> settlement_date = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>>> curves = 0,
     bool bond_pricing_details = false,
-    bool bond_pricing_flows = false) {
+    bool bond_pricing_flows = false,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<quantra::CouponPricer>>> coupon_pricers = 0) {
   PricingBuilder builder_(_fbb);
+  builder_.add_coupon_pricers(coupon_pricers);
   builder_.add_curves(curves);
   builder_.add_settlement_date(settlement_date);
   builder_.add_as_of_date(as_of_date);
@@ -339,17 +353,20 @@ inline flatbuffers::Offset<Pricing> CreatePricingDirect(
     const char *settlement_date = nullptr,
     const std::vector<flatbuffers::Offset<quantra::TermStructure>> *curves = nullptr,
     bool bond_pricing_details = false,
-    bool bond_pricing_flows = false) {
+    bool bond_pricing_flows = false,
+    const std::vector<flatbuffers::Offset<quantra::CouponPricer>> *coupon_pricers = nullptr) {
   auto as_of_date__ = as_of_date ? _fbb.CreateString(as_of_date) : 0;
   auto settlement_date__ = settlement_date ? _fbb.CreateString(settlement_date) : 0;
   auto curves__ = curves ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>>(*curves) : 0;
+  auto coupon_pricers__ = coupon_pricers ? _fbb.CreateVector<flatbuffers::Offset<quantra::CouponPricer>>(*coupon_pricers) : 0;
   return quantra::CreatePricing(
       _fbb,
       as_of_date__,
       settlement_date__,
       curves__,
       bond_pricing_details,
-      bond_pricing_flows);
+      bond_pricing_flows,
+      coupon_pricers__);
 }
 
 flatbuffers::Offset<Pricing> CreatePricing(flatbuffers::FlatBufferBuilder &_fbb, const PricingT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -1172,6 +1189,7 @@ inline void Pricing::UnPackTo(PricingT *_o, const flatbuffers::resolver_function
   { auto _e = curves(); if (_e) { _o->curves.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->curves[_i]) { _e->Get(_i)->UnPackTo(_o->curves[_i].get(), _resolver); } else { _o->curves[_i] = std::unique_ptr<quantra::TermStructureT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
   { auto _e = bond_pricing_details(); _o->bond_pricing_details = _e; }
   { auto _e = bond_pricing_flows(); _o->bond_pricing_flows = _e; }
+  { auto _e = coupon_pricers(); if (_e) { _o->coupon_pricers.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->coupon_pricers[_i]) { _e->Get(_i)->UnPackTo(_o->coupon_pricers[_i].get(), _resolver); } else { _o->coupon_pricers[_i] = std::unique_ptr<quantra::CouponPricerT>(_e->Get(_i)->UnPack(_resolver)); }; } } }
 }
 
 inline flatbuffers::Offset<Pricing> Pricing::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PricingT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -1187,13 +1205,15 @@ inline flatbuffers::Offset<Pricing> CreatePricing(flatbuffers::FlatBufferBuilder
   auto _curves = _o->curves.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::TermStructure>> (_o->curves.size(), [](size_t i, _VectorArgs *__va) { return CreateTermStructure(*__va->__fbb, __va->__o->curves[i].get(), __va->__rehasher); }, &_va ) : 0;
   auto _bond_pricing_details = _o->bond_pricing_details;
   auto _bond_pricing_flows = _o->bond_pricing_flows;
+  auto _coupon_pricers = _o->coupon_pricers.size() ? _fbb.CreateVector<flatbuffers::Offset<quantra::CouponPricer>> (_o->coupon_pricers.size(), [](size_t i, _VectorArgs *__va) { return CreateCouponPricer(*__va->__fbb, __va->__o->coupon_pricers[i].get(), __va->__rehasher); }, &_va ) : 0;
   return quantra::CreatePricing(
       _fbb,
       _as_of_date,
       _settlement_date,
       _curves,
       _bond_pricing_details,
-      _bond_pricing_flows);
+      _bond_pricing_flows,
+      _coupon_pricers);
 }
 
 inline ErrorT *Error::UnPack(const flatbuffers::resolver_function_t *_resolver) const {

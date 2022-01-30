@@ -7,10 +7,11 @@
 #include "flatbuffers/flatbuffers.h"
 
 #include "enums_generated.h"
+#include "coupon_pricer_generated.h"
+#include "common_generated.h"
 #include "schedule_generated.h"
 #include "index_generated.h"
 #include "floating_rate_bond_generated.h"
-#include "common_generated.h"
 #include "fixed_rate_bond_generated.h"
 #include "term_structure_generated.h"
 

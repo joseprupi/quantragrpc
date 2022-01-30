@@ -77,7 +77,32 @@ class Pricing(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def Start(builder): builder.StartObject(5)
+    # Pricing
+    def CouponPricers(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from quantra.CouponPricer import CouponPricer
+            obj = CouponPricer()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # Pricing
+    def CouponPricersLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # Pricing
+    def CouponPricersIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        return o == 0
+
+def Start(builder): builder.StartObject(6)
 def PricingStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
@@ -105,6 +130,14 @@ def AddBondPricingFlows(builder, bondPricingFlows): builder.PrependBoolSlot(4, b
 def PricingAddBondPricingFlows(builder, bondPricingFlows):
     """This method is deprecated. Please switch to AddBondPricingFlows."""
     return AddBondPricingFlows(builder, bondPricingFlows)
+def AddCouponPricers(builder, couponPricers): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(couponPricers), 0)
+def PricingAddCouponPricers(builder, couponPricers):
+    """This method is deprecated. Please switch to AddCouponPricers."""
+    return AddCouponPricers(builder, couponPricers)
+def StartCouponPricersVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def PricingStartCouponPricersVector(builder, numElems):
+    """This method is deprecated. Please switch to Start."""
+    return StartCouponPricersVector(builder, numElems)
 def End(builder): return builder.EndObject()
 def PricingEnd(builder):
     """This method is deprecated. Please switch to End."""
