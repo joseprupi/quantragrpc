@@ -41,5 +41,6 @@ std::shared_ptr<PricingStruct> PricingParser::parse(const quantra::Pricing *pric
             pricing->settlement_date()->str(),
             pricing->curves(),
             pricing->bond_pricing_details(),
-            pricing->bond_pricing_flows()});
+            pricing->bond_pricing_flows(),
+            pricing->coupon_pricers()});
 }

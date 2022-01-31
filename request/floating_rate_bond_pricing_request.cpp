@@ -39,9 +39,17 @@ flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> FloatingRateBondPric
     Date settlement_date = DateToQL(pricing->settlement_date);
 
     auto curves = pricing->curves;
+    auto pricers = pricing->coupon_pricers;
 
-    std::map<std::string, std::shared_ptr<PricingEngine>> pricing_engines;
     std::map<std::string, std::shared_ptr<YieldTermStructure>> term_structures;
+
+    for (auto it = curves->begin(); it != curves->end(); it++)
+    {
+        std::shared_ptr<YieldTermStructure> term_structure = term_structure_parser.parse(*it);
+        term_structures.insert(std::make_pair(it->id()->str(), term_structure));
+    }
+
+    // std::map<std::string, std::shared_ptr<YieldTermStructure>> term_structures;
 
     for (auto it = curves->begin(); it != curves->end(); it++)
     {
@@ -56,7 +64,6 @@ flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> FloatingRateBondPric
     for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
     {
 
-        // auto engine = pricing_engines.find(it->discounting_curve()->str());
         auto discounting_term_structure = term_structures.find(it->discounting_curve()->str());
         auto forecasting_term_structure = term_structures.find(it->forecasting_curve()->str());
 
@@ -70,6 +77,7 @@ flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> FloatingRateBondPric
             RelinkableHandle<YieldTermStructure> discounting_term_structure_handle;
             discounting_term_structure_handle.linkTo(discounting_term_structure->second);
             std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(discounting_term_structure_handle));
+#pragma region
 
             /* Test */
 
@@ -485,7 +493,7 @@ flatbuffers::Offset<quantra::PriceFloatingRateBondResponse> FloatingRateBondPric
             setCouponPricer(floatingRateBond.cashflows(), pricer);
 
             /* Test */
-
+#pragma endregion
             std::shared_ptr<QuantLib::FloatingRateBond> bond = bond_parser.parse(it->floating_rate_bond());
             bond_parser.index_parser.link_term_structure(forecasting_term_structure->second);
             std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> flows_vector;

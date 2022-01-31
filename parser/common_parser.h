@@ -39,6 +39,7 @@ struct PricingStruct
     const flatbuffers::Vector<flatbuffers::Offset<quantra::TermStructure>> *curves;
     bool bond_pricing_details;
     bool bond_pricing_flows;
+    const flatbuffers::Vector<flatbuffers::Offset<quantra::CouponPricer>> *coupon_pricers;
 };
 
 class ScheduleParser
@@ -65,4 +66,4 @@ public:
     std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
 };
 
-#endif //QUANTRASERVER_COMMONPARSER_H
+#endif // QUANTRASERVER_COMMONPARSER_H
