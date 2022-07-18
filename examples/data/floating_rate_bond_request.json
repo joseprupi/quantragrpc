@@ -316,7 +316,10 @@
       }
      ],
      "bond_pricing_flows":false,
-     "bond_pricing_details":true
+     "bond_pricing_details":true,
+     "coupon_pricers":[
+        
+     ]
   },
   "bonds":[
      {

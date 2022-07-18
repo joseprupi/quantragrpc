@@ -16,17 +16,17 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
 
     auto curves = pricing->curves;
 
-    std::map<std::string, std::shared_ptr<PricingEngine>> pricing_engines;
+    // std::map<std::string, std::shared_ptr<PricingEngine>> pricing_engines;
     std::map<std::string, std::shared_ptr<RelinkableHandle<YieldTermStructure>>> term_structures;
 
     for (auto it = curves->begin(); it != curves->end(); it++)
     {
 
         auto discounting_term_structure = std::make_shared<RelinkableHandle<YieldTermStructure>>();
-        std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(*discounting_term_structure));
+        // std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(*discounting_term_structure));
         std::shared_ptr<YieldTermStructure> term_structure = term_structure_parser.parse(*it);
         discounting_term_structure->linkTo(term_structure);
-        pricing_engines.insert(std::make_pair(it->id()->str(), bond_engine));
+        // pricing_engines.insert(std::make_pair(it->id()->str(), bond_engine));
         term_structures.insert(std::make_pair(it->id()->str(), discounting_term_structure));
     }
 
@@ -37,10 +37,10 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
     for (auto it = bond_pricings->begin(); it != bond_pricings->end(); it++)
     {
 
-        auto engine = pricing_engines.find(it->discounting_curve()->str());
+        // auto engine = pricing_engines.find(it->discounting_curve()->str());
         auto term_structure = term_structures.find(it->discounting_curve()->str());
 
-        if (engine == pricing_engines.end())
+        if (term_structure == term_structures.end())
         {
             PriceFixedRateBondResponseBuilder response_builder(*builder);
             return response_builder.Finish();
@@ -49,7 +49,8 @@ flatbuffers::Offset<quantra::PriceFixedRateBondResponse> FixedRateBondPricingReq
         {
             std::shared_ptr<QuantLib::FixedRateBond> bond = bond_parser.parse(it->fixed_rate_bond());
             std::vector<flatbuffers::Offset<quantra::FlowsWrapper>> flows_vector;
-            bond->setPricingEngine(engine->second);
+            std::shared_ptr<PricingEngine> bond_engine(new QuantLib::DiscountingBondEngine(*term_structure->second));
+            bond->setPricingEngine(bond_engine);
 
             if (pricing->bond_pricing_flows)
             {

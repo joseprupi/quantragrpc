@@ -62,8 +62,11 @@ class PricingParser
 {
 
 private:
+    std::map<std::string, std::shared_ptr<YieldTermStructure>> term_structures;
+
 public:
     std::shared_ptr<PricingStruct> parse(const quantra::Pricing *pricing);
+    std::shared_ptr<PricingStruct> parse_term_structure(const quantra::Pricing *pricing);
 };
 
 #endif // QUANTRASERVER_COMMONPARSER_H
