@@ -1,6 +1,6 @@
 #include "pricer_parser.h"
 
-std::shared_ptr<QuantLib::IborCouponPricer> parse(const quantra::CouponPricer *pricer)
+std::shared_ptr<QuantLib::IborCouponPricer> PricerParser::parse(const quantra::CouponPricer *pricer)
 {
 
     auto pricer_type = pricer->pricer_type();

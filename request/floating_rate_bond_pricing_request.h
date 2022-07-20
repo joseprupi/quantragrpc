@@ -11,6 +11,7 @@
 #include <ql/termstructures/yield/ratehelpers.hpp>
 #include <ql/termstructures/yield/oisratehelper.hpp>
 #include <ql/pricingengines/bond/discountingbondengine.hpp>
+#include <ql/cashflows/couponpricer.hpp>
 #include <ql/indexes/ibor/eonia.hpp>
 #include <ql/indexes/ibor/euribor.hpp>
 #include <ql/time/imm.hpp>
@@ -30,6 +31,7 @@
 #include "common_parser.h"
 #include "floating_rate_bond_parser.h"
 #include "term_structure_parser.h"
+#include "pricer_parser.h"
 
 class FloatingRateBondPricingRequest : QuantraRequest<quantra::PriceFloatingRateBondRequest,
                                                       quantra::PriceFloatingRateBondResponse>

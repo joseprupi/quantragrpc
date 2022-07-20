@@ -7,14 +7,14 @@ std::shared_ptr<QuantLib::FloatingRateBond> FloatingRateBondParser::parse(const 
 
     ScheduleParser schedule_parser = ScheduleParser();
 
-    IndexParser index_parser = IndexParser();
-    auto index = index_parser.parse(bond->index());
+    //IndexParser index_parser = IndexParser();
+    //auto index = index_parser.parse(bond->index());
 
     return std::make_shared<QuantLib::FloatingRateBond>(
         bond->settlement_days(),
         bond->face_amount(),
         *schedule_parser.parse(bond->schedule()),
-        index_parser.parse(bond->index()),
+        this->index_parser.parse(bond->index()),
         DayCounterToQL(bond->accrual_day_counter()),
         ConventionToQL(bond->payment_convention()),
         bond->fixing_days(),
