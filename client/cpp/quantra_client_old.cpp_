@@ -9,6 +9,7 @@ using grpc::Status;
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <absl/log/check.h>
 
 QuantraClient::QuantraClient(std::string addr, bool secured)
 {
@@ -125,7 +126,7 @@ void QuantraClient::AsyncCompleteRpc(int request_size)
     {
         AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
 
-        GPR_ASSERT(ok);
+        CHECK(ok);
 
         int position = call->request_pos;
         if (call->status.ok())

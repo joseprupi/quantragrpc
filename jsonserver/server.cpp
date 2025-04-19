@@ -14,6 +14,10 @@
 int main(int argc, char **argv)
 {
     crow::App<> app;
+    if (argc < 2) {
+      std::cerr << "too few arguments" << std::endl;
+      exit(1);
+    }
 
     std::string connection;
     connection = argv[1];
@@ -23,8 +27,9 @@ int main(int argc, char **argv)
     QuantraClient base_client(connection, false);
 
     CROW_ROUTE(app, "/")
-        .name("hello")([]
-                       { return "hello"; });
+      .methods("GET"_method, "POST"_method)
+      .name("hello")([]
+      { return "hello"; });
 
     CROW_ROUTE(app, "/price-fixed-rate-bond")
         .methods("POST"_method)([&](const crow::request &req)

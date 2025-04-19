@@ -1197,7 +1197,16 @@
         "Business252",
         "One",
         "Simple",
-        "Thirty360"
+        "Thirty360",
+        "Thirty360BondBasis",
+        "Thirty360USA",
+        "Thirty360European",
+        "Thirty360EurobondBasis",
+        "Thirty360Italian",
+        "Thirty360German",
+        "Thirty360ISMA",
+        "Thirty360ISDA",
+        "Thirty360NASD"
       ],
       "type": "string"
     },
